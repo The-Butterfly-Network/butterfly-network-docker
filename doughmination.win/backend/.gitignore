@@ -1,0 +1,8 @@
+.env
+gen-hash.py
+users.json
+venv/
+__pycache__/
+subsystems.json
+member_tags.json
+avatars/

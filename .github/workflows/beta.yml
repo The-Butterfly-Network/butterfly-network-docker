@@ -1,0 +1,149 @@
+name: Docker Build BETA
+
+# This workflow builds and pushes Docker images for all services to Docker Hub.
+# It is triggered manually via the "Run workflow" button in the Actions tab.
+
+on:
+  push:
+    branches: [dev]
+  workflow_dispatch:
+
+jobs:
+
+# ===============================
+# Doughmination Website
+# ===============================
+  build-dough-backend:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+    
+      - name: Clear Docker builder cache
+        run: docker builder prune -af || true
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+    
+      - name: Build and Push
+        uses: docker/build-push-action@v6
+        with:
+          context: ./doughmination.win/backend
+          file: ./doughmination.win/backend/Dockerfile
+          push: true
+          tags: clovetwilight3/doughmination-backend-beta:latest
+          no-cache: true
+
+  build-dough-frontend:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+    
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+    
+      - name: Build and Push
+        uses: docker/build-push-action@v6
+        with:
+          context: ./doughmination.win/frontend
+          file: ./doughmination.win/frontend/Dockerfile
+          push: true
+          tags: clovetwilight3/doughmination-frontend-beta:latest
+          no-cache: true
+
+# ===============================
+# The Midnight Cyan (Athena's) Website
+# ===============================
+
+  build-cyan:
+    runs-on: ubuntu-latest
+    steps:
+        - uses: actions/checkout@v5
+      
+        - name: Login to Docker Hub
+          uses: docker/login-action@v3
+          with:
+            username: ${{ secrets.DOCKER_USERNAME }}
+            password: ${{ secrets.DOCKER_PASSWORD }}
+      
+        - name: Build and Push
+          uses: docker/build-push-action@v6
+          with:
+            context: ./themidnightcyan.win
+            file: ./themidnightcyan.win/Dockerfile
+            push: true
+            tags: clovetwilight3/themidnightcyan-beta:latest
+            no-cache: true
+
+# ===============================
+# EstrogenHRT Gaming (mazeymoos)
+#================================
+
+  build-estrogen:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+      
+      - name: Build and Push
+        uses: docker/build-push-action@v6
+        with:
+          context: ./mazeymoos.com
+          file: ./mazeymoos.com/Dockerfile
+          push: true
+          tags: clovetwilight3/estrogen-moos-beta
+          no-cache: true
+            
+# ===============================
+# Butterfly Network Website
+# ===============================
+
+  build-butterfly:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Build and Push
+        uses: docker/build-push-action@v6
+        with:
+          context: ./butterfly-network.win
+          file: ./butterfly-network.win/Dockerfile
+          push: true
+          tags: clovetwilight3/butterfly-network-beta
+          no-cache: true
+
+# ===============================
+# LGB with T Website
+# ===============================
+
+  build-lgbwitht:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+      - name: Build and Push
+        uses: docker/build-push-action@v6
+        with:
+          context: ./lgbwitht.win
+          file: ./lgbwitht.win/Dockerfile
+          push: true
+          tags: clovetwilight3/lgb-with-t-beta
+          no-cache: true

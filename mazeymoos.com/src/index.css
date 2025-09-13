@@ -1,0 +1,147 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
+All colors MUST be HSL.
+*/
+
+@layer base {
+  :root {
+    /* Goth Theme - Dark backgrounds and neon pink accents */
+    --background: 0 0% 4%;
+    --foreground: 330 100% 95%;
+
+    --card: 0 0% 8%;
+    --card-foreground: 330 100% 95%;
+
+    --popover: 0 0% 6%;
+    --popover-foreground: 330 100% 95%;
+
+    --primary: 323 100% 60%;
+    --primary-foreground: 0 0% 0%;
+
+    --secondary: 0 0% 12%;
+    --secondary-foreground: 330 100% 90%;
+
+    --muted: 0 0% 10%;
+    --muted-foreground: 330 20% 70%;
+
+    --accent: 285 100% 65%;
+    --accent-foreground: 0 0% 0%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 0 0% 15%;
+    --input: 0 0% 12%;
+    --ring: 323 100% 60%;
+
+    --radius: 0.75rem;
+
+    /* Gaming profile specific colors */
+    --neon-pink: 323 100% 60%;
+    --neon-pink-glow: 323 100% 50%;
+    --dark-surface: 0 0% 8%;
+    --darker-surface: 0 0% 4%;
+    
+    /* Gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(323 100% 60%), hsl(285 100% 65%));
+    --gradient-glow: radial-gradient(circle, hsl(323 100% 60% / 0.3) 0%, transparent 70%);
+    
+    /* Shadows and glows */
+    --shadow-pink-glow: 0 0 20px hsl(323 100% 60% / 0.5);
+    --shadow-card: 0 4px 20px hsl(0 0% 0% / 0.5);
+    
+    --sidebar-background: 0 0% 6%;
+    --sidebar-foreground: 330 100% 90%;
+    --sidebar-primary: 323 100% 60%;
+    --sidebar-primary-foreground: 0 0% 0%;
+    --sidebar-accent: 0 0% 10%;
+    --sidebar-accent-foreground: 330 100% 90%;
+    --sidebar-border: 0 0% 15%;
+    --sidebar-ring: 323 100% 60%;
+  }
+
+  .dark {
+    /* Keep same dark theme since we're goth by default */
+    --background: 0 0% 4%;
+    --foreground: 330 100% 95%;
+    --card: 0 0% 8%;
+    --card-foreground: 330 100% 95%;
+    --popover: 0 0% 6%;
+    --popover-foreground: 330 100% 95%;
+    --primary: 323 100% 60%;
+    --primary-foreground: 0 0% 0%;
+    --secondary: 0 0% 12%;
+    --secondary-foreground: 330 100% 90%;
+    --muted: 0 0% 10%;
+    --muted-foreground: 330 20% 70%;
+    --accent: 285 100% 65%;
+    --accent-foreground: 0 0% 0%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 0 0% 15%;
+    --input: 0 0% 12%;
+    --ring: 323 100% 60%;
+    --sidebar-background: 0 0% 6%;
+    --sidebar-foreground: 330 100% 90%;
+    --sidebar-primary: 323 100% 60%;
+    --sidebar-primary-foreground: 0 0% 0%;
+    --sidebar-accent: 0 0% 10%;
+    --sidebar-accent-foreground: 330 100% 90%;
+    --sidebar-border: 0 0% 15%;
+    --sidebar-ring: 323 100% 60%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-mono;
+    background-image: radial-gradient(circle at 20% 50%, hsl(323 100% 60% / 0.1) 0%, transparent 50%),
+                      radial-gradient(circle at 80% 20%, hsl(285 100% 65% / 0.1) 0%, transparent 50%);
+  }
+}
+
+@layer components {
+  .gaming-btn {
+    @apply bg-card border border-primary/20 text-foreground px-6 py-3 rounded-lg
+           transition-all duration-300 hover:border-primary/60 hover:shadow-lg
+           hover:bg-primary/10 relative overflow-hidden;
+  }
+  
+  .gaming-btn::before {
+    @apply content-[''] absolute inset-0 bg-gradient-to-r from-transparent via-primary/20 to-transparent
+           transform -skew-x-12 -translate-x-full transition-transform duration-700;
+  }
+  
+  .gaming-card {
+    @apply bg-card/50 backdrop-blur-sm border border-primary/20 rounded-xl p-6
+           shadow-lg hover:shadow-pink-glow transition-all duration-300;
+  }
+  
+  .avatar-glow {
+    @apply rounded-full border-4 border-primary/60 shadow-lg;
+    box-shadow: 0 0 30px hsl(var(--neon-pink-glow) / 0.6);
+  }
+  
+  .tooltip-content {
+    @apply invisible opacity-0 absolute z-10 bg-primary text-primary-foreground
+           px-3 py-2 rounded-lg text-sm transition-all duration-300;
+    min-width: max-content;
+    text-align: center;
+  }
+
+  /* Hide URL preview on hover */
+  a {
+    text-decoration: none !important;
+  }
+
+  a:hover {
+    text-decoration: none !important;
+  }
+}
