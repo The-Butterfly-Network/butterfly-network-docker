@@ -12,11 +12,11 @@ const CookiesPolicyPage = () => {
       <h1 className="text-2xl font-bold mb-6 text-center">Cookies Policy</h1>
       
       <div className="prose prose-lg dark:prose-invert max-w-none">
-        <p className="text-sm text-gray-500 dark:text-gray-400 mb-6">Last Updated: May 14, 2025</p>
+        <p className="text-sm text-gray-500 dark:text-gray-400 mb-6">Last Updated: September 14th, 2025</p>
         
         <h2 className="text-xl font-semibold mt-6 mb-4">Introduction</h2>
         <p>
-          This Cookies Policy explains what cookies are and how Doughmination System ("we", "us", or "our") uses them on our website. 
+          This Cookies Policy explains what cookies are and how Doughmination System™ ("we", "us", or "our") uses them on our website. 
           We encourage you to read this policy in order to understand what types of cookies we use, what information we collect 
           using cookies, and how that information is used.
         </p>
@@ -120,6 +120,11 @@ const CookiesPolicyPage = () => {
         <p>
           We may update our Cookie Policy from time to time. We will notify you of any changes by posting the new Cookie Policy 
           on this page and updating the "Last Updated" date at the top of this Cookie Policy.
+        </p>
+
+        <h2 className="text-xl font-semibold mt-6 mb-4">Trademarks</h2>
+        <p>
+          "Doughmination System" is a trademark in the United Kingdom under trademark number UK00004263144.
         </p>
         
         <h2 className="text-xl font-semibold mt-6 mb-4">Contact Us</h2>

@@ -36,11 +36,11 @@ const PrivacyPolicyPage = () => {
       <h1 className="text-2xl font-bold mb-6 text-center">Privacy Policy</h1>
       
       <div className="prose prose-lg dark:prose-invert max-w-none">
-        <p className="text-sm text-gray-500 dark:text-gray-400 mb-6">Last Updated: May 14, 2025</p>
+        <p className="text-sm text-gray-500 dark:text-gray-400 mb-6">Last Updated: September 14th, 2025</p>
         
         <h2 className="text-xl font-semibold mt-6 mb-4">Introduction</h2>
         <p>
-          Welcome to the Doughmination System website. This Privacy Policy explains how we collect, use, disclose, 
+          Welcome to the Doughmination System™ website. This Privacy Policy explains how we collect, use, disclose, 
           and safeguard your information when you visit our website, including any other media form, media channel, 
           mobile website, or mobile application related or connected to it (collectively, the "Site").
         </p>
@@ -134,7 +134,7 @@ const PrivacyPolicyPage = () => {
         <ul className="list-disc ml-6 mb-4">
           <li>To comply with any court order, law, or legal process, including to respond to any government or regulatory request</li>
           <li>To enforce our rights arising from any contracts entered into between you and us</li>
-          <li>If we believe disclosure is necessary or appropriate to protect the rights, property, or safety of the Doughmination System, our users, or others</li>
+          <li>If we believe disclosure is necessary or appropriate to protect the rights, property, or safety of the Doughmination System™, our users, or others</li>
         </ul>
         
         <h2 className="text-xl font-semibold mt-6 mb-4">Third-Party Use of Cookies and Other Tracking Technologies</h2>
@@ -164,7 +164,11 @@ const PrivacyPolicyPage = () => {
           Privacy Policy on this page and updating the "Last Updated" date at the top of this Privacy Policy. 
           You are advised to review this Privacy Policy periodically for any changes.
         </p>
-        
+
+        <h2 className="text-xl font-semibold mt-6 mb-4">Trademarks</h2>
+        <p>
+          "Doughmination System" is a trademark in the United Kingdom under trademark number UK00004263144.
+        </p>
         <h2 className="text-xl font-semibold mt-6 mb-4">Contact Us</h2>
         <p>If you have any questions about this Privacy Policy, please contact us at:</p>
         <ul className="list-disc ml-6 mb-4">

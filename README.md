@@ -14,12 +14,17 @@ Contributions are welcome! Please open issues or pull requests for improvements,
 ### What ports are you using on your sites?
 
 Doughmination Backend = 8000
+
 Doughmination Frontend = 8001
 
 Butterfly Network = 8004
+
 CloveTwilight3 = 8005
+
 EstrogenHRT = 8006
+
 TheMidnightCyan = 8007
+
 LGBwithT = 8008
 
 # Contributors
@@ -29,6 +34,9 @@ LGBwithT = 8008
 
 ## License
 See the `LICENCE` file for details.
+
+## Trademarks
+"Doughmination System" is a trademark in the United Kingdom under trademark number UK00004263144.
 
 ## Maintainers
 - CloveTwilight3 (Clove Nytrix Doughmination Twilight)

@@ -438,7 +438,7 @@ function App() {
         updateMetaTags(firstMember, expandedMembers.length);
       }
     } else {
-      document.title = "Doughmination System Server";
+      document.title = "Doughmination System™ Server";
       
       // Reset favicon
       const link = document.querySelector("link[rel*='icon']") || document.createElement('link');
@@ -538,9 +538,9 @@ function App() {
       metaImage.setAttribute('content', avatarUrl);
     } else {
       // Default meta data
-      metaTitle.setAttribute('content', 'Doughmination System');
+      metaTitle.setAttribute('content', 'Doughmination System™');
       metaImage.setAttribute('content', defaultAvatar);
-      metaDesc.setAttribute('content', 'View current fronters and members of the Doughmination system.');
+      metaDesc.setAttribute('content', 'View current fronters and members of the Doughmination System™.');
     }
     
     // Also update Twitter card tags
@@ -617,7 +617,7 @@ function App() {
       {/* ========== NAVIGATION BAR WITH DESKTOP AND HAMBURGER MENU ========== */}
       <header className="fixed top-0 left-0 w-full bg-white dark:bg-gray-900 shadow-md z-40">
         <div className="container mx-auto px-4 py-3 flex justify-between items-center">
-          <Link to="/" className="text-lg font-semibold z-10">Doughmination System</Link>
+          <Link to="/" className="text-lg font-semibold z-10">Doughmination System™</Link>
           
           {/* Desktop Navigation - Always visible on larger screens */}
           <div className="desktop-nav hidden md:flex items-center gap-3">
@@ -1100,7 +1100,7 @@ function App() {
           </div>
           
           <div className="text-sm text-gray-500 dark:text-gray-400 mt-1">
-            &copy; Clove Twilight 2025
+            &copy; Clove Twilight 2025 | "Doughmination System" is a trademark in the United Kingdom under trademark number UK00004263144.
           </div>
         </div>
       </footer>
