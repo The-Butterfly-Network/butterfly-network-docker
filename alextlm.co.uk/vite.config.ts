@@ -8,13 +8,13 @@ export default defineConfig(({ mode }) => ({
   server: {
     host: "0.0.0.0",
     port: 8080,
-    allowedHosts: ['localhost', '127.0.0.1', 'www.butterfly-network.win', 'butterfly-network.win'],
+    allowedHosts: ['localhost', '127.0.0.1', 'www.alextlm.co.uk', 'alextlm.co.uk'],
   },
   preview: {
     host: "0.0.0.0",
     port: 8009,
     strictPort: true,
-    allowedHosts: ['localhost', '127.0.0.1', 'www.butterfly-network.win', 'butterfly-network.win'],
+    allowedHosts: ['localhost', '127.0.0.1', 'www.alextlm.co.uk', 'alextlm.co.uk'],
   },
   plugins: [react(), mode === "development" && componentTagger()].filter(Boolean),
   resolve: {
