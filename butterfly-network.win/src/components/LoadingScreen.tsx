@@ -19,7 +19,7 @@ const LoadingScreen = ({ onLoadingComplete }: LoadingScreenProps) => {
   if (!isLoading) return null;
 
   return (
-    <div className="fixed inset-0 bg-background flex items-center justify-center z-50">
+    <div className="fixed inset-0 bg-background flex items-center justify-center z-50 loading-cursor">
       <div className="text-center">
         <h1 className="text-3xl font-bold text-primary mb-8">
           Loading Butterfly Network...

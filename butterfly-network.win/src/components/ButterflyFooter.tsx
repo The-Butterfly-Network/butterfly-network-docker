@@ -8,7 +8,7 @@ const ButterflyFooter = () => {
       <div className="container mx-auto px-6">
         <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
           <p className="text-muted-foreground text-center sm:text-left">
-            &copy; 2024 The Butterfly Network. All rights reserved.
+            &copy; 2025 The Butterfly Network. All rights reserved.
           </p>
           <div className="flex items-center gap-4">
             <button

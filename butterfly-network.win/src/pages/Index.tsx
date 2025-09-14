@@ -3,6 +3,7 @@ import LoadingScreen from "@/components/LoadingScreen";
 import ButterflyHeader from "@/components/ButterflyHeader";
 import LinkHub from "@/components/LinkHub";
 import ButterflyFooter from "@/components/ButterflyFooter";
+import CurrentFront from "@/components/CurrentFront";
 
 const Index = () => {
   const [showMainContent, setShowMainContent] = useState(false);
@@ -21,6 +22,7 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-gradient-dark">
+      <CurrentFront />
       <LoadingScreen onLoadingComplete={handleLoadingComplete} />
       
       {showCenterTitle && !showMainContent && (

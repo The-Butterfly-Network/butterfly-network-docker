@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import ButterflyHeader from "@/components/ButterflyHeader";
 import ButterflyFooter from "@/components/ButterflyFooter";
+import CurrentFront from "@/components/CurrentFront";
 
 const About = () => {
   useEffect(() => {
@@ -48,6 +49,7 @@ const About = () => {
 
   return (
     <div className="min-h-screen bg-gradient-dark">
+      <CurrentFront />
       <ButterflyHeader />
       <main className="container mx-auto px-6 py-12">
         <section className="max-w-3xl mx-auto space-y-6">
@@ -72,7 +74,15 @@ const About = () => {
           <section className="space-y-3 pt-8 border-t border-border">
             <h2 className="text-2xl font-semibold">Trademark Notice</h2>
             <p className="text-muted-foreground text-sm">
-              "Doughmination System" is a pending trademark in the United Kingdom under trademark number UK00004263144.
+              "Doughmination System" is a pending trademark in the United Kingdom under trademark number{" "}
+              <a 
+                href="https://trademarks.ipo.gov.uk/ipo-tmcase/page/Results/1/UK00004263144"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-primary hover:text-primary/80 underline transition-colors"
+              >
+                UK00004263144
+              </a>.
             </p>
           </section>
         </section>

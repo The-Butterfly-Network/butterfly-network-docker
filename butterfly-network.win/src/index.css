@@ -124,6 +124,23 @@ All colors MUST be HSL.
     @apply bg-background text-foreground;
     background: var(--gradient-dark);
     min-height: 100vh;
+    cursor: url('https://www.yuri-lover.win/cursors/butterfly/normal.png'), auto;
+  }
+
+  a, button, .link-button {
+    cursor: url('https://www.yuri-lover.win/cursors/butterfly/link.png'), pointer !important;
+  }
+
+  input, textarea, [contenteditable] {
+    cursor: url('https://www.yuri-lover.win/cursors/butterfly/text.png'), text !important;
+  }
+
+  .loading-cursor {
+    cursor: url('https://www.yuri-lover.win/cursors/butterfly/busy.png'), wait !important;
+  }
+
+  .loading-cursor * {
+    cursor: url('https://www.yuri-lover.win/cursors/butterfly/busy.png'), wait !important;
   }
 }
 
