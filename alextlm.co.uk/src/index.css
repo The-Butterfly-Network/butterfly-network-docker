@@ -1,0 +1,169 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Music Website Design System - Dark & Green Aesthetic */
+
+@layer base {
+  :root {
+    --background: 120 15% 8%;
+    --foreground: 120 10% 95%;
+
+    --card: 120 12% 10%;
+    --card-foreground: 120 8% 92%;
+
+    --popover: 120 12% 10%;
+    --popover-foreground: 120 8% 92%;
+
+    --primary: 120 60% 45%;
+    --primary-foreground: 120 15% 8%;
+
+    --secondary: 120 20% 15%;
+    --secondary-foreground: 120 8% 85%;
+
+    --muted: 120 15% 12%;
+    --muted-foreground: 120 8% 65%;
+
+    --accent: 120 80% 55%;
+    --accent-foreground: 120 15% 8%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 120 10% 95%;
+
+    --border: 120 15% 18%;
+    --input: 120 15% 18%;
+    --ring: 120 60% 45%;
+
+    --radius: 0.75rem;
+
+    /* Custom music theme colors */
+    --hero-bg: 120 25% 5%;
+    --hero-accent: 120 70% 50%;
+    --music-primary: 120 60% 45%;
+    --music-secondary: 120 40% 25%;
+    --dark-surface: 120 12% 8%;
+    --glass-bg: 120 15% 12%;
+    
+    /* Gradients */
+    --gradient-hero: linear-gradient(135deg, hsl(var(--hero-bg)), hsl(var(--music-secondary)));
+    --gradient-card: linear-gradient(145deg, hsl(var(--glass-bg) / 0.8), hsl(var(--music-secondary) / 0.3));
+    --gradient-accent: linear-gradient(90deg, hsl(var(--music-primary)), hsl(var(--hero-accent)));
+    
+    /* Shadows */
+    --shadow-glow: 0 0 30px hsl(var(--music-primary) / 0.3);
+    --shadow-card: 0 8px 32px hsl(120 15% 5% / 0.4);
+    
+    /* Animations */
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-bounce: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+
+    --sidebar-background: 0 0% 98%;
+
+    --sidebar-foreground: 240 5.3% 26.1%;
+
+    --sidebar-primary: 240 5.9% 10%;
+
+    --sidebar-primary-foreground: 0 0% 98%;
+
+    --sidebar-accent: 240 4.8% 95.9%;
+
+    --sidebar-accent-foreground: 240 5.9% 10%;
+
+    --sidebar-border: 220 13% 91%;
+
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+
+  .dark {
+    /* Dark mode uses same colors since this is already a dark theme */
+    --background: 120 15% 8%;
+    --foreground: 120 10% 95%;
+
+    --card: 120 12% 10%;
+    --card-foreground: 120 8% 92%;
+
+    --popover: 120 12% 10%;
+    --popover-foreground: 120 8% 92%;
+
+    --primary: 120 60% 45%;
+    --primary-foreground: 120 15% 8%;
+
+    --secondary: 120 20% 15%;
+    --secondary-foreground: 120 8% 85%;
+
+    --muted: 120 15% 12%;
+    --muted-foreground: 120 8% 65%;
+
+    --accent: 120 80% 55%;
+    --accent-foreground: 120 15% 8%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 120 10% 95%;
+
+    --border: 120 15% 18%;
+    --input: 120 15% 18%;
+    --ring: 120 60% 45%;
+    --sidebar-background: 240 5.9% 10%;
+    --sidebar-foreground: 240 4.8% 95.9%;
+    --sidebar-primary: 224.3 76.3% 48%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 3.7% 15.9%;
+    --sidebar-accent-foreground: 240 4.8% 95.9%;
+    --sidebar-border: 240 3.7% 15.9%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  }
+
+  /* Scrollbar styling */
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: hsl(var(--background));
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: hsl(var(--primary));
+    border-radius: 4px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: hsl(var(--accent));
+  }
+}
+
+@layer components {
+  .music-gradient {
+    background: var(--gradient-hero);
+  }
+
+  .glass-card {
+    background: var(--gradient-card);
+    backdrop-filter: blur(12px);
+    border: 1px solid hsl(var(--border) / 0.3);
+  }
+
+  .glow-effect {
+    box-shadow: var(--shadow-glow);
+  }
+
+  .hover-lift {
+    transition: var(--transition-smooth);
+  }
+
+  .hover-lift:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-card);
+  }
+}
