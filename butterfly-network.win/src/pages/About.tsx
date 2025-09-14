@@ -72,7 +72,7 @@ const About = () => {
           <section className="space-y-3 pt-8 border-t border-border">
             <h2 className="text-2xl font-semibold">Trademark Notice</h2>
             <p className="text-muted-foreground text-sm">
-              "Doughmination System" is a trademark in the United Kingdom under trademark number UK00004263144.
+              "Doughmination System" is a pending trademark in the United Kingdom under trademark number UK00004263144.
             </p>
           </section>
         </section>

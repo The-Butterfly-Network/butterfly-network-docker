@@ -124,7 +124,7 @@ const CookiesPolicyPage = () => {
 
         <h2 className="text-xl font-semibold mt-6 mb-4">Trademarks</h2>
         <p>
-          "Doughmination System" is a trademark in the United Kingdom under trademark number UK00004263144.
+          "Doughmination System" is a pending trademark in the United Kingdom under trademark number UK00004263144.
         </p>
         
         <h2 className="text-xl font-semibold mt-6 mb-4">Contact Us</h2>

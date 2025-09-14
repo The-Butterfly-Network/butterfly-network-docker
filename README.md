@@ -36,7 +36,7 @@ LGBwithT = 8008
 See the `LICENCE` file for details.
 
 ## Trademarks
-"Doughmination System" is a trademark in the United Kingdom under trademark number UK00004263144.
+"Doughmination System" is a pending trademark in the United Kingdom under trademark number UK00004263144.
 
 ## Maintainers
 - CloveTwilight3 (Clove Nytrix Doughmination Twilight)

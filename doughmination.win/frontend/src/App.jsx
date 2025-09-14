@@ -1100,7 +1100,7 @@ function App() {
           </div>
           
           <div className="text-sm text-gray-500 dark:text-gray-400 mt-1">
-            &copy; Clove Twilight 2025 | "Doughmination System" is a trademark in the United Kingdom under trademark number UK00004263144.
+            &copy; Clove Twilight 2025 | "Doughmination System" is a pending trademark in the United Kingdom under trademark number UK00004263144.
           </div>
         </div>
       </footer>
