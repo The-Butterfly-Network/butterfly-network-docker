@@ -10,39 +10,17 @@ export const specialDates = [
     effect: 'birthday' 
   },
   {
-    month: 6,
-    day: 4,
-    id: 'spectra-birthday',
-    message: "🎂 Happy Birthday Spectra! 🎂",
+    month: 7,
+    day: 7,
+    id: 'athena-birthday',
+    message: "🎂 Happy Birthday Athena! 🎂",
     effect: 'birthday',
   },
   {
-    month: 4,
-    day: 14,
-    id: "sage-birthday",
-    message: "🎂 Happy Birthday Sage! 🎂",
-    effect: 'birthday'
-  },
-  {
-    month: 5,
-    day: 14,
-    id: "daisy-birthday",
-    message: "🎂 Happy Birthday Daisy! 🎂",
-    effect: 'birthday'
-  },
-  { 
-    month: 2, 
-    day: 22, 
-    id: 'ruby-birthday', 
-    message: "🎂 Happy Birthday Ruby! 🎂", 
-    effect: 'birthday'
-  },
-  { 
-    month: 6, 
-    day: 8, 
-    id: 'jett-birthday', 
-    message: "🎂 Happy Birthday Jett! 🎂", 
-    effect: 'birthday'
+    month: 8,
+    day: 16,
+    id: "🎂 Happy Birthday Rose! 🎂",
+    effect: 'birthday',
   },
   {
     month: 4,
