@@ -2,7 +2,15 @@
 
 [![Last Commit](https://img.shields.io/github/last-commit/The-Butterfly-Network/butterfly-network-docker?style=flat-square)](https://github.com/The-Butterfly-Network/butterfly-network-docker/commits/main)
 [![License](https://img.shields.io/github/license/The-Butterfly-Network/butterfly-network-docker?style=flat-square)](./LICENCE)
-[![Docker Workflow](https://github.com/The-Butterfly-Network/butterfly-network-docker/actions/workflows/docker.yml/badge.svg)](https://github.com/The-Butterfly-Network/butterfly-network-docker/actions/workflows/docker.yml)
+![Docker Workflow](https://github.com/The-Butterfly-Network/butterfly-network-docker/actions/workflows/build.yml/badge.svg)
+![Docker Workflow](https://github.com/The-Butterfly-Network/butterfly-network-docker/actions/workflows/butterfly.yml/badge.svg)
+![Docker Workflow](https://github.com/The-Butterfly-Network/butterfly-network-docker/actions/workflows/clove.yml/badge.svg)
+![Docker Workflow](https://github.com/The-Butterfly-Network/butterfly-network-docker/actions/workflows/dough-backend.yml/badge.svg)
+![Docker Workflow](https://github.com/The-Butterfly-Network/butterfly-network-docker/actions/workflows/dough-frontend.yml/badge.svg)
+![Docker Workflow](https://github.com/The-Butterfly-Network/butterfly-network-docker/actions/workflows/estrogen.yml/badge.svg)
+![Docker Workflow](https://github.com/The-Butterfly-Network/butterfly-network-docker/actions/workflows/lgbwitht.yml/badge.svg)
+![Docker Workflow](https://github.com/The-Butterfly-Network/butterfly-network-docker/actions/workflows/midnight.yml/badge.svg)
+![Docker Workflow](https://github.com/The-Butterfly-Network/butterfly-network-docker/actions/workflows/nytrix.yml/badge.svg)
 
 Welcome to the monorepo for all Butterfly Network™ docker website building, maintained by CloveTwilight3, TheMidnightCyan, and EstrogenHRT.
 
