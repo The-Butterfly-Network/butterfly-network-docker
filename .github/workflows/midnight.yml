@@ -1,0 +1,30 @@
+name: Build The Midnight Cyan Website
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'themidnightcyan.win/**'
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Build and Push Docker Image
+        uses: docker/build-push-action@v6
+        with:
+          context: ./themidnightcyan.win
+          file: ./themidnightcyan.win/Dockerfile
+          push: true
+          tags: clovetwilight3/themidnightcyan:latest
+          no-cache: true

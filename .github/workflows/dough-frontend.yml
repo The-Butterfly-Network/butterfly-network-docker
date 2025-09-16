@@ -1,0 +1,30 @@
+name: Build Doughmination Frontend
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'doughmination.win/frontend/**'
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Build and Push Docker Image
+        uses: docker/build-push-action@v6
+        with:
+          context: ./doughmination.win/frontend
+          file: ./doughmination.win/frontend/Dockerfile
+          push: true
+          tags: clovetwilight3/doughmination-frontend:latest
+          no-cache: true

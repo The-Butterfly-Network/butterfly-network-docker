@@ -1,0 +1,33 @@
+name: Build Doughmination Backend
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'doughmination.win/backend/**'
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+
+      - name: Clear Docker builder cache
+        run: docker builder prune -af || true
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Build and Push Docker Image
+        uses: docker/build-push-action@v6
+        with:
+          context: ./doughmination.win/backend
+          file: ./doughmination.win/backend/Dockerfile
+          push: true
+          tags: clovetwilight3/doughmination-backend:latest
+          no-cache: true
