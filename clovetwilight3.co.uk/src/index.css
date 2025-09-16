@@ -1,0 +1,313 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Comic Code font declarations */
+@font-face {
+    font-family: 'Comic Code';
+    src: url('https://www.doughmination.win/fonts/ComicCode-Regular_2022-05-24-151938_hsmz.woff2') format('woff2'),
+        url('https://www.doughmination.win/fonts/ComicCode-Regular_2022-05-24-151938_hsmz.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Comic Code';
+    src: url('https://www.doughmination.win/fonts/ComicCode-Italic_2022-05-24-151939_rdtu.woff2') format('woff2'),
+        url('https://www.doughmination.win/fonts/ComicCode-Italic_2022-05-24-151939_rdtu.woff') format('woff');
+    font-weight: 400;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Comic Code';
+    src: url('https://www.doughmination.win/fonts/ComicCode-Medium_2022-05-24-151941_ugqm.woff2') format('woff2'),
+        url('https://www.doughmination.win/fonts/ComicCode-Medium_2022-05-24-151941_ugqm.woff') format('woff');
+    font-weight: 500;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Comic Code';
+    src: url('https://www.doughmination.win/fonts/ComicCode-Bold_2022-05-24-152309_zqkm.woff2') format('woff2'),
+        url('https://www.doughmination.win/fonts/ComicCode-Bold_2022-05-24-152309_zqkm.woff') format('woff');
+    font-weight: 700;
+    font-style: normal;
+}
+
+/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
+All colors MUST be HSL.
+*/
+
+@layer base {
+  :root {
+    /* Twilight Theme - Deep purple background with magical accents */
+    --background: 270 20% 8%;
+    --foreground: 300 15% 92%;
+
+    --card: 270 18% 12%;
+    --card-foreground: 300 15% 92%;
+
+    --popover: 270 18% 12%;
+    --popover-foreground: 300 15% 92%;
+
+    /* Primary: Magical purple */
+    --primary: 280 60% 55%;
+    --primary-foreground: 300 15% 95%;
+    --primary-glow: 280 70% 70%;
+
+    /* Secondary: Soft twilight pink */
+    --secondary: 320 40% 25%;
+    --secondary-foreground: 320 15% 90%;
+
+    --muted: 270 15% 18%;
+    --muted-foreground: 270 10% 65%;
+
+    /* Accent: Bright butterfly pink */
+    --accent: 320 80% 60%;
+    --accent-foreground: 320 15% 95%;
+
+    /* Destructive stays the same */
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+
+    /* Custom magical colors */
+    --twilight-deep: 270 25% 6%;
+    --twilight-glow: 280 70% 70%;
+    --butterfly-pink: 320 80% 65%;
+    --fairy-gold: 45 85% 70%;
+    --dream-purple: 260 50% 45%;
+    
+    /* Gradients */
+    --gradient-twilight: linear-gradient(135deg, hsl(var(--background)), hsl(var(--twilight-deep)));
+    --gradient-magical: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--accent)));
+    --gradient-butterfly: linear-gradient(45deg, hsl(var(--butterfly-pink)), hsl(var(--fairy-gold)));
+    --gradient-card: linear-gradient(145deg, hsl(var(--card)), hsl(var(--muted)));
+    
+    /* Shadows and glows */
+    --shadow-magical: 0 10px 30px -10px hsl(var(--primary) / 0.3);
+    --shadow-glow: 0 0 40px hsl(var(--twilight-glow) / 0.4);
+    --shadow-butterfly: 0 5px 25px -5px hsl(var(--butterfly-pink) / 0.5);
+    
+    /* Animation variables */
+    --transition-magical: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-smooth: all 0.3s ease-out;
+    --bounce-gentle: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+
+    --border: 270 15% 25%;
+    --input: 270 15% 25%;
+    --ring: 280 60% 55%;
+
+    --radius: 0.5rem;
+
+    --sidebar-background: 0 0% 98%;
+
+    --sidebar-foreground: 240 5.3% 26.1%;
+
+    --sidebar-primary: 240 5.9% 10%;
+
+    --sidebar-primary-foreground: 0 0% 98%;
+
+    --sidebar-accent: 240 4.8% 95.9%;
+
+    --sidebar-accent-foreground: 240 5.9% 10%;
+
+    --sidebar-border: 220 13% 91%;
+
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+
+  .dark {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+
+    --primary: 210 40% 98%;
+    --primary-foreground: 222.2 47.4% 11.2%;
+
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 212.7 26.8% 83.9%;
+    --sidebar-background: 240 5.9% 10%;
+    --sidebar-foreground: 240 4.8% 95.9%;
+    --sidebar-primary: 224.3 76.3% 48%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 3.7% 15.9%;
+    --sidebar-accent-foreground: 240 4.8% 95.9%;
+    --sidebar-border: 240 3.7% 15.9%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: 'Comic Code', 'Comic Sans MS', 'Comic Sans', monospace, sans-serif;
+    cursor: url('https://www.yuri-lover.win/cursors/clovetwilight3/cursor.png'), auto;
+  }
+
+  /* Code elements specifically use Comic Code */
+  code,
+  pre {
+    font-family: 'Comic Code', 'Courier New', monospace;
+  }
+}
+
+@layer utilities {
+  /* Magical gradient utilities */
+  .bg-gradient-twilight {
+    background: var(--gradient-twilight);
+  }
+  
+  .bg-gradient-magical {
+    background: var(--gradient-magical);
+  }
+  
+  .bg-gradient-butterfly {
+    background: var(--gradient-butterfly);
+  }
+  
+  .bg-gradient-card {
+    background: var(--gradient-card);
+  }
+
+  /* Shadow and glow utilities */
+  .shadow-magical {
+    box-shadow: var(--shadow-magical);
+  }
+  
+  .shadow-glow {
+    box-shadow: var(--shadow-glow);
+  }
+  
+  .shadow-butterfly {
+    box-shadow: var(--shadow-butterfly);
+  }
+
+  /* Transition utilities */
+  .transition-magical {
+    transition: var(--transition-magical);
+  }
+  
+  .transition-smooth {
+    transition: var(--transition-smooth);
+  }
+
+  /* Custom glass effect */
+  .glass-effect {
+    backdrop-filter: blur(10px);
+    background: hsl(var(--card) / 0.8);
+    border: 1px solid hsl(var(--border) / 0.5);
+  }
+
+  /* Magical border */
+  .border-magical {
+    border: 1px solid;
+    border-image: var(--gradient-magical) 1;
+  }
+
+  /* Text glow effects */
+  .text-glow {
+    text-shadow: 0 0 20px currentColor;
+  }
+
+  .text-glow-magical {
+    text-shadow: 0 0 20px hsl(var(--primary) / 0.8);
+  }
+
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: hsl(var(--muted));
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: var(--gradient-magical);
+    border-radius: 4px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: hsl(var(--primary));
+  }
+
+  /* Horizontal Navigation */
+  .horizontal-nav {
+    margin-bottom: 50px;
+    padding: 20px 0;
+  }
+
+  .nav-link {
+    @apply text-muted-foreground bg-transparent border-none cursor-pointer px-4 py-2 rounded-full transition-all duration-300 text-sm relative;
+    cursor: url('https://www.yuri-lover.win/cursors/clovetwilight3/pointer.png'), pointer;
+  }
+
+  .nav-link:hover {
+    @apply text-primary-foreground;
+    background: hsl(var(--primary) / 0.2);
+    transform: translateY(-2px);
+  }
+
+  .nav-link:hover::after {
+    content: "✦";
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    color: hsl(var(--accent));
+    font-size: 10px;
+  }
+
+  /* Animated loading cursor styles */
+  #loading-cursor {
+    position: fixed;
+    width: 32px;
+    height: 32px;
+    pointer-events: none;
+    z-index: 10000;
+    display: none;
+    background-size: cover;
+    background-repeat: no-repeat;
+  }
+
+  /* Easter egg animations */
+  @keyframes float {
+    0%, 100% { transform: translateY(0px) rotate(0deg); }
+    50% { transform: translateY(-10px) rotate(3deg); }
+  }
+
+  .animate-float {
+    animation: float 4s ease-in-out infinite;
+  }
+}
+
+/* Custom cursor scheme */
+a, a:hover { cursor: url('https://www.yuri-lover.win/cursors/clovetwilight3/pointer.png'), pointer; }
+.cursor-help-scheme { cursor: url('https://www.yuri-lover.win/cursors/clovetwilight3/help.png'), help; }
+.cursor-pointer-scheme { cursor: url('https://www.yuri-lover.win/cursors/clovetwilight3/pointer.png'), pointer; }
+
+/* Utility to disable text selection */
+.no-select { -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; }
+

@@ -22,6 +22,7 @@ export default {
         primary: {
           DEFAULT: "hsl(var(--primary))",
           foreground: "hsl(var(--primary-foreground))",
+          glow: "hsl(var(--primary-glow))",
         },
         secondary: {
           DEFAULT: "hsl(var(--secondary))",
@@ -47,15 +48,18 @@ export default {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
-        // Butterfly Network theme colors - dual purple & green
-        butterfly: {
-          purple: "hsl(var(--butterfly-purple))",
-          "purple-dark": "hsl(var(--butterfly-purple-dark))",
-          "purple-light": "hsl(var(--butterfly-purple-light))",
+        twilight: {
+          deep: "hsl(var(--twilight-deep))",
+          glow: "hsl(var(--twilight-glow))",
         },
-        neon: {
-          DEFAULT: "hsl(var(--neon-green))",
-          glow: "hsl(var(--neon-green-glow))",
+        butterfly: {
+          pink: "hsl(var(--butterfly-pink))",
+        },
+        fairy: {
+          gold: "hsl(var(--fairy-gold))",
+        },
+        dream: {
+          purple: "hsl(var(--dream-purple))",
         },
         sidebar: {
           DEFAULT: "hsl(var(--sidebar-background))",
@@ -90,10 +94,72 @@ export default {
             height: "0",
           },
         },
+        "float": {
+          "0%, 100%": { transform: "translateY(0px)" },
+          "50%": { transform: "translateY(-10px)" },
+        },
+        "sparkle": {
+          "0%, 100%": { 
+            transform: "scale(1) rotate(0deg)",
+            opacity: "0.8"
+          },
+          "50%": { 
+            transform: "scale(1.2) rotate(180deg)",
+            opacity: "1"
+          },
+        },
+        "butterfly-dance": {
+          "0%, 100%": { 
+            transform: "translateX(0px) translateY(0px) rotate(0deg)"
+          },
+          "25%": { 
+            transform: "translateX(5px) translateY(-3px) rotate(5deg)"
+          },
+          "50%": { 
+            transform: "translateX(0px) translateY(-5px) rotate(0deg)"
+          },
+          "75%": { 
+            transform: "translateX(-5px) translateY(-3px) rotate(-5deg)"
+          },
+        },
+        "glow-pulse": {
+          "0%, 100%": { 
+            boxShadow: "0 0 20px hsl(var(--twilight-glow) / 0.3)"
+          },
+          "50%": { 
+            boxShadow: "0 0 40px hsl(var(--twilight-glow) / 0.6)"
+          },
+        },
+        "fade-in-up": {
+          "0%": {
+            opacity: "0",
+            transform: "translateY(30px)"
+          },
+          "100%": {
+            opacity: "1",
+            transform: "translateY(0)"
+          },
+        },
+        "slide-in-right": {
+          "0%": {
+            opacity: "0",
+            transform: "translateX(50px)"
+          },
+          "100%": {
+            opacity: "1",
+            transform: "translateX(0)"
+          },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+        "float": "float 3s ease-in-out infinite",
+        "sparkle": "sparkle 2s ease-in-out infinite",
+        "butterfly-dance": "butterfly-dance 4s ease-in-out infinite",
+        "glow-pulse": "glow-pulse 2s ease-in-out infinite",
+        "fade-in-up": "fade-in-up 0.6s ease-out",
+        "slide-in-right": "slide-in-right 0.6s ease-out",
       },
     },
   },
