@@ -1,23 +1,21 @@
 name: Docker Build Stable
 
-# This workflow builds and pushes Docker images for all services to Docker Hub.
-# It is triggered manually via the "Run workflow" button in the Actions tab.
-
 on:
   push:
     branches: [main]
   workflow_dispatch:
 
 jobs:
-
-# ===============================
-# Doughmination Website
-# ===============================
+  # ===============================
+  # Doughmination Backend
+  # ===============================
   build-dough-backend:
     runs-on: ubuntu-latest
+    if: |
+      contains(github.event.head_commit.message, '[doughmination.win-backend]') ||
+      github.event_name == 'workflow_dispatch'
     steps:
       - uses: actions/checkout@v5
-    
       - name: Clear Docker builder cache
         run: docker builder prune -af || true
       - name: Login to Docker Hub
@@ -25,7 +23,6 @@ jobs:
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-    
       - name: Build and Push
         uses: docker/build-push-action@v6
         with:
@@ -34,18 +31,24 @@ jobs:
           push: true
           tags: clovetwilight3/doughmination-backend:latest
           no-cache: true
+    paths:
+      - 'doughmination.win/backend/**'
 
+  # ===============================
+  # Doughmination Frontend
+  # ===============================
   build-dough-frontend:
     runs-on: ubuntu-latest
+    if: |
+      contains(github.event.head_commit.message, '[doughmination.win-frontend]') ||
+      github.event_name == 'workflow_dispatch'
     steps:
       - uses: actions/checkout@v5
-    
       - name: Login to Docker Hub
         uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-    
       - name: Build and Push
         uses: docker/build-push-action@v6
         with:
@@ -54,61 +57,69 @@ jobs:
           push: true
           tags: clovetwilight3/doughmination-frontend:latest
           no-cache: true
+    paths:
+      - 'doughmination.win/frontend/**'
 
-# ===============================
-# The Midnight Cyan (Athena's) Website
-# ===============================
-
+  # ===============================
+  # The Midnight Cyan Website
+  # ===============================
   build-cyan:
     runs-on: ubuntu-latest
-    steps:
-        - uses: actions/checkout@v5
-      
-        - name: Login to Docker Hub
-          uses: docker/login-action@v3
-          with:
-            username: ${{ secrets.DOCKER_USERNAME }}
-            password: ${{ secrets.DOCKER_PASSWORD }}
-      
-        - name: Build and Push
-          uses: docker/build-push-action@v6
-          with:
-            context: ./themidnightcyan.win
-            file: ./themidnightcyan.win/Dockerfile
-            push: true
-            tags: clovetwilight3/themidnightcyan:latest
-            no-cache: true
-
-# ===============================
-# EstrogenHRT Gaming (mazeymoos)
-#================================
-
-  build-estrogen:
-    runs-on: ubuntu-latest
+    if: |
+      contains(github.event.head_commit.message, '[themidnightcyan.win]') ||
+      github.event_name == 'workflow_dispatch'
     steps:
       - uses: actions/checkout@v5
-
       - name: Login to Docker Hub
         uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-      
+      - name: Build and Push
+        uses: docker/build-push-action@v6
+        with:
+          context: ./themidnightcyan.win
+          file: ./themidnightcyan.win/Dockerfile
+          push: true
+          tags: clovetwilight3/themidnightcyan:latest
+          no-cache: true
+    paths:
+      - 'themidnightcyan.win/**'
+
+  # ===============================
+  # EstrogenHRT Gaming (mazeymoos)
+  # ===============================
+  build-estrogen:
+    runs-on: ubuntu-latest
+    if: |
+      contains(github.event.head_commit.message, '[mazeymoos.com]') ||
+      github.event_name == 'workflow_dispatch'
+    steps:
+      - uses: actions/checkout@v5
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
       - name: Build and Push
         uses: docker/build-push-action@v6
         with:
           context: ./mazeymoos.com
           file: ./mazeymoos.com/Dockerfile
           push: true
-          tags: clovetwilight3/estrogen-moos
+          tags: clovetwilight3/estrogen-moos:latest
           no-cache: true
-            
-# ===============================
-# Butterfly Network Website
-# ===============================
+    paths:
+      - 'mazeymoos.com/**'
 
+  # ===============================
+  # Butterfly Network Website
+  # ===============================
   build-butterfly:
     runs-on: ubuntu-latest
+    if: |
+      contains(github.event.head_commit.message, '[butterfly-network.win]') ||
+      github.event_name == 'workflow_dispatch'
     steps:
       - uses: actions/checkout@v5
       - name: Login to Docker Hub
@@ -116,22 +127,25 @@ jobs:
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-
       - name: Build and Push
         uses: docker/build-push-action@v6
         with:
           context: ./butterfly-network.win
           file: ./butterfly-network.win/Dockerfile
           push: true
-          tags: clovetwilight3/butterfly-network
+          tags: clovetwilight3/butterfly-network:latest
           no-cache: true
+    paths:
+      - 'butterfly-network.win/**'
 
-# ===============================
-# LGB with T Website
-# ===============================
-
+  # ===============================
+  # LGB with T Website
+  # ===============================
   build-lgbwitht:
     runs-on: ubuntu-latest
+    if: |
+      contains(github.event.head_commit.message, '[lgbwitht.win]') ||
+      github.event_name == 'workflow_dispatch'
     steps:
       - uses: actions/checkout@v5
       - name: Login to Docker Hub
@@ -145,27 +159,33 @@ jobs:
           context: ./lgbwitht.win
           file: ./lgbwitht.win/Dockerfile
           push: true
-          tags: clovetwilight3/lgb-with-t
+          tags: clovetwilight3/lgb-with-t:latest
           no-cache: true
+    paths:
+      - 'lgbwitht.win/**'
 
-# ===============================
-# Clove Nytrix Website
-# ===============================
-
+  # ===============================
+  # Clove Nytrix Website
+  # ===============================
   build-nytrix:
-      runs-on: ubuntu-latest
-      steps:
-        - uses: actions/checkout@v5
-        - name: Login to Docker Hub
-          uses: docker/login-action@v3
-          with:
-            username: ${{ secrets.DOCKER_USERNAME }}
-            password: ${{ secrets.DOCKER_PASSWORD }}
-        - name: Build and Push
-          uses: docker/build-push-action@v6
-          with:
-            context: ./alextlm.co.uk
-            file: ./alextlm.co.uk/Dockerfile
-            push: true
-            tags: clovetwilight3/clove-nytrix
-            no-cache: true
+    runs-on: ubuntu-latest
+    if: |
+      contains(github.event.head_commit.message, '[alextlm.co.uk]') ||
+      github.event_name == 'workflow_dispatch'
+    steps:
+      - uses: actions/checkout@v5
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+      - name: Build and Push
+        uses: docker/build-push-action@v6
+        with:
+          context: ./alextlm.co.uk
+          file: ./alextlm.co.uk/Dockerfile
+          push: true
+          tags: clovetwilight3/clove-nytrix:latest
+          no-cache: true
+    paths:
+      - 'alextlm.co.uk/**'

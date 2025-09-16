@@ -19,7 +19,7 @@ const FlagsSection = () => {
     {
       id: "lesbian",
       name: "Lesbian Flag",
-      description: "I am a proud lesbian and love women :3",
+      description: "I am a proud lesbian and love women!",
       image: "https://www.yuri-lover.win/flags/lesbian.png"
     },
     {
