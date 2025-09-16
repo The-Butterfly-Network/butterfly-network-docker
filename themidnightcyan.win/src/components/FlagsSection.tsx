@@ -32,7 +32,7 @@ const FlagsSection = () => {
       id: "digitalgirlsongic",
       name: "DigitalGirlsongic",
       description: "a -songic gender that feels connected to Digital Girl by KIRA and miku.",
-      image: "https://www.yuri-lover.win/flag/digitalgirlsongic.png"
+      image: "https://www.yuri-lover.win/flags/digitalgirlsongic.png"
     }
   ];
 
