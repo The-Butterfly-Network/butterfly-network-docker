@@ -1,7 +1,5 @@
 # Butterfly Network Websites Monorepo
 
-[![Last Commit](https://img.shields.io/github/last-commit/The-Butterfly-Network/butterfly-network-docker?style=flat-square)](https://github.com/The-Butterfly-Network/butterfly-network-docker/commits/main)
-[![License](https://img.shields.io/github/license/The-Butterfly-Network/butterfly-network-docker?style=flat-square)](./LICENCE)
 ![Docker Workflow](https://github.com/The-Butterfly-Network/butterfly-network-docker/actions/workflows/build.yml/badge.svg)
 ![Docker Workflow](https://github.com/The-Butterfly-Network/butterfly-network-docker/actions/workflows/butterfly.yml/badge.svg)
 ![Docker Workflow](https://github.com/The-Butterfly-Network/butterfly-network-docker/actions/workflows/clove.yml/badge.svg)
