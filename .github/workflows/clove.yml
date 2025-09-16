@@ -1,4 +1,4 @@
-name: Build Clove Twilight 3 Frontend
+name: Build CloveTwilight3
 
 on:
   push:
