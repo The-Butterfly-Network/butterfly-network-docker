@@ -24,21 +24,21 @@ const LinkHub = () => {
       imageUrl: "https://www.yuri-lover.win/artists/alextlm.jpg",
       imageAlt: "Clove Icon",
       title: "Clove Nytrix",
-      info: "Artist and creative content creator!"
+      info: "Music Artist Content!"
     },
     {
       url: "https://www.clovetwilight3.co.uk/",
       imageUrl: "https://yuri-lover.win/pfp/clove.jpg",
       imageAlt: "Clove Icon",
       title: "CloveTwilight3",
-      info: "Personal website and portfolio showcase!"
+      info: "Personal website for Clove!"
     },
     {
       url: "https://www.doughmination.win/",
       imageUrl: "https://www.yuri-lover.win/pfp/fallback_avatar.png",
       imageAlt: "Doughmination Icon",
       title: "Doughmination System™",
-      info: "Creative system and collaborative projects!"
+      info: "Plural System Website!"
     },
     {
       url: "https://www.mazeymoos.com/",
@@ -46,14 +46,14 @@ const LinkHub = () => {
       imageAlt: "MazeyMoos Icon",
       title: "EstrogenHRT Gaming",
       subtitle: "formerly MazeyMoos0022",
-      info: "Gaming content and streaming hub!"
+      info: "Gaming content hub!"
     },
     {
       url: "https://www.hunt-rix.rocks/",
       imageUrl: "https://www.yuri-lover.win/pfp/huntrix.png",
       imageAlt: "Hunt-Rix Icon",
       title: "Huntrix Rocks!",
-      info: "Music and creative content platform!"
+      info: "Fan page for Huntrix!"
     },
     {
       url: "https://www.lgbwitht.win/",
@@ -68,14 +68,14 @@ const LinkHub = () => {
       imageAlt: "Long Domain Icon",
       title: "Long Domain",
       subtitle: "I don't know why",
-      info: "A domain with an amusing backstory!"
+      info: "My Calender!"
     },
     {
       url: "https://www.myluminarasystem.pro/",
       imageUrl: "https://yuri-lover.win/pfp/luminara.png",
       imageAlt: "Luminara System Icon",
       title: "MyLuminaraSystem",
-      info: "Professional system services and solutions!"
+      info: "Work in Progress Plural System Site"
     },
     {
       url: "https://www.clove-portfolio.win/",
@@ -89,28 +89,35 @@ const LinkHub = () => {
       imageUrl: "https://www.yuri-lover.win/pfp/svg.png",
       imageAlt: "SVG Minecraft Icon",
       title: "SVG Minecraft",
-      info: "Minecraft-themed SVG graphics and resources!"
+      info: "Website for Solent Video Games Minecraft"
     },
     {
       url: "https://www.themidnightcyan.win/",
       imageUrl: "https://yuri-lover.win/pfp/athena.jpg",
       imageAlt: "Athena Icon",
       title: "TheMidnightCyan",
-      info: "Personal creative space and projects!"
+      info: "Athena's personal website"
+    },
+    {
+      url: "https://www.themotorbikeone.win",
+      imageUrl: "https://yuri-lover.win/pfp/jessa.png",
+      imageAlt: "Jessa Icon",
+      title: "The Motorbike One",
+      info: "Jessa's personal space"
     },
     {
       url: "https://www.trans4trans.win/",
       imageUrl: "https://www.yuri-lover.win/pfp/trans4trans.gif",
       imageAlt: "Trans4Trans Icon",
       title: "Trans4Trans Letters",
-      info: "Community support and correspondence platform!"
+      info: "Letters to vent out our issues!"
     },
     {
       url: "https://www.transgamers.org/",
       imageUrl: "https://yuri-lover.win/pfp/transgamers.png",
       imageAlt: "TransGamers Icon",
       title: "TransGamers",
-      info: "Gaming community for transgender players!"
+      info: "A domain we love!"
     },
     {
       url: "https://www.unifiedgaming-systems.co.uk/",
@@ -124,14 +131,14 @@ const LinkHub = () => {
       imageUrl: "https://www.yuri-lover.win/yuri-and-yaoi/yaoi.png",
       imageAlt: "Yaoi Lover Icon",
       title: "Yaoi Lover Cheat Sheets",
-      info: "Resources and guides for yaoi content!"
+      info: "Life Cheat Sheets!"
     },
     {
       url: "https://www.yuri-lover.win/",
       imageUrl: "https://www.yuri-lover.win/yuri-and-yaoi/yuri.png",
       imageAlt: "Yuri Lover Icon",
       title: "Yuri Lover Files",
-      info: "Collection of yuri content and resources!"
+      info: "My public CDN!"
     }
   ];
 

@@ -21,6 +21,7 @@ const getEmojiForTitle = (title: string): string => {
     "LGBwithT Socials!": "🏳️‍⚧️",
     "MyLuminaraSystem": "⚡",
     "TheMidnightCyan": "💙",
+    "The Motorbike One": "🏍️",
     "Trans4Trans Letters": "💌",
     "TransGamers": "🕹️",
     "UnifiedGaming Systems Ltd.": "🖥️",
