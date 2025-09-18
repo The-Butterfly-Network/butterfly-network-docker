@@ -95,8 +95,8 @@ const Index = () => {
                   icon={Sword}
                 />
                 <TooltipButton 
-                  label="Discord" 
-                  username="estrogenhrt"
+                  label="BattleNet" 
+                  username="EstrogenHRT#2959"
                   icon={MessageCircle}
                 />
                 <TooltipButton 
