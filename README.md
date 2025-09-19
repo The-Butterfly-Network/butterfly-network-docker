@@ -35,6 +35,10 @@ LGBwithT = 8008
 
 Clove Nytrix = 8009
 
+Butterfly Status Backend = 8010
+
+Butterfly Status Frontend = 8011
+
 # Contributors
 <a href="https://github.com/The-Butterfly-Network/butterfly-network-docker/graphs/contributors">
   <img src="https://contrib.rocks/image?repo=The-Butterfly-Network/butterfly-network-docker" />
