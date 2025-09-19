@@ -9,6 +9,8 @@
 ![Docker Workflow](https://github.com/The-Butterfly-Network/butterfly-network-docker/actions/workflows/lgbwitht.yml/badge.svg)
 ![Docker Workflow](https://github.com/The-Butterfly-Network/butterfly-network-docker/actions/workflows/midnight.yml/badge.svg)
 ![Docker Workflow](https://github.com/The-Butterfly-Network/butterfly-network-docker/actions/workflows/nytrix.yml/badge.svg)
+![Docker Workflow](https://github.com/The-Butterfly-Network/butterfly-network-docker/actions/workflows/status-backend.yml/badge.svg)
+![Docker Workflow](https://github.com/The-Butterfly-Network/butterfly-network-docker/actions/workflows/status-frontend.yml/badge.svg)
 
 Welcome to the monorepo for all Butterfly Network™ docker website building, maintained by CloveTwilight3, TheMidnightCyan, and EstrogenHRT.
 
