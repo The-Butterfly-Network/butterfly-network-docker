@@ -113,17 +113,23 @@ class StatusChecker:
                     })
                     
                     # Check SSL certificate for HTTPS
-                    if protocol == 'https' and hasattr(response, 'transport') and response.transport:
+                    if protocol == 'https':
                         try:
-                            ssl_info = response.transport.get_extra_info('ssl_object')
-                            if ssl_info:
-                                result['ssl_valid'] = True
-                                # Get certificate expiry if available
-                                peer_cert = ssl_info.getpeercert()
-                                if peer_cert and 'notAfter' in peer_cert:
-                                    result['ssl_expires'] = peer_cert['notAfter']
+                            # If we successfully made an HTTPS request, SSL is working
+                            result['ssl_valid'] = True
+                            
+                            # Try to get additional SSL certificate info if available
+                            if hasattr(response, 'transport') and response.transport:
+                                ssl_info = response.transport.get_extra_info('ssl_object')
+                                if ssl_info:
+                                    try:
+                                        peer_cert = ssl_info.getpeercert()
+                                        if peer_cert and 'notAfter' in peer_cert:
+                                            result['ssl_expires'] = peer_cert['notAfter']
+                                    except Exception as cert_error:
+                                        logger.warning(f"Could not get certificate expiry for {domain}: {cert_error}")
                         except Exception as ssl_error:
-                            logger.warning(f"SSL check failed for {domain}: {ssl_error}")
+                            logger.warning(f"SSL validation failed for {domain}: {ssl_error}")
                             result['ssl_valid'] = False
                     
                     # Determine status based on response code and time
@@ -145,18 +151,27 @@ class StatusChecker:
                     'error_message': 'Connection timeout',
                     'response_time': int((time.time() - start_time) * 1000)
                 })
+                # If HTTPS failed with timeout, mark SSL as invalid
+                if protocol == 'https':
+                    result['ssl_valid'] = False
             except aiohttp.ClientConnectorError as e:
                 result.update({
                     'status': 'offline',
                     'error_message': f'Connection failed: {str(e)[:100]}',
                     'response_time': int((time.time() - start_time) * 1000)
                 })
+                # If HTTPS failed with connection error, mark SSL as invalid
+                if protocol == 'https':
+                    result['ssl_valid'] = False
             except Exception as e:
                 result.update({
                     'status': 'unknown',
                     'error_message': f'Unexpected error: {str(e)[:100]}',
                     'response_time': int((time.time() - start_time) * 1000)
                 })
+                # If HTTPS failed with unexpected error, mark SSL as invalid
+                if protocol == 'https':
+                    result['ssl_valid'] = False
         
         return result
     
