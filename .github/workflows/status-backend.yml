@@ -1,4 +1,4 @@
-name: Build Doughmination Backend
+name: Build Status Backend
 
 on:
   push:
