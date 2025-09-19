@@ -62,7 +62,7 @@ class StatusApiService {
 
   constructor() {
     // Use environment variable or default to localhost for development
-    this.baseUrl = import.meta.env.VITE_API_URL || 'http://localhost:8010';
+    this.baseUrl = '/api';
   }
 
   async getStatus(): Promise<BackendStatusResponse> {
