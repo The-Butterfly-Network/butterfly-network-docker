@@ -33,7 +33,7 @@ const Footer = () => {
             className="flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors group"
           >
             <img
-              src="https://yuri-lover.win/orcid/logo.png"
+              src="https://www.yuri-lover.win/orcid/logo.png"
               alt="ORCID iD icon"
               className="w-4 h-4"
             />

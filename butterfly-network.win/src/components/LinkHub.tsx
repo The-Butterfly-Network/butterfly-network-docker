@@ -28,7 +28,7 @@ const LinkHub = () => {
     },
     {
       url: "https://www.clovetwilight3.co.uk/",
-      imageUrl: "https://yuri-lover.win/pfp/clove.jpg",
+      imageUrl: "https://www.yuri-lover.win/pfp/clove.jpg",
       imageAlt: "Clove Icon",
       title: "CloveTwilight3",
       info: "Personal website for Clove!"
@@ -42,7 +42,7 @@ const LinkHub = () => {
     },
     {
       url: "https://www.mazeymoos.com/",
-      imageUrl: "https://yuri-lover.win/pfp/estrogenhrt.png",
+      imageUrl: "https://www.yuri-lover.win/pfp/estrogenhrt.png",
       imageAlt: "MazeyMoos Icon",
       title: "EstrogenHRT Gaming",
       subtitle: "formerly MazeyMoos0022",
@@ -57,7 +57,7 @@ const LinkHub = () => {
     },
     {
       url: "https://www.lgbwitht.win/",
-      imageUrl: "https://yuri-lover.win/pfp/lgbwitht.png",
+      imageUrl: "https://www.yuri-lover.win/pfp/lgbwitht.png",
       imageAlt: "LGBwithT Icon",
       title: "LGBwithT Socials!",
       info: "LGBwithT is the center for all my social media!"
@@ -72,14 +72,14 @@ const LinkHub = () => {
     },
     {
       url: "https://www.myluminarasystem.pro/",
-      imageUrl: "https://yuri-lover.win/pfp/luminara.png",
+      imageUrl: "https://www.yuri-lover.win/pfp/luminara.png",
       imageAlt: "Luminara System Icon",
       title: "MyLuminaraSystem",
       info: "Work in Progress Plural System Site"
     },
     {
       url: "https://www.clove-portfolio.win/",
-      imageUrl: "https://yuri-lover.win/pfp/clove.jpg",
+      imageUrl: "https://www.yuri-lover.win/pfp/clove.jpg",
       imageAlt: "Clove Portfolio Icon",
       title: "Portfolio",
       info: "Showcase of creative works and projects!"
@@ -93,14 +93,14 @@ const LinkHub = () => {
     },
     {
       url: "https://www.themidnightcyan.win/",
-      imageUrl: "https://yuri-lover.win/pfp/athena.jpg",
+      imageUrl: "https://www.yuri-lover.win/pfp/athena.jpg",
       imageAlt: "Athena Icon",
       title: "TheMidnightCyan",
       info: "Athena's personal website"
     },
     {
       url: "https://www.themotorbikeone.win",
-      imageUrl: "https://yuri-lover.win/pfp/jessa.png",
+      imageUrl: "https://www.yuri-lover.win/pfp/jessa.png",
       imageAlt: "Jessa Icon",
       title: "The Motorbike One",
       info: "Jessa's personal space"
@@ -114,14 +114,14 @@ const LinkHub = () => {
     },
     {
       url: "https://www.transgamers.org/",
-      imageUrl: "https://yuri-lover.win/pfp/transgamers.png",
+      imageUrl: "https://www.yuri-lover.win/pfp/transgamers.png",
       imageAlt: "TransGamers Icon",
       title: "TransGamers",
       info: "A domain we love!"
     },
     {
       url: "https://www.unifiedgaming-systems.co.uk/",
-      imageUrl: "https://yuri-lover.win/pfp/unifiedgaming-systems.png",
+      imageUrl: "https://www.yuri-lover.win/pfp/unifiedgaming-systems.png",
       imageAlt: "Unified Gaming Systems Icon",
       title: "UnifiedGaming Systems Ltd.",
       info: "Professional gaming systems and services!"

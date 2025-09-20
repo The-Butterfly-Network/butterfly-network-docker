@@ -36,7 +36,7 @@ const Footer = () => {
             className="inline-flex items-center space-x-2 text-lavender hover:text-lavender-soft transition-smooth underline decoration-lavender/50 hover:decoration-lavender-soft"
           >
             <img
-              src="https://yuri-lover.win/orcid/logo.png"
+              src="https://www.yuri-lover.win/orcid/logo.png"
               alt="ORCID iD icon"
               className="w-4 h-4"
             />
