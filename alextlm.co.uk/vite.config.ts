@@ -15,6 +15,7 @@ export default defineConfig(({ mode }) => ({
     port: 8009,
     strictPort: true,
     allowedHosts: ['localhost', '127.0.0.1', 'www.alextlm.co.uk', 'alextlm.co.uk'],
+    spa: true,
   },
   plugins: [react(), mode === "development" && componentTagger()].filter(Boolean),
   resolve: {
