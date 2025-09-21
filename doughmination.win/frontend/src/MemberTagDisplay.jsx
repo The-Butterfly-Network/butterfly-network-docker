@@ -34,10 +34,9 @@ const getTagStyle = (tag) => {
 // Helper function to get icons for different tag types
 const getTagIcon = (tag) => {
   const icons = {
-    'host': '🏠',
-    'valorant': '🔫',
-    'pets': '🐾',
-    'vocaloids': '🎤',
+    'saja': '🔫',
+    'huntrix': '🎤',
+    'fictives': '🦋',
   };
   
   return icons[tag] || '📁';

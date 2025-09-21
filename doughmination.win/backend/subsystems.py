@@ -19,21 +19,36 @@ DEFAULT_SUBSYSTEMS = [
         "label": "saja",
         "color": "#FF4655",  # Hot red
         "description": "All the saja boys"
+    },
+    {
+        "name": "Fictives",
+        "label": "fictives",
+        "color": "#D420E0",
+        "description": "All fictives that are not catagorized"
+    },
+    {
+        "name": "Fortnite",
+        "label": "fortnite",
+        "color": "#0CB296",
+        "description": "All fortnite people"
     }
 ]
 
 # Default member tag assignments
 DEFAULT_MEMBER_TAGS = {
-    "Clove": ["host"],
-    "baby": ["saja"],
-    "abby": ["saja"],
-    "jinu": ["saja"],
-    "mystery": ["saja"],
-    "romance": ["saja"],
-    "Rumi": ["huntrix"],
-    "Zoey": ["huntrix"],
-    "Mira": ["huntrix"],
-    "Bobby": ["huntrix"]
+    "Clove": ["host", "fictives"],
+    "baby": ["saja", "fictives"],
+    "abby": ["saja", "fictives"],
+    "jinu": ["saja", "fictives"],
+    "mystery": ["saja", "fictives"],
+    "romance": ["saja", "fictives"],
+    "Rumi": ["huntrix", "fictives"],
+    "Zoey": ["huntrix", "fictives"],
+    "Mira": ["huntrix", "fictives"],
+    "Bobby": ["huntrix", "fictives"],
+    "Miku": ["fictives"],
+    "Hope": ["fortnite", "fictives"],
+    "Catrin": ["fortnite", "fictives"],
 }
 
 def get_subsystems() -> List[SubSystem]:

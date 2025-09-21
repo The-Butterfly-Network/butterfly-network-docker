@@ -126,6 +126,7 @@ const getSubSystemIcon = (label) => {
   const icons = {
     'saja': '🔫',
     'huntrix': '🎤',
+    'fictives': '🦋',
   };
   return icons[label] || '📁';
 };
