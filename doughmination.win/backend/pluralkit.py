@@ -20,7 +20,7 @@ COFRONTS = {
     # Existing cofronts
     "huntrix": ["Rumi", "Zoey", "Mira"],
     "saja": ["baby", "jinu", "mystery", "romance", "abby"],
-    "clothena": ["clove", "athena"]
+    "Clothena": ["clove", "athena"]
 }
 
 # Max number of members allowed in a cofront (enforced in set_front function)
