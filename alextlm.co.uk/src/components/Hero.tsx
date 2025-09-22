@@ -38,12 +38,12 @@ const Hero = () => {
                 Latest Release:
               </div>
               <a 
-                href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" 
+                href="https://www.youtube.com/watch?v=xh0cXo_9KiI" 
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="flex items-center gap-2 text-accent font-medium hover:text-accent/80 transition-colors"
               >
-                <span>"Recoil"</span>
+                <span>"Keep your name in my mouth"</span>
                 <ExternalLink className="h-4 w-4" />
               </a>
             </div>

@@ -4,8 +4,8 @@ import { ExternalLink } from "lucide-react";
 const youtubeVideos = [
   {
     id: 1,
-    title: "Recoil",
-    embedId: "rSITc5Ugf0k", // Replace with actual video ID
+    title: "Keep my name in your mouth",
+    embedId: "xh0cXo_9KiI", // Replace with actual video ID
     year: "2025",
     isNew: true
   },
