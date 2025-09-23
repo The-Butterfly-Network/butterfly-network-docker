@@ -67,7 +67,7 @@ const flags: Flag[] = [
     src: "https://www.yuri-lover.win/flags/therian.png",
     alt: "Therian Flag",
     description: "Therian",
-    tooltip: "I am a Therian and I am a black cat therotype"
+    tooltip: "I am a Therian and both a black cat therotype and a butterfly therotype"
   }
 ];
 
