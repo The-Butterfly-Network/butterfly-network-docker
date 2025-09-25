@@ -27,7 +27,7 @@ export const LoadingScreen = ({ onComplete }: LoadingScreenProps) => {
       <div className="text-center">
         <div className="mb-8">
           <img
-            src="https://www.yuri-lover.win/pfp/estrogenhrt.png"
+            src="https://www.yuri-lover.win/cdn/pfp/estrogenhrt.png"
             alt="EstrogenHRT"
             className="w-24 h-24 mx-auto avatar-glow animate-pulse"
           />

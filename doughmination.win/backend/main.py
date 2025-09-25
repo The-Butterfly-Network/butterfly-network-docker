@@ -51,7 +51,7 @@ initialize_admin_user()
 initialize_default_subsystems()
 
 # Default fallback avatar URL
-DEFAULT_AVATAR = "https://www.yuri-lover.win/pfp/fallback_avatar.png"
+DEFAULT_AVATAR = "https://www.yuri-lover.win/cdn/pfp/fallback_avatar.png"
 
 # ============================================================================
 # MIDDLEWARE SETUP

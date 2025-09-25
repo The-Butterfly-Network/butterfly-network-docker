@@ -7,7 +7,7 @@ const ArtistsSection = () => {
     {
       id: "linkin-park",
       name: "Linkin Park",
-      image: "https://www.yuri-lover.win/artists/linkin-park.jpg",
+      image: "https://www.yuri-lover.win/cdn/artists/linkin-park.jpg",
       description: "I found Linkin Park when Emily joined, and Emptiness Machine was the song that hooked me."
     }
   ];

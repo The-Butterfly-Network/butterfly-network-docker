@@ -36,7 +36,7 @@ const Header = () => {
       <div className="relative z-10 animate-fade-in-up">
         <div className="relative inline-block mb-6">
           <img
-            src="https://www.yuri-lover.win/pfp/clove.jpg"
+            src="https://www.yuri-lover.win/cdn/pfp/clove.jpg"
             alt="Clove's Profile"
             className="w-32 h-32 rounded-full shadow-glow mx-auto border-4 border-primary animate-glow-pulse"
           />

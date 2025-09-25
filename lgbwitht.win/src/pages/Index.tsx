@@ -132,7 +132,7 @@ const Index = () => {
           <div className="mb-6 flex justify-center">
             <div className="w-24 h-24 rounded-full bg-gradient-to-br from-primary to-secondary p-1 shadow-[var(--glow-primary)]">
               <img 
-                src="https://www.yuri-lover.win/pfp/lgbwitht.png" 
+                src="https://www.yuri-lover.win/cdn/pfp/lgbwitht.png" 
                 alt="LGBwithT Profile" 
                 className="w-full h-full rounded-full object-cover"
               />

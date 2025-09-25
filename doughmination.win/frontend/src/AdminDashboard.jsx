@@ -121,7 +121,7 @@ export default function AdminDashboard({ fronting, onFrontingChanged }) {
     if (member.is_cofront && member.component_avatars && member.component_avatars.length > 0) {
       return member.component_avatars[0];
     }
-    return member.avatar_url || "https://www.yuri-lover.win/pfp/fallback_avatar.png";
+    return member.avatar_url || "https://www.yuri-lover.win/cdn/pfp/fallback_avatar.png";
   };
 
   
@@ -190,7 +190,7 @@ const expandFrontingMembers = (frontingMembers) => {
             <div className="flex items-center">
               <div className="w-8 h-8 rounded-full overflow-hidden mr-3">
                 <img 
-                  src={member.avatar_url || "https://www.yuri-lover.win/pfp/fallback_avatar.png"}
+                  src={member.avatar_url || "https://www.yuri-lover.win/cdn/pfp/fallback_avatar.png"}
                   alt={member.name}
                   className="w-full h-full object-cover"
                 />

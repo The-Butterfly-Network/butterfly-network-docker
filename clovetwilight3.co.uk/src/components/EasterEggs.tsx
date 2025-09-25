@@ -177,7 +177,7 @@ const EasterEggs = () => {
 
     // Gay Video Easter Egg
     const gayVideo = document.createElement('video');
-    gayVideo.src = 'https://www.yuri-lover.win/videos/gay.mp4';
+    gayVideo.src = 'https://www.yuri-lover.win/cdn/videos/gay.mp4';
     gayVideo.preload = 'auto';
     gayVideo.loop = true;
     gayVideo.style.display = 'none';

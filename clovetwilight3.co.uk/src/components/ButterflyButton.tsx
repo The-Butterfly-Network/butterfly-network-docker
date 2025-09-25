@@ -9,7 +9,7 @@ const ButterflyButton = () => {
       >
         <div className="relative">
           <img
-            src="https://www.yuri-lover.win/pfp/butterfly.gif"
+            src="https://www.yuri-lover.win/cdn/pfp/butterfly.gif"
             alt="Butterfly Network"
             className="w-12 h-12 rounded-full group-hover:scale-110 transition-magical"
           />

@@ -36,7 +36,7 @@ const Footer = () => {
             className="inline-flex items-center space-x-2 text-lavender hover:text-lavender-soft transition-smooth underline decoration-lavender/50 hover:decoration-lavender-soft"
           >
             <img
-              src="https://www.yuri-lover.win/orcid/logo.png"
+              src="https://www.yuri-lover.win/cdn/orcid/logo.png"
               alt="ORCID iD icon"
               className="w-4 h-4"
             />
@@ -46,7 +46,7 @@ const Footer = () => {
           {/* QR Code */}
           <div className="mt-4">
             <img
-              src="https://www.yuri-lover.win/orcid/qr.png"
+              src="https://www.yuri-lover.win/cdn/orcid/qr.png"
               alt="QR Code"
               className="w-24 h-24 mx-auto border border-cyan-bright/20 rounded-lg shadow-cyan"
             />

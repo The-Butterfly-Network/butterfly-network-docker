@@ -19,7 +19,7 @@ const UserEdit = () => {
   const navigate = useNavigate();
   
   // Default avatar for fallback
-  const defaultAvatar = "https://www.yuri-lover.win/pfp/fallback_avatar.png";
+  const defaultAvatar = "https://www.yuri-lover.win/cdn/pfp/fallback_avatar.png";
 
   useEffect(() => {
     fetchUserData();

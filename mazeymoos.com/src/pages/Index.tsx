@@ -44,7 +44,7 @@ const Index = () => {
         <header className="text-center mb-12">
           <div className="mb-6">
             <img
-              src="https://www.yuri-lover.win/pfp/estrogenhrt.png"
+              src="https://www.yuri-lover.win/cdn/pfp/estrogenhrt.png"
               alt="EstrogenHRT"
               className="w-32 h-32 mx-auto avatar-glow animate-pulse"
             />

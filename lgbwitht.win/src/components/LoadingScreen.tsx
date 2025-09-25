@@ -28,7 +28,7 @@ export const LoadingScreen = ({ onComplete }: LoadingScreenProps) => {
       <div className="text-center space-y-8">
         <div className="w-24 h-24 rounded-full bg-gradient-to-br from-primary to-accent p-1 shadow-[var(--glow-primary)] mx-auto animate-pulse">
           <img 
-            src="https://www.yuri-lover.win/pfp/lgbwitht.png" 
+            src="https://www.yuri-lover.win/cdn/pfp/lgbwitht.png" 
             alt="LGBwithT" 
             className="w-full h-full rounded-full object-cover"
           />

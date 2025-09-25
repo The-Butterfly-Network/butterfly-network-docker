@@ -55,7 +55,7 @@ const Hero = () => {
               <div className="absolute -inset-4 bg-gradient-accent rounded-3xl blur-xl opacity-30 animate-glow-pulse" />
               <div className="relative glass-card rounded-3xl p-6 hover-lift">
                 <img 
-                  src="https://www.yuri-lover.win/artists/alextlm.jpg" 
+                  src="https://www.yuri-lover.win/cdn/artists/alextlm.jpg" 
                   alt="Clove Nytrix - Pop Rock Artist" 
                   className="w-full h-auto rounded-2xl"
                 />

@@ -18,7 +18,7 @@ const ButterflyButton = () => {
         className="flex items-center space-x-2 bg-midnight-light/80 backdrop-blur-md border border-cyan-bright/30 rounded-full px-4 py-2 transition-smooth hover:bg-midnight-light hover:border-cyan-bright/50 hover:shadow-cyan disabled:opacity-75"
       >
         <img
-          src="https://www.yuri-lover.win/pfp/butterfly.gif"
+          src="https://www.yuri-lover.win/cdn/pfp/butterfly.gif"
           alt="Butterfly Network"
           className="w-8 h-8 rounded-full"
         />

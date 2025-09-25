@@ -164,7 +164,7 @@ All colors MUST be HSL.
   body {
     @apply bg-background text-foreground;
     font-family: 'Comic Code', 'Comic Sans MS', 'Comic Sans', monospace, sans-serif;
-    cursor: url('https://www.yuri-lover.win/cursors/clovetwilight3/cursor.png'), auto;
+    cursor: url('https://www.yuri-lover.win/cdn/cursors/clovetwilight3/cursor.png'), auto;
   }
 
   /* Code elements specifically use Comic Code */
@@ -262,7 +262,7 @@ All colors MUST be HSL.
 
   .nav-link {
     @apply text-muted-foreground bg-transparent border-none cursor-pointer px-4 py-2 rounded-full transition-all duration-300 text-sm relative;
-    cursor: url('https://www.yuri-lover.win/cursors/clovetwilight3/pointer.png'), pointer;
+    cursor: url('https://www.yuri-lover.win/cdn/cursors/clovetwilight3/pointer.png'), pointer;
   }
 
   .nav-link:hover {
@@ -304,9 +304,9 @@ All colors MUST be HSL.
 }
 
 /* Custom cursor scheme */
-a, a:hover { cursor: url('https://www.yuri-lover.win/cursors/clovetwilight3/pointer.png'), pointer; }
-.cursor-help-scheme { cursor: url('https://www.yuri-lover.win/cursors/clovetwilight3/help.png'), help; }
-.cursor-pointer-scheme { cursor: url('https://www.yuri-lover.win/cursors/clovetwilight3/pointer.png'), pointer; }
+a, a:hover { cursor: url('https://www.yuri-lover.win/cdn/cursors/clovetwilight3/pointer.png'), pointer; }
+.cursor-help-scheme { cursor: url('https://www.yuri-lover.win/cdn/cursors/clovetwilight3/help.png'), help; }
+.cursor-pointer-scheme { cursor: url('https://www.yuri-lover.win/cdn/cursors/clovetwilight3/pointer.png'), pointer; }
 
 /* Utility to disable text selection */
 .no-select { -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; }

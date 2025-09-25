@@ -10,61 +10,61 @@ interface Flag {
 
 const flags: Flag[] = [
   {
-    src: "https://www.yuri-lover.win/flags/english-flag.png",
+    src: "https://www.yuri-lover.win/cdn/flags/english-flag.png",
     alt: "English Flag",
     description: "English",
     tooltip: "I am born in England, and thus I am English"
   },
   {
-    src: "https://www.yuri-lover.win/flags/welsh-flag.png",
+    src: "https://www.yuri-lover.win/cdn/flags/welsh-flag.png",
     alt: "Welsh Flag",
     description: "Welsh",
     tooltip: "My biological mother was Welsh, hence I am half Welsh"
   },
   {
-    src: "https://www.yuri-lover.win/flags/scottish-flag.png",
+    src: "https://www.yuri-lover.win/cdn/flags/scottish-flag.png",
     alt: "Scottish Flag",
     description: "Scottish",
     tooltip: "By my VALORANT Lore, I am Scottish"
   },
   {
-    src: "https://www.yuri-lover.win/flags/genderfae.png",
+    src: "https://www.yuri-lover.win/cdn/flags/genderfae.png",
     alt: "Genderfae Flag",
     description: "Genderfae",
     tooltip: "I am Genderfae, and my gender is mostly fluid, but never masculine or male"
   },
   {
-    src: "https://www.yuri-lover.win/flags/plural.png",
+    src: "https://www.yuri-lover.win/cdn/flags/plural.png",
     alt: "Plural Flag",
     description: "Plural",
     tooltip: "I am part of a plural system"
   },
   {
-    src: "https://www.yuri-lover.win/flags/polyamorus.png",
+    src: "https://www.yuri-lover.win/cdn/flags/polyamorus.png",
     alt: "Polyamory Flag",
     description: "Polyamorous",
     tooltip: "I am polyamorous and open to multiple loving relationships"
   },
   {
-    src: "https://www.yuri-lover.win/flags/faesexual.png",
+    src: "https://www.yuri-lover.win/cdn/flags/faesexual.png",
     alt: "Faesexual Flag",
     description: "Faesexual",
     tooltip: "My sexual attraction to all genders except masculine or male ones"
   },
   {
-    src: "https://www.yuri-lover.win/flags/trans.png",
+    src: "https://www.yuri-lover.win/cdn/flags/trans.png",
     alt: "Transgender Flag",
     description: "Transgender",
     tooltip: "I am transgender and have been on feminizing hormones since Dec 21st 2023"
   },
   {
-    src: "https://www.yuri-lover.win/flags/transfeminine.png",
+    src: "https://www.yuri-lover.win/cdn/flags/transfeminine.png",
     alt: "Transfeminine Flag",
     description: "Transfeminine",
     tooltip: "I am Transfeminine, meaning I was born in a male body but aim to get a feminine one"
   },
   {
-    src: "https://www.yuri-lover.win/flags/therian.png",
+    src: "https://www.yuri-lover.win/cdn/flags/therian.png",
     alt: "Therian Flag",
     description: "Therian",
     tooltip: "I am a Therian and both a black cat therotype and a butterfly therotype"

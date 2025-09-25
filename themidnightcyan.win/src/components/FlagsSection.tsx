@@ -8,31 +8,31 @@ const FlagsSection = () => {
       id: "plural",
       name: "Plural Flag",
       description: "I am part of a plural system",
-      image: "https://www.yuri-lover.win/flags/plural.png"
+      image: "https://www.yuri-lover.win/cdn/flags/plural.png"
     },
     {
       id: "trans",
       name: "Transgender Flag", 
       description: "I am transgender and have been on feminizing hormones since Dec 21st 2023",
-      image: "https://www.yuri-lover.win/flags/trans.png"
+      image: "https://www.yuri-lover.win/cdn/flags/trans.png"
     },
     {
       id: "lesbian",
       name: "Lesbian Flag",
       description: "I am a proud lesbian and love women!",
-      image: "https://www.yuri-lover.win/flags/lesbian.png"
+      image: "https://www.yuri-lover.win/cdn/flags/lesbian.png"
     },
     {
       id: "romanticannic",
       name: "Romanticannic",
       description: "Symbollially feel connected to cannibalism and romance in some way",
-      image: "https://www.yuri-lover.win/flags/romanticannic.png"
+      image: "https://www.yuri-lover.win/cdn/flags/romanticannic.png"
     },
     {
       id: "digitalgirlsongic",
       name: "DigitalGirlsongic",
       description: "a -songic gender that feels connected to Digital Girl by KIRA and miku.",
-      image: "https://www.yuri-lover.win/flags/digitalgirlsongic.png"
+      image: "https://www.yuri-lover.win/cdn/flags/digitalgirlsongic.png"
     }
   ];
 

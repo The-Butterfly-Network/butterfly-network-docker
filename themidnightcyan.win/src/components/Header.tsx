@@ -23,7 +23,7 @@ const Header = () => {
 
       <div className="relative z-10">
         <img
-          src="https://www.yuri-lover.win/pfp/athena.jpg"
+          src="https://www.yuri-lover.win/cdn/pfp/athena.jpg"
           alt="Athena's Profile"
           className="w-32 h-32 rounded-full mx-auto mb-6 border-4 border-cyan-bright shadow-cyan glow-animation"
         />

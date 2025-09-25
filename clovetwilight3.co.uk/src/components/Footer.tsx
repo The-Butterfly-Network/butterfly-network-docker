@@ -33,7 +33,7 @@ const Footer = () => {
             className="flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors group"
           >
             <img
-              src="https://www.yuri-lover.win/orcid/logo.png"
+              src="https://www.yuri-lover.win/cdn/orcid/logo.png"
               alt="ORCID iD icon"
               className="w-4 h-4"
             />
@@ -45,7 +45,7 @@ const Footer = () => {
           
           <div className="relative group">
             <img
-              src="https://www.yuri-lover.win/orcid/qr.png"
+              src="https://www.yuri-lover.win/cdn/orcid/qr.png"
               alt="ORCID QR"
               className="w-16 h-16 rounded border border-border/50 hover:border-primary/50 transition-colors cursor-pointer-scheme"
             />

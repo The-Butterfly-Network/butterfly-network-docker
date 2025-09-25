@@ -3,7 +3,7 @@ const ButterflyHeader = () => {
     <header className="fade-in-element text-center py-12">
       <div className="flex items-center justify-center gap-4 mb-4">
         <img 
-          src="https://www.yuri-lover.win/pfp/butterfly.gif" 
+          src="https://www.yuri-lover.win/cdn/pfp/butterfly.gif" 
           alt="Butterfly Network Logo"
           className="w-16 h-16 rounded-full object-cover"
         />
