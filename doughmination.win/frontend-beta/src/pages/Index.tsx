@@ -234,104 +234,86 @@ export default function Index() {
 
   if (loading) {
     return (
-      <div className={`flex items-center justify-center min-h-screen transition-colors ${
-        theme === 'dark' ? 'text-green-400' : 'text-pink-500'
-      }`}>
-        <div className="text-2xl font-comic">Loading...</div>
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="text-2xl font-comic text-foreground">Loading...</div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-background text-foreground theme-transition">
       {/* Header with navigation */}
-      <header className="fixed top-0 left-0 w-full z-40">
-        <div className={`transition-all ${
-          theme === 'dark' 
-            ? 'bg-black/90 border-b border-green-500/20' 
-            : 'bg-white/90 border-b border-pink-300/20'
-        } backdrop-blur-sm`}>
-          <div className="container mx-auto px-4 py-3 flex justify-between items-center">
-            <Link 
-              to="/" 
-              className={`text-2xl font-bold font-comic transition-all duration-300 ${
-                theme === 'dark' 
-                  ? 'text-green-400 drop-shadow-[0_0_10px_rgba(0,255,0,0.5)]' 
-                  : 'text-pink-500 drop-shadow-[0_0_10px_rgba(255,182,193,0.5)]'
-              }`}
-            >
-              Doughmination System™
-            </Link>
-            
-            {/* Desktop Navigation */}
-            <div className="desktop-nav hidden md:flex items-center gap-3">
-              <ThemeToggle />
-              <Button variant="outline" size="sm" asChild>
-                <a
-                  href="https://www.butterfly-network.win"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="font-comic"
-                >
-                  Butterfly Network
-                </a>
-              </Button>
-              {loggedIn ? (
-                <>
-                  {isAdmin && (
-                    <Button variant="outline" size="sm" asChild>
-                      <Link to="/admin/dashboard" className="font-comic">
-                        Admin Panel
-                      </Link>
-                    </Button>
-                  )}
+      <header className="fixed top-0 left-0 w-full z-40 bg-card/90 backdrop-blur-sm border-b border-border theme-transition">
+        <div className="container mx-auto px-4 py-3 flex justify-between items-center">
+          <Link 
+            to="/" 
+            className="text-2xl font-bold font-comic text-primary hover:text-primary/80 transition-colors"
+          >
+            Doughmination System™
+          </Link>
+          
+          {/* Desktop Navigation */}
+          <div className="desktop-nav hidden md:flex items-center gap-3">
+            <ThemeToggle />
+            <Button variant="outline" size="sm" asChild>
+              <a
+                href="https://www.butterfly-network.win"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-comic"
+              >
+                Butterfly Network
+              </a>
+            </Button>
+            {loggedIn ? (
+              <>
+                {isAdmin && (
                   <Button variant="outline" size="sm" asChild>
-                    <Link to="/admin/user" className="font-comic">
-                      Profile
+                    <Link to="/admin/dashboard" className="font-comic">
+                      Admin Panel
                     </Link>
                   </Button>
-                  <Button variant="destructive" size="sm" onClick={handleLogout} className="font-comic">
-                    Logout
-                  </Button>
-                </>
-              ) : (
+                )}
                 <Button variant="outline" size="sm" asChild>
-                  <Link to="/admin/login" className="font-comic">
-                    Login
+                  <Link to="/admin/user" className="font-comic">
+                    Profile
                   </Link>
                 </Button>
-              )}
-            </div>
-            
-            {/* Hamburger menu button - for mobile devices */}
-            <button 
-              className={`hamburger-menu flex md:hidden items-center justify-center p-2 rounded-md transition-colors ${
-                theme === 'dark' 
-                  ? 'bg-green-900/50 text-green-400 hover:bg-green-800/50' 
-                  : 'bg-pink-100 text-pink-500 hover:bg-pink-200'
-              }`}
-              onClick={toggleMenu}
-              aria-label="Toggle menu"
-              aria-expanded={menuOpen}
-            >
-              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                {menuOpen ? (
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                ) : (
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-                )}
-              </svg>
-            </button>
+                <Button variant="destructive" size="sm" onClick={handleLogout} className="font-comic">
+                  Logout
+                </Button>
+              </>
+            ) : (
+              <Button variant="outline" size="sm" asChild>
+                <Link to="/admin/login" className="font-comic">
+                  Login
+                </Link>
+              </Button>
+            )}
           </div>
+          
+          {/* Mobile menu button */}
+          <button 
+            className="flex md:hidden items-center justify-center p-2 rounded-md bg-secondary text-secondary-foreground hover:bg-accent hover:text-accent-foreground transition-colors"
+            onClick={toggleMenu}
+            aria-label="Toggle menu"
+            aria-expanded={menuOpen}
+          >
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              {menuOpen ? (
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              ) : (
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+              )}
+            </svg>
+          </button>
         </div>
         
         {/* Mobile Navigation overlay */}
         {menuOpen && (
-          <div className="mobile-menu-overlay fixed inset-0 z-30 bg-black bg-opacity-50 md:hidden" onClick={toggleMenu}>
+          <div className="mobile-menu-overlay fixed inset-0 z-30 bg-black/50 md:hidden" onClick={toggleMenu}>
             <div 
-              className={`absolute right-0 top-[61px] w-64 max-w-[80vw] h-screen shadow-lg ${
-                theme === 'dark' ? 'bg-black/95' : 'bg-white/95'
-              }`}
+              className="absolute right-0 top-[61px] w-64 max-w-[80vw] h-screen shadow-lg bg-card/95 backdrop-blur-sm border-l border-border"
               onClick={(e) => e.stopPropagation()}
             >
               <ul className="flex flex-col p-4 gap-3">
@@ -340,11 +322,7 @@ export default function Index() {
                     href="https://www.butterfly-network.win"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className={`block w-full px-4 py-3 rounded-lg text-sm text-center transition-all font-comic ${
-                      theme === 'dark' 
-                        ? 'bg-green-600 text-black hover:bg-green-500' 
-                        : 'bg-pink-500 text-white hover:bg-pink-400'
-                    }`}
+                    className="block w-full px-4 py-3 rounded-lg text-sm text-center transition-all font-comic bg-primary text-primary-foreground hover:bg-primary/80"
                     onClick={toggleMenu}
                   >
                     Butterfly Network
@@ -356,11 +334,7 @@ export default function Index() {
                       <li>
                         <Link 
                           to="/admin/dashboard"
-                          className={`block w-full px-4 py-3 rounded-lg text-sm text-center transition-all font-comic ${
-                            theme === 'dark' 
-                              ? 'bg-green-500 text-black hover:bg-green-400' 
-                              : 'bg-pink-400 text-white hover:bg-pink-300'
-                          }`}
+                          className="block w-full px-4 py-3 rounded-lg text-sm text-center transition-all font-comic bg-secondary text-secondary-foreground hover:bg-accent hover:text-accent-foreground"
                           onClick={toggleMenu}
                         >
                           Admin Panel
@@ -370,11 +344,7 @@ export default function Index() {
                     <li>
                       <Link 
                         to="/admin/user"
-                        className={`block w-full px-4 py-3 rounded-lg text-sm text-center transition-all font-comic ${
-                          theme === 'dark' 
-                            ? 'bg-green-600 text-black hover:bg-green-500' 
-                            : 'bg-pink-500 text-white hover:bg-pink-400'
-                        }`}
+                        className="block w-full px-4 py-3 rounded-lg text-sm text-center transition-all font-comic bg-secondary text-secondary-foreground hover:bg-accent hover:text-accent-foreground"
                         onClick={toggleMenu}
                       >
                         Profile
@@ -386,7 +356,7 @@ export default function Index() {
                           handleLogout();
                           toggleMenu();
                         }}
-                        className="w-full px-4 py-3 bg-red-500 text-white rounded-lg text-sm text-center hover:bg-red-600 transition-colors font-comic"
+                        className="w-full px-4 py-3 bg-destructive text-destructive-foreground rounded-lg text-sm text-center hover:bg-destructive/80 transition-colors font-comic"
                       >
                         Logout
                       </button>
@@ -396,11 +366,7 @@ export default function Index() {
                   <li>
                     <Link 
                       to="/admin/login"
-                      className={`block w-full px-4 py-3 rounded-lg text-sm text-center transition-all font-comic ${
-                        theme === 'dark' 
-                          ? 'bg-green-600 text-black hover:bg-green-500' 
-                          : 'bg-pink-500 text-white hover:bg-pink-400'
-                      }`}
+                      className="block w-full px-4 py-3 rounded-lg text-sm text-center transition-all font-comic bg-secondary text-secondary-foreground hover:bg-accent hover:text-accent-foreground"
                       onClick={toggleMenu}
                     >
                       Login
@@ -422,19 +388,13 @@ export default function Index() {
           <div className="flex-1">
             <div className="content-wrapper flex flex-col gap-2 sm:gap-4">
               <div className="mt-2">
-                <h1 className={`text-4xl font-bold mb-8 text-center font-comic transition-all duration-300 ${
-                  theme === 'dark' 
-                    ? 'text-green-400 drop-shadow-[0_0_10px_rgba(0,255,0,0.5)]' 
-                    : 'text-pink-500 drop-shadow-[0_0_10px_rgba(255,182,193,0.5)]'
-                }`}>
+                <h1 className="text-4xl font-bold mb-8 text-center font-comic text-primary">
                   System Members
                 </h1> 
                 
                 {/* Mental State Banner */}
                 {systemInfo?.mental_state && (
-                  <div className={`mental-state-banner ${systemInfo.mental_state.level.replace(' ', '-')} mb-6 p-4 rounded-lg ${
-                    theme === 'dark' ? 'bg-gray-800/50' : 'bg-gray-100/50'
-                  }`}>
+                  <div className={`mental-state-banner ${systemInfo.mental_state.level.replace(' ', '-')} mb-6 p-4 rounded-lg`}>
                     <div className="flex items-center justify-center gap-3">
                       <span className="mental-state-icon text-2xl">
                         {getMentalStateIcon(systemInfo.mental_state.level)}
@@ -459,25 +419,21 @@ export default function Index() {
                 
                 {/* Currently Fronting Section */}
                 {fronting && (
-                  <div className={`mb-6 p-4 border-b border-opacity-30 text-center ${
-                    theme === 'dark' ? 'border-green-500/30' : 'border-pink-300/30'
-                  }`}>
+                  <div className="mb-6 p-4 border-b border-border text-center">
                     <h2 className="text-xl font-comic mb-3">Currently Fronting</h2>
                     <div className="flex items-center justify-center gap-3">
                       {fronting.avatar_url && (
                         <img 
                           src={fronting.avatar_url} 
                           alt={fronting.display_name || fronting.member_name}
-                          className="w-16 h-16 rounded-full object-cover"
+                          className="w-16 h-16 rounded-full object-cover border-2 border-border"
                           onError={(e) => {
                             (e.target as HTMLImageElement).src = 'https://www.yuri-lover.win/pfp/fallback_avatar.png';
                           }}
                         />
                       )}
                       <div>
-                        <h3 className={`text-2xl font-comic ${
-                          theme === 'dark' ? 'text-green-400' : 'text-pink-500'
-                        }`}>
+                        <h3 className="text-2xl font-comic text-primary">
                           {fronting.display_name || fronting.member_name}
                         </h3>
                       </div>
@@ -491,11 +447,7 @@ export default function Index() {
                   <div className="flex flex-wrap gap-2 justify-center">
                     <button
                       onClick={() => handleSubSystemFilterChange(null)}
-                      className={`px-4 py-2 rounded-lg transition-all font-comic ${
-                        currentSubSystemFilter === null
-                          ? (theme === 'dark' ? 'bg-green-600 text-black' : 'bg-pink-600 text-white')
-                          : (theme === 'dark' ? 'bg-gray-700 text-green-300 hover:bg-gray-600' : 'bg-gray-200 text-pink-700 hover:bg-gray-300')
-                      }`}
+                      className={`filter-button ${currentSubSystemFilter === null ? 'active' : ''}`}
                     >
                       All Members
                     </button>
@@ -503,50 +455,36 @@ export default function Index() {
                       <button
                         key={tag}
                         onClick={() => handleSubSystemFilterChange(tag)}
-                        className={`px-4 py-2 rounded-lg transition-all font-comic ${
-                          currentSubSystemFilter === tag
-                            ? (theme === 'dark' ? 'bg-green-600 text-black' : 'bg-pink-600 text-white')
-                            : (theme === 'dark' ? 'bg-gray-700 text-green-300 hover:bg-gray-600' : 'bg-gray-200 text-pink-700 hover:bg-gray-300')
-                        }`}
+                        className={`filter-button ${currentSubSystemFilter === tag ? 'active' : ''}`}
                       >
                         {tag}
                       </button>
                     ))}
                     <button
                       onClick={() => handleSubSystemFilterChange('untagged')}
-                      className={`px-4 py-2 rounded-lg transition-all font-comic ${
-                        currentSubSystemFilter === 'untagged'
-                          ? (theme === 'dark' ? 'bg-green-600 text-black' : 'bg-pink-600 text-white')
-                          : (theme === 'dark' ? 'bg-gray-700 text-green-300 hover:bg-gray-600' : 'bg-gray-200 text-pink-700 hover:bg-gray-300')
-                      }`}
+                      className={`filter-button ${currentSubSystemFilter === 'untagged' ? 'active' : ''}`}
                     >
                       Untagged
                     </button>
                   </div>
                   
                   {/* Search Bar */}
-                  <div className="relative max-w-md mx-auto mb-6">
-                    <div className={`flex items-center border rounded-lg overflow-hidden transition-all ${
-                      theme === 'dark' 
-                        ? 'bg-gray-900/90 border-green-500/30 text-green-400'
-                        : 'bg-white/90 border-pink-300/30 text-pink-700'
-                    }`}>
-                      <div className="flex-shrink-0 p-3 opacity-60">
-                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                        </svg>
-                      </div>
+                  <div className="search-container">
+                    <div className="relative">
+                      <svg className="search-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                      </svg>
                       <input
                         type="text"
                         placeholder="Search members..."
                         value={searchQuery}
                         onChange={handleSearchChange}
-                        className="w-full p-3 bg-transparent outline-none placeholder-opacity-60 font-comic"
+                        className="search-input"
                       />
                       {searchQuery && (
                         <button 
                           onClick={clearSearch}
-                          className="flex-shrink-0 p-3 hover:opacity-70 transition-opacity"
+                          className="search-clear"
                         >
                           <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -559,66 +497,54 @@ export default function Index() {
                 
                 {/* Members Grid */}
                 {filteredMembers.length > 0 ? (
-                  <div className="member-grid grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+                  <div className="member-grid">
                     {filteredMembers
                       .filter(member => !member.is_private && !member.is_cofront && !member.is_special)
                       .map((member) => (
-                        <Link
-                          key={member.id}
-                          to={`/${member.name}`}
-                          className={`member-grid-item block p-4 rounded-lg transition-all hover:scale-105 ${
-                            theme === 'dark' 
-                              ? 'bg-gray-800/50 hover:bg-gray-700/50 border border-green-500/20' 
-                              : 'bg-white/50 hover:bg-white/70 border border-pink-300/20'
-                          }`}
-                        >
-                          <div className="text-center">
-                            <img 
-                              src={member.avatar_url || 'https://www.yuri-lover.win/pfp/fallback_avatar.png'} 
-                              alt={member.display_name || member.name}
-                              className="w-16 h-16 mx-auto rounded-full object-cover mb-2"
-                              onError={(e) => {
-                                (e.target as HTMLImageElement).src = 'https://www.yuri-lover.win/pfp/fallback_avatar.png';
-                              }}
-                            />
-                            <h3 className={`font-comic font-semibold text-sm ${
-                              theme === 'dark' ? 'text-green-400' : 'text-pink-600'
-                            }`}>
-                              {member.display_name || member.name}
-                            </h3>
-                            {member.pronouns && (
-                              <p className="text-xs opacity-70 mt-1 font-comic">
-                                {member.pronouns}
-                              </p>
-                            )}
-                            {member.tags && member.tags.length > 0 && (
-                              <div className="flex flex-wrap gap-1 mt-2 justify-center">
-                                {member.tags.slice(0, 2).map((tag, index) => (
-                                  <span
-                                    key={index}
-                                    className={`text-xs px-2 py-1 rounded-full font-comic ${
-                                      theme === 'dark' 
-                                        ? 'bg-green-900/50 text-green-300' 
-                                        : 'bg-pink-100 text-pink-700'
-                                    }`}
-                                  >
-                                    {tag}
-                                  </span>
-                                ))}
-                                {member.tags.length > 2 && (
-                                  <span className="text-xs opacity-70 font-comic">
-                                    +{member.tags.length - 2}
-                                  </span>
-                                )}
-                              </div>
-                            )}
-                          </div>
-                        </Link>
+                        <div key={member.id} className="member-grid-item">
+                          <Link to={`/${member.name}`}>
+                            <div className="text-center">
+                              <img 
+                                src={member.avatar_url || 'https://www.yuri-lover.win/pfp/fallback_avatar.png'} 
+                                alt={member.display_name || member.name}
+                                className="w-16 h-16 mx-auto rounded-full object-cover mb-2 border-2 border-border"
+                                onError={(e) => {
+                                  (e.target as HTMLImageElement).src = 'https://www.yuri-lover.win/pfp/fallback_avatar.png';
+                                }}
+                              />
+                              <h3 className="font-comic font-semibold text-sm text-card-foreground">
+                                {member.display_name || member.name}
+                              </h3>
+                              {member.pronouns && (
+                                <p className="text-xs text-muted-foreground mt-1 font-comic">
+                                  {member.pronouns}
+                                </p>
+                              )}
+                              {member.tags && member.tags.length > 0 && (
+                                <div className="flex flex-wrap gap-1 mt-2 justify-center">
+                                  {member.tags.slice(0, 2).map((tag, index) => (
+                                    <span
+                                      key={index}
+                                      className="text-xs px-2 py-1 rounded-full font-comic bg-secondary text-secondary-foreground"
+                                    >
+                                      {tag}
+                                    </span>
+                                  ))}
+                                  {member.tags.length > 2 && (
+                                    <span className="text-xs text-muted-foreground font-comic">
+                                      +{member.tags.length - 2}
+                                    </span>
+                                  )}
+                                </div>
+                              )}
+                            </div>
+                          </Link>
+                        </div>
                       ))}
                   </div>
                 ) : (
                   <div className="text-center py-8">
-                    <p className="font-comic text-lg opacity-70">
+                    <p className="font-comic text-lg text-muted-foreground">
                       {searchQuery || currentSubSystemFilter 
                         ? 'No members found matching your criteria.' 
                         : 'No members available.'
@@ -627,20 +553,19 @@ export default function Index() {
                     {(searchQuery || currentSubSystemFilter) && (
                       <div className="mt-4 flex gap-2 justify-center">
                         {searchQuery && (
-                          <button 
-                            onClick={clearSearch}
-                            className="px-3 py-1 bg-gray-500 text-white rounded text-sm hover:bg-gray-600 font-comic"
-                          >
+                          <Button variant="secondary" size="sm" onClick={clearSearch} className="font-comic">
                             Clear search
-                          </button>
+                          </Button>
                         )}
                         {currentSubSystemFilter && (
-                          <button 
+                          <Button 
+                            variant="secondary" 
+                            size="sm" 
                             onClick={() => setCurrentSubSystemFilter(null)}
-                            className="px-3 py-1 bg-gray-500 text-white rounded text-sm hover:bg-gray-600 font-comic"
+                            className="font-comic"
                           >
                             Clear filter
-                          </button>
+                          </Button>
                         )}
                       </div>
                     )}
@@ -651,6 +576,21 @@ export default function Index() {
           </div>
         </div>
       </main>
+
+      {/* Footer */}
+      <footer className="github-footer">
+        <a
+          href="https://github.com/The-Butterfly-Network/butterfly-network-docker"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="github-button"
+        >
+          <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+            <path fillRule="evenodd" d="M10 0C4.477 0 0 4.484 0 10.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0110 4.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.203 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.942.359.31.678.921.678 1.856 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0020 10.017C20 4.484 15.522 0 10 0z" clipRule="evenodd" />
+          </svg>
+          View on GitHub
+        </a>
+      </footer>
     </div>
   );
 }

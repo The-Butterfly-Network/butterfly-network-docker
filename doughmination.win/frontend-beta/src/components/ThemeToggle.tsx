@@ -10,7 +10,7 @@ const ThemeToggle: React.FC = () => {
       onClick={toggleTheme}
       variant="outline"
       size="sm"
-      className="relative overflow-hidden transition-all duration-300 hover:scale-105"
+      className="relative overflow-hidden transition-all duration-300 hover:scale-105 font-comic"
     >
       <div className="flex items-center gap-2">
         {theme === 'dark' ? (
@@ -21,15 +21,10 @@ const ThemeToggle: React.FC = () => {
         ) : (
           <>
             <span className="text-sm">🌸</span>
-            <span className="text-xs font-medium">Pink</span>
+            <span className="text-xs font-medium">Light</span>
           </>
         )}
       </div>
-      <div className={`absolute inset-0 opacity-10 transition-all duration-300 ${
-        theme === 'dark' 
-          ? 'bg-gradient-to-r from-green-400 to-green-600' 
-          : 'bg-gradient-to-r from-pink-300 to-pink-500'
-      }`} />
     </Button>
   );
 };

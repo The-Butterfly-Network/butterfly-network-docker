@@ -43,7 +43,7 @@
    ============================================================================ */
 @layer base {
   :root {
-    /* Alt theme: Light Grey/Bubblegum Pink */
+    /* Light theme: Light Grey/Bubblegum Pink */
     --background: 220 15% 95%;
     --foreground: 220 15% 15%;
 
@@ -85,7 +85,7 @@
   }
 
   .dark {
-    /* Primary theme: Charcoal Black/Neon Green */
+    /* Dark theme: Charcoal Black/Neon Green */
     --background: 0 0% 8%;
     --foreground: 120 100% 50%;
 
@@ -143,24 +143,10 @@
 
   body {
     font-family: 'Comic Code', sans-serif;
-    background: linear-gradient(135deg, hsl(var(--background)) 0%, hsl(var(--muted)) 50%, hsl(var(--secondary)) 100%);
-    background-attachment: fixed;
-    background-repeat: no-repeat;
-    min-height: 100vh;
+    background: hsl(var(--background));
     color: hsl(var(--foreground));
+    min-height: 100vh;
     transition: background-color 0.3s ease, color 0.3s ease;
-  }
-
-  /* Dark theme: Charcoal Black/Neon Green gradient */
-  .dark body {
-    background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 35%, #000000 100%);
-    color: #00ff00;
-  }
-
-  /* Light theme: Light Grey/Bubblegum Pink gradient */
-  :not(.dark) body {
-    background: linear-gradient(135deg, #f5f5f5 0%, #e8e8e8 35%, #ffb3d9 100%);
-    color: #2d2d2d;
   }
 
   /* Typography System with Comic Code */
@@ -168,14 +154,12 @@
   .logo-text, .header-title, .mental-state-label, .mental-state-level,
   label, input, select, textarea, button {
     font-family: 'Comic Code', cursive;
-    font-weight: 600;
-    letter-spacing: 0.5px;
   }
 
   /* Standardized font sizes */
-  h1 { font-size: 2.5rem; }
-  h2 { font-size: 2rem; }
-  h3 { font-size: 1.75rem; }
+  h1 { font-size: 2.5rem; font-weight: 700; }
+  h2 { font-size: 2rem; font-weight: 600; }
+  h3 { font-size: 1.75rem; font-weight: 600; }
 
   .member-name, .fronting-member-name, .member-details-name {
     font-size: 1.5rem;
@@ -183,7 +167,7 @@
     font-weight: 600;
   }
 
-  .mental-state-label, .mental-state-level { font-size: 1.75rem; }
+  .mental-state-label, .mental-state-level { font-size: 1.75rem; font-weight: 600; }
   .mental-state-notes { font-size: 1.5rem; }
   .mental-state-updated { font-size: 1.25rem; }
 
@@ -191,12 +175,27 @@
   html {
     scroll-behavior: smooth;
   }
+
+  /* Remove default focus outlines and add custom ones */
+  button:focus-visible,
+  input:focus-visible,
+  select:focus-visible,
+  textarea:focus-visible {
+    outline: 2px solid hsl(var(--ring));
+    outline-offset: 2px;
+  }
 }
 
 /* ============================================================================
    COMPONENT STYLES WITH THEME SUPPORT
    ============================================================================ */
 @layer components {
+  /* Font class for consistent theming */
+  .font-comic {
+    font-family: 'Comic Code', cursive;
+    font-weight: 600;
+  }
+
   /* Container and layout */
   #root {
     max-width: none;
@@ -209,48 +208,66 @@
     flex-direction: column;
   }
 
-  /* Theme-aware button styles */
-  .neon-glow {
-    @apply transition-all duration-300;
-  }
-  
-  .dark .neon-glow {
-    background: linear-gradient(135deg, #00ff00 0%, #00cc00 100%);
-    color: #000000;
-    box-shadow: 0 0 20px rgba(0, 255, 0, 0.3);
-  }
-  
-  .dark .neon-glow:hover {
-    box-shadow: 0 0 30px rgba(0, 255, 0, 0.6);
-    transform: translateY(-2px);
-  }
-
-  .light .neon-glow {
-    background: linear-gradient(135deg, #ff69b4 0%, #ff1493 100%);
-    color: #ffffff;
-    box-shadow: 0 0 20px rgba(255, 105, 180, 0.3);
-  }
-  
-  .light .neon-glow:hover {
-    box-shadow: 0 0 30px rgba(255, 105, 180, 0.6);
-    transform: translateY(-2px);
+  /* Header styles - theme aware */
+  header.fixed {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 40;
+    height: 68px;
+    background-color: hsl(var(--card) / 0.9);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid hsl(var(--border) / 0.5);
+    box-shadow: 0 1px 3px hsl(var(--foreground) / 0.08);
   }
 
-  /* Glass effect for buttons */
-  .glass-effect {
-    @apply backdrop-blur-sm;
+  header.fixed .container {
+    height: 100%;
+    padding: 0 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: none;
   }
-  
-  .dark .glass-effect {
-    background: rgba(0, 255, 0, 0.1);
-    border: 1px solid rgba(0, 255, 0, 0.2);
-    color: #00ff00;
+
+  /* Navigation styles */
+  .desktop-nav {
+    display: none;
+    gap: 1rem;
+    align-items: center;
+    margin-left: auto;
   }
-  
-  .light .glass-effect {
-    background: rgba(255, 105, 180, 0.1);
-    border: 1px solid rgba(255, 105, 180, 0.2);
-    color: #ff69b4;
+
+  @media (min-width: 768px) {
+    .desktop-nav {
+      display: flex;
+    }
+  }
+
+  .desktop-nav button,
+  .desktop-nav a {
+    padding: 0.75rem 1.25rem;
+    min-height: 3rem;
+    border-radius: 0.375rem;
+    transition: all 0.2s ease;
+    font-family: 'Comic Code' !important;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    background-color: hsl(var(--secondary));
+    color: hsl(var(--secondary-foreground));
+    border: 1px solid hsl(var(--border));
+  }
+
+  .desktop-nav button:hover,
+  .desktop-nav a:hover {
+    background-color: hsl(var(--accent));
+    color: hsl(var(--accent-foreground));
+    border-color: hsl(var(--ring));
   }
 
   /* Member grid styling */
@@ -278,30 +295,16 @@
     -webkit-backdrop-filter: blur(10px);
     transition: all 0.3s ease;
     text-decoration: none !important;
+    background-color: hsl(var(--card) / 0.7);
+    border: 1px solid hsl(var(--border) / 0.3);
+    color: hsl(var(--card-foreground));
   }
 
-  .dark .member-grid-item a {
-    border: 1px solid rgba(0, 255, 0, 0.3);
-    background: rgba(0, 0, 0, 0.7);
-    color: #00ff00;
-  }
-
-  .dark .member-grid-item a:hover {
+  .member-grid-item a:hover {
     transform: translateY(-5px);
-    box-shadow: 0 10px 15px -3px rgba(0, 255, 0, 0.4);
-    border-color: rgba(0, 255, 0, 0.7);
-  }
-
-  .light .member-grid-item a {
-    border: 1px solid rgba(255, 105, 180, 0.3);
-    background: rgba(255, 255, 255, 0.7);
-    color: #ff69b4;
-  }
-  
-  .light .member-grid-item a:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 15px -3px rgba(255, 105, 180, 0.4);
-    border-color: rgba(255, 105, 180, 0.7);
+    box-shadow: 0 10px 15px -3px hsl(var(--primary) / 0.4);
+    border-color: hsl(var(--primary) / 0.7);
+    background-color: hsl(var(--card) / 0.9);
   }
 
   /* Avatar styles */
@@ -314,17 +317,8 @@
     box-sizing: border-box;
     width: 4.5rem !important;
     height: 4.5rem !important;
-    border: 2px solid;
-  }
-
-  .dark .avatar-container, .dark .fronting-avatar {
-    background-color: #1a1a1a;
-    border-color: #00ff00;
-  }
-
-  .light .avatar-container, .light .fronting-avatar {
-    background-color: #f0f0f0;
-    border-color: #ff69b4;
+    border: 2px solid hsl(var(--border));
+    background-color: hsl(var(--muted));
   }
 
   .avatar-container img, .fronting-avatar img {
@@ -369,6 +363,7 @@
     line-height: 1.2;
     word-wrap: break-word;
     max-width: 100%;
+    color: hsl(var(--foreground));
   }
 
   /* Mental state banners */
@@ -424,344 +419,30 @@
     vertical-align: middle;
     letter-spacing: 0.5px;
     font-family: 'Comic Code', sans-serif;
+    background: hsl(var(--primary));
+    color: hsl(var(--primary-foreground));
+    box-shadow: 0 2px 4px hsl(var(--primary) / 0.5);
   }
 
-  .dark .host-badge {
-    background: linear-gradient(135deg, #00ff00 0%, #00cc00 100%);
-    color: #000000;
-    box-shadow: 0 2px 4px rgba(0, 255, 0, 0.5);
-  }
-
-  .light .host-badge {
-    background: linear-gradient(135deg, #ff69b4 0%, #ff1493 100%);
-    color: #ffffff;
-    box-shadow: 0 2px 4px rgba(255, 105, 180, 0.5);
-  }
-
-  /* Footer */
-  .github-footer {
-    margin-top: 3rem;
-    padding: 1.5rem 0;
-    text-align: center;
-    width: 100%;
-    font-family: 'Comic Code' !important;
-  }
-
-  .dark .github-footer {
-    border-top: 1px solid rgba(0, 255, 0, 0.3);
-  }
-
-  .light .github-footer {
-    border-top: 1px solid rgba(255, 105, 180, 0.3);
-  }
-
-  .github-button {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 1rem 2rem;
-    min-height: 3.5rem;
-    border-radius: 0.5rem;
-    font-weight: 600;
-    transition: all 0.2s ease;
-    font-family: 'Comic Code' !important;
-    text-decoration: none;
-  }
-
-  .dark .github-button {
-    background: linear-gradient(135deg, #24292e 0%, #1a1e22 100%);
-    color: #00ff00 !important;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-  }
-
-  .dark .github-button:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 4px 6px rgba(0, 255, 0, 0.3);
-  }
-
-  .light .github-button {
-    background: linear-gradient(135deg, #ff69b4 0%, #ff1493 100%);
-    color: white !important;
-    box-shadow: 0 2px 4px rgba(255, 105, 180, 0.2);
-  }
-  
-  .light .github-button:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 4px 6px rgba(255, 105, 180, 0.3);
-  }
-}
-
+  /* Container */
   .container {
     width: 100%;
     max-width: none;
-    padding-left: 2rem;
-    padding-right: 2rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
     margin-left: auto;
     margin-right: auto;
     box-sizing: border-box;
   }
 
-  /* Header styles - theme aware */
-  header.fixed {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    z-index: 40;
-    height: 68px;
-    background-color: hsl(var(--card) / 0.9);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border-bottom: 1px solid hsl(var(--border) / 0.5);
-    box-shadow: 0 1px 3px hsl(var(--foreground) / 0.08);
-  }
-
-  header.fixed .container {
-    height: 100%;
-    padding: 0;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-
-  /* Navigation styles */
-  .desktop-nav {
-    display: none;
-    gap: 1rem;
-    align-items: center;
-    margin-left: auto;
-  }
-
-  @media (min-width: 768px) {
-    .desktop-nav {
-      display: flex;
-    }
-  }
-
-  .desktop-nav button,
-  .desktop-nav a {
-    padding: 0.75rem 1.25rem;
-    min-height: 3rem;
-    border-radius: 0.375rem;
-    transition: all 0.2s ease;
-    font-family: 'Comic Code' !important;
-    font-weight: 600;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    text-decoration: none;
-  }
-
-  /* Member grid */
-  .member-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-    gap: 1.5rem;
-    padding: 1rem;
-    width: 100%;
-    max-width: none;
-    overflow: visible;
-    box-sizing: border-box;
-  }
-
-  .member-grid-item a {
-    padding: 1rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100%;
-    width: 100%;
-    border: 1px solid rgba(139, 92, 246, 0.3);
-    border-radius: 0.75rem;
-    background: rgba(30, 27, 75, 0.7);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    transition: all 0.3s ease;
-    color: #fff;
-    text-decoration: none !important;
-  }
-
-  .member-grid-item a:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 15px -3px rgba(139, 92, 246, 0.4);
-    border-color: rgba(139, 92, 246, 0.7);
-  }
-
-  /* Avatar styles */
-  .avatar-container, .fronting-avatar {
-    position: relative;
-    border-radius: 50%;
-    overflow: hidden;
-    background-color: #374151;
-    border: 2px solid #4b5563;
-    flex-shrink: 0;
-    margin: 0 auto;
-    box-sizing: border-box;
-    width: 4.5rem !important;
-    height: 4.5rem !important;
-  }
-
-  .avatar-container img, .fronting-avatar img {
-    width: 100% !important;
-    height: 100% !important;
-    object-fit: cover !important;
-    object-position: center center !important;
-    position: absolute !important;
-    top: 0 !important;
-    left: 0 !important;
-    right: 0 !important;
-    bottom: 0 !important;
-    margin: 0 !important;
-    padding: 0 !important;
-  }
-
-  /* Fronting members container */
-  .fronting-members-container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 1.5rem;
-    align-items: flex-start;
-    width: 100%;
-    max-width: 100%;
-  }
-
-  .fronting-member {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    max-width: 140px;
-    text-align: center;
-    flex-shrink: 0;
-  }
-
-  .fronting-member-name {
-    margin-top: 0.75rem;
-    font-family: 'Comic Code' !important;
-    font-weight: 600;
-    font-size: 1.5rem;
-    line-height: 1.2;
-    word-wrap: break-word;
-    max-width: 100%;
-  }
-
-  /* Mental state banners */
-  .mental-state-banner {
-    padding: 1rem;
-    margin: 1rem 0;
-    border-radius: 0.5rem;
-    border: 2px solid;
-    position: relative;
-    font-family: 'Comic Code' !important;
-    font-weight: 600;
-  }
-
-  .mental-state-banner * {
-    font-family: 'Comic Code' !important;
-    font-weight: 600;
-  }
-
-  .mental-state-banner.safe {
-    background: linear-gradient(135deg, rgba(34, 197, 94, 0.1) 0%, rgba(34, 197, 94, 0.05) 100%);
-    border-color: rgba(34, 197, 94, 0.5);
-    color: #10b981;
-  }
-
-  .mental-state-banner.unstable {
-    background: linear-gradient(135deg, rgba(251, 191, 36, 0.1) 0%, rgba(251, 191, 36, 0.05) 100%);
-    border-color: rgba(251, 191, 36, 0.5);
-    color: #f59e0b;
-  }
-
-  .mental-state-banner.self-harming {
-    background: linear-gradient(135deg, rgba(239, 68, 68, 0.15) 0%, rgba(239, 68, 68, 0.1) 100%);
-    border-color: rgba(239, 68, 68, 0.7);
-    color: #f87171;
-  }
-
-  .mental-state-banner.highly-at-risk {
-    background: linear-gradient(135deg, rgba(220, 38, 38, 0.2) 0%, rgba(220, 38, 38, 0.15) 100%);
-    border-color: rgba(220, 38, 38, 0.8);
-    color: #fca5a5;
-    animation: pulse 2s infinite;
-  }
-
-  /* Beautiful badges */
-  .host-badge {
-    display: inline-block;
-    background: linear-gradient(135deg, #c4b5fd 0%, #a78bfa 100%);
-    color: white;
-    font-size: 0.7rem;
-    padding: 0.15rem 0.55rem;
-    border-radius: 0.35rem;
-    margin-left: 0.5rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    vertical-align: middle;
-    box-shadow: 0 2px 4px rgba(139, 92, 246, 0.5);
-    letter-spacing: 0.5px;
-    font-family: 'Comic Code', sans-serif;
-  }
-
-  .cofront-badge {
-    display: inline-block;
-    background: linear-gradient(135deg, #a5b4fc 0%, #818cf8 100%);
-    color: white;
-    font-size: 0.7rem;
-    padding: 0.15rem 0.55rem;
-    border-radius: 0.35rem;
-    margin-left: 0.5rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    vertical-align: middle;
-    box-shadow: 0 2px 4px rgba(99, 102, 241, 0.5);
-    letter-spacing: 0.5px;
-    font-family: 'Comic Code', sans-serif;
-  }
-
-  .special-badge {
-    display: inline-block;
-    background: linear-gradient(135deg, #fef3c7 0%, #fcd34d 100%);
-    color: #92400e;
-    font-size: 0.7rem;
-    padding: 0.15rem 0.55rem;
-    border-radius: 0.35rem;
-    margin-left: 0.5rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    vertical-align: middle;
-    box-shadow: 0 2px 4px rgba(245, 158, 11, 0.5);
-    letter-spacing: 0.5px;
-    font-family: 'Comic Code', sans-serif;
-  }
-
-  /* Button styling using semantic tokens */
-
-  .bg-green-500, .bg-green-600 {
-    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-    color: white;
-    border: none;
-    box-shadow: 0 2px 4px rgba(16, 185, 129, 0.3);
-  }
-
-  .bg-red-500 {
-    background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
-    color: white;
-    border: none;
-    box-shadow: 0 2px 4px rgba(239, 68, 68, 0.3);
-  }
-
-  /* Search bar styling is now handled by theme-aware classes in React components */
-
   /* Footer */
   .github-footer {
     margin-top: 3rem;
     padding: 1.5rem 0;
     text-align: center;
-    border-top: 1px solid rgba(139, 92, 246, 0.3);
     width: 100%;
     font-family: 'Comic Code' !important;
+    border-top: 1px solid hsl(var(--border) / 0.3);
   }
 
   .github-button {
@@ -771,14 +452,108 @@
     padding: 1rem 2rem;
     min-height: 3.5rem;
     border-radius: 0.5rem;
-    background: linear-gradient(135deg, #24292e 0%, #1a1e22 100%);
-    color: white !important;
     font-weight: 600;
     transition: all 0.2s ease;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
     font-family: 'Comic Code' !important;
     text-decoration: none;
+    background: hsl(var(--secondary));
+    color: hsl(var(--secondary-foreground)) !important;
+    box-shadow: 0 2px 4px hsl(var(--foreground) / 0.1);
+    border: 1px solid hsl(var(--border));
   }
+
+  .github-button:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 6px hsl(var(--primary) / 0.3);
+    background: hsl(var(--accent));
+    color: hsl(var(--accent-foreground)) !important;
+  }
+
+  /* Search bar theming */
+  .search-container {
+    position: relative;
+    max-width: 28rem;
+    margin: 0 auto 1.5rem;
+  }
+
+  .search-input {
+    width: 100%;
+    padding: 0.75rem 1rem 0.75rem 3rem;
+    border-radius: 0.5rem;
+    border: 1px solid hsl(var(--border));
+    background-color: hsl(var(--input));
+    color: hsl(var(--foreground));
+    font-family: 'Comic Code', cursive;
+    font-size: 0.875rem;
+    transition: all 0.2s ease;
+  }
+
+  .search-input:focus {
+    outline: none;
+    border-color: hsl(var(--ring));
+    box-shadow: 0 0 0 2px hsl(var(--ring) / 0.2);
+  }
+
+  .search-input::placeholder {
+    color: hsl(var(--muted-foreground));
+  }
+
+  .search-icon {
+    position: absolute;
+    left: 0.75rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: hsl(var(--muted-foreground));
+    width: 1.25rem;
+    height: 1.25rem;
+  }
+
+  .search-clear {
+    position: absolute;
+    right: 0.75rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: hsl(var(--muted-foreground));
+    cursor: pointer;
+    padding: 0.25rem;
+    border-radius: 0.25rem;
+    transition: all 0.2s ease;
+  }
+
+  .search-clear:hover {
+    color: hsl(var(--foreground));
+    background-color: hsl(var(--muted));
+  }
+
+  /* Filter buttons */
+  .filter-button {
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    transition: all 0.2s ease;
+    font-family: 'Comic Code', cursive;
+    font-weight: 600;
+    font-size: 0.875rem;
+    cursor: pointer;
+    border: 1px solid hsl(var(--border));
+  }
+
+  .filter-button.active {
+    background-color: hsl(var(--primary));
+    color: hsl(var(--primary-foreground));
+    border-color: hsl(var(--primary));
+  }
+
+  .filter-button:not(.active) {
+    background-color: hsl(var(--secondary));
+    color: hsl(var(--secondary-foreground));
+  }
+
+  .filter-button:not(.active):hover {
+    background-color: hsl(var(--accent));
+    color: hsl(var(--accent-foreground));
+    border-color: hsl(var(--ring));
+  }
+}
 
 /* ============================================================================
    RESPONSIVE DESIGN
@@ -864,13 +639,8 @@
 }
 
 /* ============================================================================
-   ACCESSIBILITY & FOCUS STATES
+   UTILITY CLASSES
    ============================================================================ */
-a:focus-visible,
-button:focus-visible,
-input:focus-visible,
-select:focus-visible,
-textarea:focus-visible {
-  outline: 2px solid rgba(139, 92, 246, 0.5);
-  outline-offset: 2px;
+.theme-transition {
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
 }
