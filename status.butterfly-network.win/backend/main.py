@@ -56,6 +56,7 @@ DOMAIN_DISPLAY_NAMES = {
     'www.clovetwilight3.co.uk': 'Clove Twilight',
     'www.discord-fortnite.win': 'Discord Fortnite Site',
     'www.doughmination.win': 'Doughmination System™',
+    'www.head-and-69.win': 'Head and 69',
     'www.hunt-rix.rocks': 'Huntr/x',
     'www.incest-porn.win': 'Horny Social Media',
     'www.iwantedthislongdomainnamesoibroughtit.win': 'Calendar',
