@@ -105,7 +105,7 @@ export default function UserProfile() {
                   alt="User Avatar"
                   className="w-24 h-24 rounded-full mx-auto mb-4"
                   onError={(e) => {
-                    (e.target as HTMLImageElement).src = 'https://www.yuri-lover.win/pfp/fallback_avatar.png';
+                    (e.target as HTMLImageElement).src = 'https://www.yuri-lover.win/cdn/pfp/fallback_avatar.png';
                   }}
                 />
               ) : (

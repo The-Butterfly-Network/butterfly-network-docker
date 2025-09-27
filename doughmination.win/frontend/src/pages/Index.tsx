@@ -428,7 +428,7 @@ export default function Index() {
                           alt={fronting.display_name || fronting.member_name}
                           className="w-16 h-16 rounded-full object-cover border-2 border-border"
                           onError={(e) => {
-                            (e.target as HTMLImageElement).src = 'https://www.yuri-lover.win/pfp/fallback_avatar.png';
+                            (e.target as HTMLImageElement).src = 'https://www.yuri-lover.win/cdn/pfp/fallback_avatar.png';
                           }}
                         />
                       )}
@@ -505,11 +505,11 @@ export default function Index() {
                           <Link to={`/${member.name}`}>
                             <div className="text-center">
                               <img 
-                                src={member.avatar_url || 'https://www.yuri-lover.win/pfp/fallback_avatar.png'} 
+                                src={member.avatar_url || 'https://www.yuri-lover.win/cdn/pfp/fallback_avatar.png'} 
                                 alt={member.display_name || member.name}
                                 className="w-16 h-16 mx-auto rounded-full object-cover mb-2 border-2 border-border"
                                 onError={(e) => {
-                                  (e.target as HTMLImageElement).src = 'https://www.yuri-lover.win/pfp/fallback_avatar.png';
+                                  (e.target as HTMLImageElement).src = 'https://www.yuri-lover.win/cdn/pfp/fallback_avatar.png';
                                 }}
                               />
                               <h3 className="font-comic font-semibold text-sm text-card-foreground">

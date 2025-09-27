@@ -96,11 +96,11 @@ export default function MemberDetails({ members = [], defaultAvatar }: MemberDet
           <CardHeader className="text-center">
             <div className="mb-4">
               <img 
-                src={member.avatar_url || defaultAvatar || 'https://www.yuri-lover.win/pfp/fallback_avatar.png'} 
+                src={member.avatar_url || defaultAvatar || 'https://www.yuri-lover.win/cdn/pfp/fallback_avatar.png'} 
                 alt={member.display_name || member.name}
                 className="w-32 h-32 rounded-full mx-auto object-cover"
                 onError={(e) => {
-                  (e.target as HTMLImageElement).src = defaultAvatar || 'https://www.yuri-lover.win/pfp/fallback_avatar.png';
+                  (e.target as HTMLImageElement).src = defaultAvatar || 'https://www.yuri-lover.win/cdn/pfp/fallback_avatar.png';
                 }}
               />
             </div>
