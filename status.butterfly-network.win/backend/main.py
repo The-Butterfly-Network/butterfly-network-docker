@@ -49,12 +49,15 @@ class StatusResponse(BaseModel):
 # Domain to display name mapping
 DOMAIN_DISPLAY_NAMES = {
     'discord.butterfly-network.win': 'Discord Markdown',
+    'status.butterfly-network.win': 'Status Website',
     'www.alextlm.co.uk': 'Clove Nytrix',
     'www.butterfly-network.win': 'Butterfly Network',
     'www.clove-portfolio.win': 'Portfolio',
     'www.clovetwilight3.co.uk': 'Clove Twilight',
+    'www.discord-fortnite.win': 'Discord Fortnite Site',
     'www.doughmination.win': 'Doughmination System™',
     'www.hunt-rix.rocks': 'Huntr/x',
+    'www.incest-porn.win': 'Horny Social Media',
     'www.iwantedthislongdomainnamesoibroughtit.win': 'Calendar',
     'www.lgbwitht.win': 'Social Media',
     'www.mazeymoos.com': 'Gaming Site',
