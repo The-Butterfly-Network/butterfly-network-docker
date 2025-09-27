@@ -10,8 +10,8 @@ WORKDIR /app
 # Copy package files
 COPY package*.json ./
 
-# Install dependencies with specific npm configuration for Docker
-RUN npm ci --only=production=false --ignore-scripts && npm rebuild
+# Install dependencies with corrected npm configuration for Docker
+RUN npm install --ignore-scripts && npm rebuild
 
 # Copy source code
 COPY . .
