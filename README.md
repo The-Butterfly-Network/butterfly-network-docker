@@ -1,6 +1,5 @@
 # Butterfly Network Websites Monorepo
 
-![Docker Workflow](https://github.com/The-Butterfly-Network/butterfly-network-docker/actions/workflows/build.yml/badge.svg)
 ![Docker Workflow](https://github.com/The-Butterfly-Network/butterfly-network-docker/actions/workflows/butterfly.yml/badge.svg)
 ![Docker Workflow](https://github.com/The-Butterfly-Network/butterfly-network-docker/actions/workflows/clove.yml/badge.svg)
 ![Docker Workflow](https://github.com/The-Butterfly-Network/butterfly-network-docker/actions/workflows/dough-backend.yml/badge.svg)
