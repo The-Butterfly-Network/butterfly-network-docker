@@ -12,14 +12,14 @@ const youtubeVideos = [
   {
     id: 2,
     title: "Toxicity",
-    embedId: "rSITc5Ugf0k", // Replace with actual video ID
+    embedId: "Q-l79ECQeak", // Replace with actual video ID
     year: "2025",
     isNew: false
   },
   {
     id: 3,
     title: "Loyalty",
-    embedId: "rSITc5Ugf0k", // Replace with actual video ID
+    embedId: "Ecrd_dhcjWU", // Replace with actual video ID
     year: "2025",
     isNew: false
   }
