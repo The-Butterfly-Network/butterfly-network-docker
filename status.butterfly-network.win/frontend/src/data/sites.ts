@@ -13,6 +13,7 @@ export interface Site {
 
 // Domain to display name mapping
 export const domainDisplayNames: Record<string, string> = {
+  'clove-vencord-themes.github.io': 'Vencord Themes',
   'discord.butterfly-network.win': 'Discord Markdown',
   'status.butterfly-network.win': 'Status Website',
   'www.alextlm.co.uk': 'Clove Nytrix',

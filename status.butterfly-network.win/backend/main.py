@@ -48,6 +48,7 @@ class StatusResponse(BaseModel):
 
 # Domain to display name mapping
 DOMAIN_DISPLAY_NAMES = {
+    'clove-vencord-themes.github.io': 'Vencord Themes',
     'discord.butterfly-network.win': 'Discord Markdown',
     'status.butterfly-network.win': 'Status Website',
     'www.alextlm.co.uk': 'Clove Nytrix',
