@@ -115,7 +115,7 @@ const Index = () => {
             </h3>
             <div className="rounded-lg overflow-hidden border border-primary/30">
               <img
-                src="https://status.butterfly-network.win/api/user/1209539928866816143?aboutMe=Estrogen+HRT+Gaming%21%0ABringing+Fresh+Content+to+your+screens%21%0A&theme=nitroDark&primaryColor=000000&accentColor=e93fd7&width=700"
+                src="https://discord.butterfly-network.win/api/user/1209539928866816143?aboutMe=Estrogen+HRT+Gaming%21%0ABringing+Fresh+Content+to+your+screens%21%0A&theme=nitroDark&primaryColor=000000&accentColor=e93fd7&width=700"
                 alt="Discord Status"
                 className="w-full h-auto"
               />
