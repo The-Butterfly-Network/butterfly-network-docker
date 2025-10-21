@@ -20,6 +20,7 @@ export const domainDisplayNames: Record<string, string> = {
   'www.butterfly-network.win': 'Butterfly Network',
   'www.clove-portfolio.win': 'Portfolio',
   'www.clovetwilight3.co.uk': 'Clove Twilight',
+  'www.cuddle-blahaj.win': 'Medication Reminders',
   'www.discord-fortnite.win': 'Discord Fortnite Site',
   'www.doughmination.win': 'Doughmination System™',
   'www.head-and-69.win': 'Head and 69',
