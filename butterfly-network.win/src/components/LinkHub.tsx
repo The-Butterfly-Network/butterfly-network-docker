@@ -20,6 +20,13 @@ const LinkHub = () => {
 
   const links = [
     {
+      url: "https://clove-vencord-themes.github.io",
+      imageUrl: "https://www.yuri-lover.win/cdn/pfp/themes.png",
+      imageAlt: "Vencord Themes",
+      title: "Vencord Themes",
+      info: "All Vencord and BD Themes"
+    },
+    {
       url: "https://www.alextlm.co.uk/",
       imageUrl: "https://www.yuri-lover.win/cdn/artists/alextlm.jpg",
       imageAlt: "Clove Icon",

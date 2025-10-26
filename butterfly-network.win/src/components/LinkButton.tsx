@@ -13,6 +13,7 @@ interface LinkButtonProps {
 
 const getEmojiForTitle = (title: string): string => {
   const emojiMap: { [key: string]: string } = {
+    "Vencord Themes": "📝",
     "Clove Nytrix": "🎧",
     "CloveTwilight3": "🍃", 
     "Doughmination System™": "🍩",
