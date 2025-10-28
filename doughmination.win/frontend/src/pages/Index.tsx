@@ -15,6 +15,7 @@ interface Member {
   is_private: boolean;
   is_cofront: boolean;
   is_special: boolean;
+  original_name?: string;
   _isFromCofront?: boolean;
   _cofrontName?: string;
   _cofrontDisplayName?: string;
@@ -23,9 +24,7 @@ interface Member {
 }
 
 interface Fronting {
-  member_name: string;
-  display_name?: string;
-  avatar_url?: string;
+  members: Member[];
 }
 
 interface SystemInfo {
@@ -232,6 +231,36 @@ export default function Index() {
     return icons[level] || '❓';
   };
 
+  /**
+   * Expands cofront members into their individual component members for display
+   */
+  const expandFrontingMembers = (frontingMembers: Member[]) => {
+    if (!frontingMembers || !Array.isArray(frontingMembers)) {
+      return [];
+    }
+
+    const expandedMembers: Member[] = [];
+
+    frontingMembers.forEach(member => {
+      if (member.is_cofront && member.component_members && member.component_members.length > 0) {
+        // This is a cofront - expand it into individual component members
+        member.component_members.forEach(componentMember => {
+          expandedMembers.push({
+            ...componentMember,
+            _isFromCofront: true,
+            _cofrontName: member.name,
+            _cofrontDisplayName: member.display_name || member.name
+          });
+        });
+      } else {
+        // Regular member - add as-is
+        expandedMembers.push(member);
+      }
+    });
+
+    return expandedMembers;
+  };
+
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-screen">
@@ -417,27 +446,81 @@ export default function Index() {
                   </div>
                 )}
                 
-                {/* Currently Fronting Section */}
-                {fronting && (
-                  <div className="mb-6 p-4 border-b border-border text-center">
-                    <h2 className="text-xl font-comic mb-3">Currently Fronting</h2>
-                    <div className="flex items-center justify-center gap-3">
-                      {fronting.avatar_url && (
-                        <img 
-                          src={fronting.avatar_url} 
-                          alt={fronting.display_name || fronting.member_name}
-                          className="w-16 h-16 rounded-full object-cover border-2 border-border"
-                          onError={(e) => {
-                            (e.target as HTMLImageElement).src = 'https://www.yuri-lover.win/cdn/pfp/fallback_avatar.png';
-                          }}
-                        />
-                      )}
-                      <div>
-                        <h3 className="text-2xl font-comic text-primary">
-                          {fronting.display_name || fronting.member_name}
-                        </h3>
-                      </div>
-                    </div>
+                {/* Currently Fronting Section - Updated for multiple members with cofront expansion */}
+                {fronting && fronting.members && fronting.members.length > 0 && (
+                  <div className="mb-6 p-4 border-b border-border">
+                    {(() => {
+                      // Expand cofronts into individual members for display
+                      const expandedMembers = expandFrontingMembers(fronting.members);
+                      
+                      return (
+                        <>
+                          <h2 className="text-xl font-comic mb-3 text-center">
+                            Currently Fronting{expandedMembers.length > 1 ? ` (${expandedMembers.length})` : ""}
+                          </h2>
+                          <div className="flex flex-wrap gap-4 justify-center">
+                            {expandedMembers.map((member, index) => (
+                              <div key={member.id || `${member.name}-${index}`} className="flex flex-col items-center">
+                                <div className="relative">
+                                  <img
+                                    src={member.avatar_url || 'https://www.yuri-lover.win/cdn/pfp/fallback_avatar.png'}
+                                    alt={member.display_name || member.name}
+                                    className="w-16 h-16 rounded-full object-cover border-2 border-border"
+                                    loading="lazy"
+                                    onError={(e) => {
+                                      (e.target as HTMLImageElement).src = 'https://www.yuri-lover.win/cdn/pfp/fallback_avatar.png';
+                                    }}
+                                  />
+                                </div>
+                                <div className="mt-2 text-center max-w-[120px]">
+                                  <span className="font-comic font-semibold text-sm text-primary block">
+                                    {member.display_name || member.name || "Unknown"}
+                                  </span>
+                                  
+                                  {/* Display member tags */}
+                                  {member.tags && member.tags.length > 0 && (
+                                    <div className="flex flex-wrap gap-1 mt-1 justify-center">
+                                      {member.tags.map((tag, tagIndex) => (
+                                        <span
+                                          key={tagIndex}
+                                          className="text-xs px-2 py-0.5 rounded-full bg-secondary text-secondary-foreground font-comic"
+                                        >
+                                          {tag}
+                                        </span>
+                                      ))}
+                                    </div>
+                                  )}
+                                  
+                                  {/* Add Cofront label if this member is from a cofront */}
+                                  {member._isFromCofront && (
+                                    <span className="inline-block mt-1 text-xs px-2 py-0.5 rounded-full bg-blue-500 text-white font-comic">
+                                      {member._cofrontDisplayName}
+                                    </span>
+                                  )}
+                                  
+                                  {/* Add Special label for system/sleeping */}
+                                  {member.is_special && (
+                                    <span className="inline-block mt-1 text-xs px-2 py-0.5 rounded-full bg-yellow-500 text-white font-comic">
+                                      {member.original_name === "system" ? "Unsure" : "Sleeping"}
+                                    </span>
+                                  )}
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                          
+                          {/* Show original cofront info if there are any cofronts */}
+                          {fronting.members.some(m => m.is_cofront) && (
+                            <div className="mt-3 text-sm text-muted-foreground text-center font-comic">
+                              {fronting.members
+                                .filter(m => m.is_cofront)
+                                .map(cofront => `${cofront.display_name || cofront.name} (${cofront.component_members?.length || 0} members)`)
+                                .join(', ')} currently co-fronting
+                            </div>
+                          )}
+                        </>
+                      );
+                    })()}
                   </div>
                 )}
                 
