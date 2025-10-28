@@ -1,4 +1,4 @@
-// AdminDashboard.tsx - Key parts with debugging and fixes
+// AdminDashboard.tsx - Enhanced with mental state management
 import React, { useState, useEffect } from 'react';
 
 interface Member {
@@ -22,6 +22,12 @@ interface FrontingData {
   members: Member[];
 }
 
+interface MentalState {
+  level: string;
+  notes?: string;
+  updated_at: string;
+}
+
 interface AdminDashboardProps {
   fronting: FrontingData | null;
   onFrontingChanged: (memberId?: string) => void;
@@ -32,48 +38,87 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ fronting, onFrontingCha
   const [members, setMembers] = useState<Member[]>([]);
   const [loading, setLoading] = useState(true);
   const [message, setMessage] = useState<{type: 'success' | 'error', content: string} | null>(null);
+  
+  // Mental state management
+  const [mentalState, setMentalState] = useState<MentalState | null>(null);
+  const [selectedMentalState, setSelectedMentalState] = useState("");
+  const [mentalStateNotes, setMentalStateNotes] = useState("");
+  const [mentalStateLoading, setMentalStateLoading] = useState(false);
 
-  // Fetch members on component mount
+  const mentalStateOptions = [
+    { value: 'safe', label: 'Safe', icon: '✅' },
+    { value: 'unstable', label: 'Unstable', icon: '⚠️' },
+    { value: 'idealizing', label: 'Idealizing', icon: '❗' },
+    { value: 'self-harming', label: 'Self-Harming', icon: '🚨' },
+    { value: 'highly at risk', label: 'Highly At Risk', icon: '⛔' }
+  ];
+
+  // Fetch members and mental state on component mount
   useEffect(() => {
-    const fetchMembers = async () => {
-      const token = localStorage.getItem("token");
-      if (!token) return;
-      
-      try {
-        const res = await fetch("/api/members", {
-          headers: {
-            Authorization: `Bearer ${token}`
-          }
-        });
-        
-        if (!res.ok) throw new Error("Failed to fetch members");
-        const data = await res.json();
-        
-        // Sort members alphabetically by display name or name
-        const sortedMembers = [...data].sort((a, b) => {
-          const nameA = (a.display_name || a.name).toLowerCase();
-          const nameB = (b.display_name || b.name).toLowerCase();
-          return nameA.localeCompare(nameB);
-        });
-        
-        setMembers(sortedMembers);
-        console.log('Loaded members:', sortedMembers.length);
-        
-        // Set first non-special member as default selection
-        const firstRegularMember = sortedMembers.find(m => !m.is_special);
-        if (firstRegularMember && !newFront) {
-          setNewFront(firstRegularMember.id);
-        }
-      } catch (err) {
-        console.error("Error fetching members:", err);
-        setMessage({ type: "error", content: "Error loading members" });
-      } finally {
-        setLoading(false);
-      }
+    const fetchData = async () => {
+      await Promise.all([
+        fetchMembers(),
+        fetchMentalState()
+      ]);
     };
-
-    fetchMembers();
+    fetchData();
   }, []);
+
+  // Set the current fronter as default selection when fronting data changes
+  useEffect(() => {
+    if (fronting?.members && fronting.members.length > 0 && members.length > 0) {
+      const currentFronter = fronting.members[0];
+      // Only set if newFront is empty or we want to update it
+      if (!newFront || newFront !== currentFronter.id) {
+        setNewFront(currentFronter.id);
+      }
+    }
+  }, [fronting, members]);
+
+  const fetchMembers = async () => {
+    const token = localStorage.getItem("token");
+    if (!token) return;
+    
+    try {
+      const res = await fetch("/api/members", {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+      
+      if (!res.ok) throw new Error("Failed to fetch members");
+      const data = await res.json();
+      
+      // Sort members alphabetically by display name or name
+      const sortedMembers = [...data].sort((a, b) => {
+        const nameA = (a.display_name || a.name).toLowerCase();
+        const nameB = (b.display_name || b.name).toLowerCase();
+        return nameA.localeCompare(nameB);
+      });
+      
+      setMembers(sortedMembers);
+      console.log('Loaded members:', sortedMembers.length);
+    } catch (err) {
+      console.error("Error fetching members:", err);
+      setMessage({ type: "error", content: "Error loading members" });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const fetchMentalState = async () => {
+    try {
+      const res = await fetch("/api/mental-state");
+      if (res.ok) {
+        const data = await res.json();
+        setMentalState(data);
+        setSelectedMentalState(data.level);
+        setMentalStateNotes(data.notes || "");
+      }
+    } catch (err) {
+      console.error("Error fetching mental state:", err);
+    }
+  };
 
   // Handle switching fronting member
   const handleSwitchFront = async () => {
@@ -149,6 +194,51 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ fronting, onFrontingCha
     }
   };
 
+  // Handle updating mental state
+  const handleUpdateMentalState = async () => {
+    if (!selectedMentalState) {
+      setMessage({ type: "error", content: "Please select a mental state level." });
+      return;
+    }
+
+    const token = localStorage.getItem("token");
+    if (!token) {
+      setMessage({ type: "error", content: "Authentication required." });
+      return;
+    }
+
+    setMessage(null);
+    setMentalStateLoading(true);
+
+    try {
+      const response = await fetch("/api/mental-state", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`
+        },
+        body: JSON.stringify({
+          level: selectedMentalState,
+          notes: mentalStateNotes.trim() || undefined
+        }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.detail || "Failed to update mental state");
+      }
+
+      const data = await response.json();
+      setMentalState(data);
+      setMessage({ type: "success", content: "Mental state updated successfully." });
+    } catch (error: any) {
+      console.error("Mental state update error:", error);
+      setMessage({ type: "error", content: `Error: ${error.message}` });
+    } finally {
+      setMentalStateLoading(false);
+    }
+  };
+
   // Get member display name
   const getMemberDisplayName = (member: Member) => {
     if (member.is_special) {
@@ -161,6 +251,14 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ fronting, onFrontingCha
   const availableMembers = members.filter(member => 
     member.privacy?.visibility !== 'private' || member.is_special
   );
+
+  // Check if the selected member is already the current fronter
+  const isCurrentFronter = () => {
+    if (!fronting?.members || fronting.members.length === 0 || !newFront) {
+      return false;
+    }
+    return fronting.members[0].id === newFront;
+  };
 
   if (loading && members.length === 0) {
     return <div className="text-center p-8">Loading admin dashboard...</div>;
@@ -180,6 +278,80 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ fronting, onFrontingCha
           {message.content}
         </div>
       )}
+
+      {/* Mental State Management Section */}
+      <div className="mb-8 p-4 border rounded-lg dark:border-gray-700">
+        <h2 className="text-xl font-semibold mb-4">Mental State Management</h2>
+        
+        {/* Current Mental State Display */}
+        {mentalState && (
+          <div className="mb-4 p-3 bg-gray-50 dark:bg-gray-700 rounded-lg">
+            <div className="flex items-center gap-2 mb-2">
+              <span className="text-2xl">
+                {mentalStateOptions.find(opt => opt.value === mentalState.level)?.icon || '❓'}
+              </span>
+              <div>
+                <span className="font-semibold">Current Status: </span>
+                <span className="font-bold">
+                  {mentalStateOptions.find(opt => opt.value === mentalState.level)?.label || mentalState.level}
+                </span>
+              </div>
+            </div>
+            {mentalState.notes && (
+              <p className="text-sm text-gray-600 dark:text-gray-400 mb-2">
+                Notes: {mentalState.notes}
+              </p>
+            )}
+            <p className="text-xs text-gray-500 dark:text-gray-400">
+              Last updated: {new Date(mentalState.updated_at).toLocaleString()}
+            </p>
+          </div>
+        )}
+
+        {/* Mental State Update Form */}
+        <div className="space-y-4">
+          <div>
+            <label htmlFor="mental-state-select" className="block text-sm font-medium mb-2">
+              Update Mental State:
+            </label>
+            <select
+              id="mental-state-select"
+              value={selectedMentalState}
+              onChange={(e) => setSelectedMentalState(e.target.value)}
+              className="w-full p-2 border rounded-md dark:bg-gray-700 dark:border-gray-600"
+            >
+              <option value="">-- Select mental state --</option>
+              {mentalStateOptions.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.icon} {option.label}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <div>
+            <label htmlFor="mental-state-notes" className="block text-sm font-medium mb-2">
+              Notes (optional):
+            </label>
+            <textarea
+              id="mental-state-notes"
+              value={mentalStateNotes}
+              onChange={(e) => setMentalStateNotes(e.target.value)}
+              placeholder="Add any additional notes about the current mental state..."
+              rows={3}
+              className="w-full p-2 border rounded-md dark:bg-gray-700 dark:border-gray-600"
+            />
+          </div>
+
+          <button
+            onClick={handleUpdateMentalState}
+            disabled={mentalStateLoading || !selectedMentalState}
+            className="w-full py-2 px-4 bg-purple-600 disabled:bg-purple-300 text-white rounded-md transition-colors hover:bg-purple-700"
+          >
+            {mentalStateLoading ? "Updating..." : "Update Mental State"}
+          </button>
+        </div>
+      </div>
 
       {/* Current Fronting Display */}
       {fronting && fronting.members && fronting.members.length > 0 && (
@@ -251,15 +423,21 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ fronting, onFrontingCha
             <div className="text-xs text-gray-500 p-2 bg-gray-100 dark:bg-gray-800 rounded">
               <div>Selected: {newFront || 'None'}</div>
               <div>Available members: {availableMembers.length}</div>
-              <div>Current fronter: {fronting?.members?.[0]?.name || 'None'} (ID: {fronting?.members?.[0]?.id || 'None'})</div>
+              <div>
+                Current fronter: {
+                  fronting?.members && fronting.members.length > 0 
+                    ? `${fronting.members[0].display_name || fronting.members[0].name} (ID: ${fronting.members[0].id})`
+                    : 'None'
+                }
+              </div>
             </div>
             
             <button 
               onClick={handleSwitchFront}
-              disabled={loading || !newFront || availableMembers.length === 0}
+              disabled={loading || !newFront || availableMembers.length === 0 || isCurrentFronter()}
               className="w-full py-2 px-4 bg-blue-600 disabled:bg-blue-300 text-white rounded-md transition-colors"
             >
-              {loading ? "Switching..." : "Switch Front"}
+              {loading ? "Switching..." : isCurrentFronter() ? "Already Fronting" : "Switch Front"}
             </button>
           </div>
         </div>

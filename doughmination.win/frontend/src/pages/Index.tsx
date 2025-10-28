@@ -120,11 +120,19 @@ export default function Index() {
       const response = await fetch("/api/members");
       if (response.ok) {
         const data = await response.json();
-        setMembers(data);
+        
+        // Sort members alphabetically by display name or name
+        const sortedMembers = [...data].sort((a: Member, b: Member) => {
+          const nameA = (a.display_name || a.name).toLowerCase();
+          const nameB = (b.display_name || b.name).toLowerCase();
+          return nameA.localeCompare(nameB);
+        });
+        
+        setMembers(sortedMembers);
         
         // Extract unique tags
         const tags = new Set<string>();
-        data.forEach((member: Member) => {
+        sortedMembers.forEach((member: Member) => {
           member.tags?.forEach(tag => tags.add(tag));
         });
         setAvailableTags(Array.from(tags));
