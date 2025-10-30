@@ -93,7 +93,7 @@ const LinkHub = () => {
     },
     {
       url: "https://www.mc-svg.win/",
-      imageUrl: "https://www.yuri-lover.win/cdn/pfp/svg.png",
+      imageUrl: "https://www.yuri-lover.win/cdn/assets/svg/svg.png",
       imageAlt: "SVG Minecraft Icon",
       title: "SVG Minecraft",
       info: "Website for Solent Video Games Minecraft"
