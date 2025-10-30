@@ -3,7 +3,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 
 interface LoginProps {
-  onLogin: () => void;
+  onLogin?: () => void;
 }
 
 // Extend Window interface to include turnstile
@@ -132,16 +132,39 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
         }),
       });
 
-      const data = await res.json();
+      // Read the response as text first to handle any parsing errors
+      const responseText = await res.text();
+      console.log('Login response status:', res.status);
+      console.log('Login response text:', responseText);
 
-      if (res.ok) {
+      let data;
+      try {
+        data = JSON.parse(responseText);
+      } catch (parseError) {
+        console.error('Failed to parse login response:', parseError);
+        throw new Error('Invalid response from server. Please try again.');
+      }
+
+      if (res.ok && data.access_token) {
+        // Store the token
         localStorage.setItem("token", data.access_token);
-        onLogin();
         
+        // Call onLogin callback if provided
+        if (onLogin) {
+          onLogin();
+        }
+        
+        // Small delay to ensure token is stored before navigation
+        await new Promise(resolve => setTimeout(resolve, 100));
+        
+        // Navigate to the intended page or dashboard
         const redirectTo = from === "/admin/login" ? "/admin/dashboard" : from;
-        navigate(redirectTo);
+        console.log('Redirecting to:', redirectTo);
+        navigate(redirectTo, { replace: true });
       } else {
-        setError(data.detail || "Login failed. Please check your credentials.");
+        // Handle login failure
+        const errorMessage = data.detail || data.message || "Login failed. Please check your credentials.";
+        setError(errorMessage);
         
         // Reset Turnstile on login failure
         if (widgetId.current && window.turnstile) {
@@ -149,9 +172,19 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
           setTurnstileToken(null);
         }
       }
-    } catch (err) {
+    } catch (err: any) {
       console.error("Login error:", err);
-      setError("Network error. Please check your connection and try again.");
+      
+      // Better error message handling
+      let errorMessage = "Network error. Please check your connection and try again.";
+      
+      if (err.message) {
+        errorMessage = err.message;
+      } else if (err.toString && err.toString() !== '[object Object]') {
+        errorMessage = err.toString();
+      }
+      
+      setError(errorMessage);
       
       // Reset Turnstile on error
       if (widgetId.current && window.turnstile) {
@@ -224,12 +257,18 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
         
         <button 
           type="submit" 
-          className="bg-blue-600 text-white p-2 rounded disabled:bg-blue-300 transition-colors"
+          className="bg-blue-600 text-white p-2 rounded disabled:bg-blue-300 transition-colors hover:bg-blue-700"
           disabled={loading || !turnstileToken}
         >
           {loading ? "Logging in..." : "Log In"}
         </button>
       </form>
+      
+      {loading && (
+        <div className="mt-4 text-center text-sm text-gray-500">
+          Please wait while we log you in...
+        </div>
+      )}
     </div>
   );
 };

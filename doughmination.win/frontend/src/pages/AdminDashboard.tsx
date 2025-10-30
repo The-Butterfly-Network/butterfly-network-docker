@@ -187,7 +187,8 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ fronting, onFrontingCha
       }
     } catch (error: any) {
       console.error("=== SWITCH ERROR ===", error);
-      setMessage({ type: "error", content: `Error: ${error.message}` });
+      const errorMessage = error?.message || error?.toString() || "An unknown error occurred";
+      setMessage({ type: "error", content: errorMessage });
     } finally {
       setLoading(false);
       console.log('=== SWITCH DEBUG END ===');
@@ -224,8 +225,15 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ fronting, onFrontingCha
       });
 
       if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.detail || "Failed to update mental state");
+        let errorMessage = "Failed to update mental state";
+        try {
+          const errorData = await response.json();
+          errorMessage = errorData.detail || errorData.message || errorMessage;
+        } catch (e) {
+          // If response isn't JSON, use status text
+          errorMessage = response.statusText || errorMessage;
+        }
+        throw new Error(errorMessage);
       }
 
       const data = await response.json();
@@ -233,7 +241,9 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ fronting, onFrontingCha
       setMessage({ type: "success", content: "Mental state updated successfully." });
     } catch (error: any) {
       console.error("Mental state update error:", error);
-      setMessage({ type: "error", content: `Error: ${error.message}` });
+      // Properly extract error message
+      const errorMessage = error?.message || error?.toString() || "An unknown error occurred";
+      setMessage({ type: "error", content: errorMessage });
     } finally {
       setMentalStateLoading(false);
     }
