@@ -16,7 +16,7 @@ const CookiesPolicyPage = () => {
         
         <h2 className="text-xl font-semibold mt-6 mb-4">Introduction</h2>
         <p>
-          This Cookies Policy explains what cookies are and how Doughmination System™ ("we", "us", or "our") uses them on our website. 
+          This Cookies Policy explains what cookies are and how Doughmination System® ("we", "us", or "our") uses them on our website. 
           We encourage you to read this policy in order to understand what types of cookies we use, what information we collect 
           using cookies, and how that information is used.
         </p>

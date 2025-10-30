@@ -2,7 +2,7 @@
   "name": "doughmination-ui",
   "private": true,
   "version": "1.0.0",
-  "description": "Frontend UI for Doughmination System™ Server",
+  "description": "Frontend UI for Doughmination System® Server",
   "type": "module",
   "scripts": {
     "dev": "vite --port 8001",

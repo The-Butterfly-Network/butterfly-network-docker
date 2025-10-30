@@ -12,7 +12,7 @@ Permission is hereby granted, free of charge, to any person obtaining a copy of 
 
 3. **Trademarks**  
    This license does not grant permission to use any trademarks, trade names, or logos of The Butterfly Network or its contributors without prior written consent.  
-   - In particular, “Doughmination System” is a pending trademark in the United Kingdom under application number **UK00004263144**, registered in the personal name of Clove Nytrix Doughmination Twilight.  
+   - In particular, “Doughmination System®” is a trademark in the United Kingdom under application number **UK00004263144**, registered in the personal name of Clove Nytrix Doughmination Twilight.  
    - Use of this trademark in connection with the Software requires express authorization.
 
 4. **Warranty Disclaimer**  

@@ -1,7 +1,7 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 
-// Configuration for the Doughmination System™ Server frontend
+// Configuration for the Doughmination System® Server frontend
 export default defineConfig({
   server: {
     host: '0.0.0.0',  // Listen on all network interfaces

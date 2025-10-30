@@ -286,7 +286,7 @@ export default function Index() {
             to="/" 
             className="text-2xl font-bold font-comic text-primary hover:text-primary/80 transition-colors"
           >
-            Doughmination System™
+            Doughmination System®
           </Link>
           
           {/* Desktop Navigation */}

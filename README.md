@@ -11,18 +11,18 @@
 ![Docker Workflow](https://github.com/The-Butterfly-Network/butterfly-network-docker/actions/workflows/status-backend.yml/badge.svg)
 ![Docker Workflow](https://github.com/The-Butterfly-Network/butterfly-network-docker/actions/workflows/status-frontend.yml/badge.svg)
 
-Welcome to the monorepo for all Butterfly Network™ docker website building, maintained by CloveTwilight3, TheMidnightCyan, and EstrogenHRT.
+Welcome to the monorepo for all Butterfly Network® docker website building, maintained by CloveTwilight3, TheMidnightCyan, and EstrogenHRT.
 
-This repository contains the source code and assets for every Butterfly Network™ web project.
+This repository contains the source code and assets for every Butterfly Network® web project.
 
 ## How to Contribute
 Contributions are welcome! Please open issues or pull requests for improvements, bug fixes, or new features.
 
 ### What ports are you using on your sites?
 
-Doughmination Backend = 8000
+Doughmination® Backend = 8000
 
-Doughmination Frontend = 8001
+Doughmination® Frontend = 8001
 
 Butterfly Network = 8004
 

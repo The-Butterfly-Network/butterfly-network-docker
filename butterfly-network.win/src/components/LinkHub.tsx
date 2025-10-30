@@ -44,7 +44,7 @@ const LinkHub = () => {
       url: "https://www.doughmination.win/",
       imageUrl: "https://www.yuri-lover.win/cdn/pfp/fallback_avatar.png",
       imageAlt: "Doughmination Icon",
-      title: "Doughmination System™",
+      title: "Doughmination System®",
       info: "Plural System Website!"
     },
     {

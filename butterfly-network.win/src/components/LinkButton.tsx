@@ -16,7 +16,7 @@ const getEmojiForTitle = (title: string): string => {
     "Vencord Themes": "📝",
     "Clove Nytrix": "🎧",
     "CloveTwilight3": "🍃", 
-    "Doughmination System™": "🍩",
+    "Doughmination System®": "🍩",
     "EstrogenHRT Gaming": "🎮",
     "Huntrix Rocks!": "🎵",
     "LGBwithT Socials!": "🏳️‍⚧️",
