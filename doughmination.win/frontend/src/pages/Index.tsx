@@ -681,6 +681,17 @@ export default function Index() {
           </svg>
           View on GitHub
         </a>
+        <p className="mt-4 text-sm text-muted-foreground font-comic">
+          Doughmination System® is a trade mark in the United Kingdom under trademark number{' '}
+          <a 
+            href="https://www.ipo.gov.uk/t-tmj.htm/t-tmj/tm-journals/2025-039/UK00004263144.html"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="underline hover:text-foreground transition-colors"
+          >
+            UK00004263144
+          </a>
+        </p>
       </footer>
     </div>
   );
