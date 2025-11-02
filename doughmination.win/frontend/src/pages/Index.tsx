@@ -464,7 +464,7 @@ export default function Index() {
                       return (
                         <>
                           <h2 className="text-xl font-comic mb-3 text-center">
-                            Currently {expandedMembers.length > 1 ? 'Co-fronting' : 'Fronting'}{expandedMembers.length > 1 ? ` (${expandedMembers.length})` : ""}
+                            Currently {expandedMembers.length > 1 ? 'Co-fronting' : 'Fronting'}
                           </h2>
                           <div className="flex flex-wrap gap-4 justify-center">
                             {expandedMembers.map((member, index) => (
