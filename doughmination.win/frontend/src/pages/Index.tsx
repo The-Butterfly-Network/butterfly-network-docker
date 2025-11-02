@@ -464,26 +464,31 @@ export default function Index() {
                       return (
                         <>
                           <h2 className="text-xl font-comic mb-3 text-center">
-                            Currently Fronting{expandedMembers.length > 1 ? ` (${expandedMembers.length})` : ""}
+                            Currently {expandedMembers.length > 1 ? 'Co-fronting' : 'Fronting'}{expandedMembers.length > 1 ? ` (${expandedMembers.length})` : ""}
                           </h2>
                           <div className="flex flex-wrap gap-4 justify-center">
                             {expandedMembers.map((member, index) => (
                               <div key={member.id || `${member.name}-${index}`} className="flex flex-col items-center">
-                                <div className="relative">
-                                  <img
-                                    src={member.avatar_url || 'https://www.yuri-lover.win/cdn/pfp/fallback_avatar.png'}
-                                    alt={member.display_name || member.name}
-                                    className="w-16 h-16 rounded-full object-cover border-2 border-border"
-                                    loading="lazy"
-                                    onError={(e) => {
-                                      (e.target as HTMLImageElement).src = 'https://www.yuri-lover.win/cdn/pfp/fallback_avatar.png';
-                                    }}
-                                  />
-                                </div>
+                                <Link to={`/${member.name}`}>
+                                  <div className="relative">
+                                    <img
+                                      src={member.avatar_url || 'https://www.yuri-lover.win/cdn/pfp/fallback_avatar.png'}
+                                      alt={member.display_name || member.name}
+                                      className="w-16 h-16 rounded-full object-cover border-2 border-border hover:border-primary transition-colors cursor-pointer"
+                                      loading="lazy"
+                                      onError={(e) => {
+                                        (e.target as HTMLImageElement).src = 'https://www.yuri-lover.win/cdn/pfp/fallback_avatar.png';
+                                      }}
+                                    />
+                                  </div>
+                                </Link>
                                 <div className="mt-2 text-center max-w-[120px]">
-                                  <span className="font-comic font-semibold text-sm text-primary block">
+                                  <Link 
+                                    to={`/${member.name}`}
+                                    className="font-comic font-semibold text-sm text-primary hover:text-primary/80 transition-colors block"
+                                  >
                                     {member.display_name || member.name || "Unknown"}
-                                  </span>
+                                  </Link>
                                   
                                   {/* Display member tags */}
                                   {member.tags && member.tags.length > 0 && (
