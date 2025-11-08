@@ -36,6 +36,7 @@ from models import (
 )
 from users import get_users, create_user, delete_user, initialize_admin_user, update_user, get_user_by_id
 from metrics import get_fronting_time_metrics, get_switch_frequency_metrics
+from member_meta_tags import generate_member_html, generate_index_html
 
 # ============================================================================
 # APPLICATION SETUP
@@ -451,6 +452,88 @@ async def member_detail(member_id: str):
         raise HTTPException(status_code=404, detail="Member not found")
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Failed to fetch member details: {str(e)}")
+
+@app.get("/{member_name}")
+async def serve_member_page(member_name: str, request: Request):
+    """
+    Serve member page with dynamic Open Graph meta tags for social media embeds.
+    This endpoint catches member profile URLs and returns HTML with proper meta tags.
+    """
+    # Check if this is a bot/crawler by looking at the user agent
+    user_agent = request.headers.get("user-agent", "").lower()
+    is_bot = any(bot in user_agent for bot in [
+        'bot', 'crawler', 'spider', 'facebook', 'twitter', 'slack', 'discord',
+        'whatsapp', 'telegram', 'linkedin', 'pinterest', 'reddit'
+    ])
+    
+    # Skip special routes
+    if member_name in ['admin', 'api', 'assets', 'avatars', 'robots.txt', 'sitemap.xml', 'favicon.ico']:
+        raise HTTPException(status_code=404, detail="Not found")
+    
+    try:
+        # Fetch member data
+        members = await get_members()
+        member_data = None
+        
+        # Find member by name (case-insensitive)
+        for member in members:
+            if member.get("name", "").lower() == member_name.lower():
+                member_data = member
+                break
+        
+        if not member_data:
+            # Member not found - return 404
+            raise HTTPException(status_code=404, detail="Member not found")
+        
+        # If it's a bot/crawler OR explicitly requested, serve the HTML with meta tags
+        # Otherwise, serve the React app
+        if is_bot or request.query_params.get("meta") == "true":
+            # Get base URL from environment or construct from request
+            base_url = os.getenv("BASE_URL", "https://www.doughmination.win").rstrip('/')
+            
+            # Generate HTML with Open Graph meta tags
+            html_content = generate_member_html(member_data, base_url)
+            
+            return Response(content=html_content, media_type="text/html")
+        else:
+            # For regular browsers, serve the React app
+            index_path = STATIC_DIR / "index.html"
+            if index_path.exists():
+                return FileResponse(index_path)
+            else:
+                raise HTTPException(status_code=404, detail="Frontend not found")
+                
+    except HTTPException:
+        raise
+    except Exception as e:
+        print(f"Error serving member page for {member_name}: {e}")
+        raise HTTPException(status_code=500, detail="Internal server error")
+
+@app.get("/")
+async def serve_index(request: Request):
+    """
+    Serve the index page with dynamic meta tags for bots.
+    """
+    # Check if this is a bot/crawler
+    user_agent = request.headers.get("user-agent", "").lower()
+    is_bot = any(bot in user_agent for bot in [
+        'bot', 'crawler', 'spider', 'facebook', 'twitter', 'slack', 'discord',
+        'whatsapp', 'telegram', 'linkedin', 'pinterest', 'reddit'
+    ])
+    
+    # If it's a bot, serve HTML with meta tags
+    if is_bot or request.query_params.get("meta") == "true":
+        base_url = os.getenv("BASE_URL", "https://www.doughmination.win").rstrip('/')
+        html_content = generate_index_html(base_url)
+        return Response(content=html_content, media_type="text/html")
+    
+    # For regular browsers, serve the React app
+    index_path = STATIC_DIR / "index.html"
+    if index_path.exists():
+        return FileResponse(index_path)
+    else:
+        # If no built frontend exists, return a simple response
+        return {"message": "Doughmination System API", "status": "running"}
 
 # ============================================================================
 # FRONTING CONTROL API ENDPOINTS
