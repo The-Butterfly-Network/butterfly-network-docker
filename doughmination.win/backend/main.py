@@ -459,55 +459,52 @@ async def serve_member_page(member_name: str, request: Request):
     Serve member page with dynamic Open Graph meta tags for social media embeds.
     This endpoint catches member profile URLs and returns HTML with proper meta tags.
     """
-    # Check if this is a bot/crawler by looking at the user agent
+     # Skip special routes
+     if member_name in ["api", "ws", "favicon.ico", "robots.txt", "sitemap.xml", "auth", "assets"]:
+        raise HTTPException(status_code=404, detail="Not found")
+
     user_agent = request.headers.get("user-agent", "").lower()
     is_bot = any(bot in user_agent for bot in [
         'bot', 'crawler', 'spider', 'facebook', 'twitter', 'slack', 'discord',
         'whatsapp', 'telegram', 'linkedin', 'pinterest', 'reddit'
     ])
-    
-    # Skip special routes
-    if member_name in ['admin', 'api', 'assets', 'avatars', 'robots.txt', 'sitemap.xml', 'favicon.ico']:
-        raise HTTPException(status_code=404, detail="Not found")
-    
+
     try:
-        # Fetch member data
+        # Fetch members dynamically from Pluralkit
         members = await get_members()
-        member_data = None
-        
-        # Find member by name (case-insensitive)
-        for member in members:
-            if member.get("name", "").lower() == member_name.lower():
-                member_data = member
-                break
-        
+        # Build lookup dic for 0(1) name matching
+        members_by_name = {
+            m.get("name", "").lower(): m for m in members if m.get("name")
+        }
+
+        member_data = members_by_name.get(member_name.lower())
+
         if not member_data:
-            # Member not found - return 404
             raise HTTPException(status_code=404, detail="Member not found")
         
-        # If it's a bot/crawler OR explicitly requested, serve the HTML with meta tags
-        # Otherwise, serve the React app
         if is_bot or request.query_params.get("meta") == "true":
-            # Get base URL from environment or construct from request
             base_url = os.getenv("BASE_URL", "https://www.doughmination.win").rstrip('/')
-            
-            # Generate HTML with Open Graph meta tags
             html_content = generate_member_html(member_data, base_url)
-            
-            return Response(content=html_content, media_type="text/html")
-        else:
-            # For regular browsers, serve the React app
+            return Response(
+                content=html_content,
+                media_type="text/html"
+                headers={"Cache-Control": "no-cache, no-store, must-revalidate"}
+            )
+
             index_path = STATIC_DIR / "index.html"
             if index_path.exists():
                 return FileResponse(index_path)
             else:
                 raise HTTPException(status_code=404, detail="Frontend not found")
-                
-    except HTTPException:
-        raise
-    except Exception as e:
-        print(f"Error serving member page for {member_name}: {e}")
-        raise HTTPException(status_code=500, detail="Internal server error")
+            
+        except HTTPException:
+            raise
+        except Exception as e:
+            import traceback
+            traceback
+            print(f"Error serving member page for {member_name}: {e}")
+            raise HTTPException(status_code=500, detail="Internal server error")
+
 
 @app.get("/")
 async def serve_index(request: Request):
