@@ -459,8 +459,8 @@ async def serve_member_page(member_name: str, request: Request):
     Serve member page with dynamic Open Graph meta tags for social media embeds.
     This endpoint catches member profile URLs and returns HTML with proper meta tags.
     """
-     # Skip special routes
-     if member_name in ["api", "ws", "favicon.ico", "robots.txt", "sitemap.xml", "auth", "assets"]:
+    # Skip special routes - FIXED: removed duplicate line
+    if member_name in ["api", "ws", "favicon.ico", "robots.txt", "sitemap.xml", "auth", "assets"]:
         raise HTTPException(status_code=404, detail="Not found")
 
     user_agent = request.headers.get("user-agent", "").lower()
@@ -472,7 +472,7 @@ async def serve_member_page(member_name: str, request: Request):
     try:
         # Fetch members dynamically from Pluralkit
         members = await get_members()
-        # Build lookup dic for 0(1) name matching
+        # Build lookup dict for O(1) name matching
         members_by_name = {
             m.get("name", "").lower(): m for m in members if m.get("name")
         }
@@ -487,23 +487,24 @@ async def serve_member_page(member_name: str, request: Request):
             html_content = generate_member_html(member_data, base_url)
             return Response(
                 content=html_content,
-                media_type="text/html"
+                media_type="text/html",
                 headers={"Cache-Control": "no-cache, no-store, must-revalidate"}
             )
-
+        else:
+            # For regular browsers, serve the React app
             index_path = STATIC_DIR / "index.html"
             if index_path.exists():
                 return FileResponse(index_path)
             else:
                 raise HTTPException(status_code=404, detail="Frontend not found")
             
-        except HTTPException:
-            raise
-        except Exception as e:
-            import traceback
-            traceback
-            print(f"Error serving member page for {member_name}: {e}")
-            raise HTTPException(status_code=500, detail="Internal server error")
+    except HTTPException:
+        raise
+    except Exception as e:
+        import traceback
+        print(f"Error serving member page for {member_name}: {e}")
+        traceback.print_exc()
+        raise HTTPException(status_code=500, detail="Internal server error")
 
 
 @app.get("/")
