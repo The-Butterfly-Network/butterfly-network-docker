@@ -10,6 +10,7 @@ import AdminDashboard from "./pages/AdminDashboard";
 import UserProfile from "./pages/UserProfile";
 import MemberDetails from "./pages/MemberDetails";
 import ProtectedRoute from "./components/ProtectedRoute";
+import UserEdit from "./pages/UserEdit";
 
 const queryClient = new QueryClient();
 
