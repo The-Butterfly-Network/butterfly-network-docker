@@ -82,8 +82,8 @@ async def get_members(subsystem_filter: str = None, include_untagged: bool = Tru
             except Exception as e:
                 logger.error(f"An unexpected error occurred: {e}")
                 raise
-        else:
-            logger.info("Members fetched and cached successfully")
+    else:
+        logger.info("Members fetched and cached successfully")
     
     data = cached_raw
     
