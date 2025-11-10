@@ -36,7 +36,6 @@ from models import (
 )
 from users import get_users, create_user, delete_user, initialize_admin_user, update_user, get_user_by_id
 from metrics import get_fronting_time_metrics, get_switch_frequency_metrics
-from member_meta_tags import generate_member_html, generate_index_html
 
 # ============================================================================
 # APPLICATION SETUP
@@ -452,86 +451,6 @@ async def member_detail(member_id: str):
         raise HTTPException(status_code=404, detail="Member not found")
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Failed to fetch member details: {str(e)}")
-
-@app.get("/{member_name}")
-async def serve_member_page(member_name: str, request: Request):
-    """
-    Serve member page with dynamic Open Graph meta tags for social media embeds.
-    This endpoint catches member profile URLs and returns HTML with proper meta tags.
-    """
-    # Skip special routes - FIXED: removed duplicate line
-    if member_name in ["api", "ws", "favicon.ico", "robots.txt", "sitemap.xml", "auth", "assets"]:
-        raise HTTPException(status_code=404, detail="Not found")
-
-    user_agent = request.headers.get("user-agent", "").lower()
-    is_bot = any(bot in user_agent for bot in [
-        'bot', 'crawler', 'spider', 'facebook', 'twitter', 'slack', 'discord',
-        'whatsapp', 'telegram', 'linkedin', 'pinterest', 'reddit'
-    ])
-
-    try:
-        # Fetch members dynamically from Pluralkit
-        members = await get_members()
-        # Build lookup dict for O(1) name matching
-        members_by_name = {
-            m.get("name", "").lower(): m for m in members if m.get("name")
-        }
-
-        member_data = members_by_name.get(member_name.lower())
-
-        if not member_data:
-            raise HTTPException(status_code=404, detail="Member not found")
-        
-        if is_bot or request.query_params.get("meta") == "true":
-            base_url = os.getenv("BASE_URL", "https://www.doughmination.win").rstrip('/')
-            html_content = generate_member_html(member_data, base_url)
-            return Response(
-                content=html_content,
-                media_type="text/html",
-                headers={"Cache-Control": "no-cache, no-store, must-revalidate"}
-            )
-        else:
-            # For regular browsers, serve the React app
-            index_path = STATIC_DIR / "index.html"
-            if index_path.exists():
-                return FileResponse(index_path)
-            else:
-                raise HTTPException(status_code=404, detail="Frontend not found")
-            
-    except HTTPException:
-        raise
-    except Exception as e:
-        import traceback
-        print(f"Error serving member page for {member_name}: {e}")
-        traceback.print_exc()
-        raise HTTPException(status_code=500, detail="Internal server error")
-
-
-@app.get("/")
-async def serve_index(request: Request):
-    """
-    Serve the index page with dynamic meta tags for bots.
-    """
-    # Check if this is a bot/crawler
-    user_agent = request.headers.get("user-agent", "").lower()
-    is_bot = any(bot in user_agent for bot in [
-        'bot', 'crawler', 'spider', 'facebook', 'twitter', 'slack', 'discord',
-        'whatsapp', 'telegram', 'linkedin', 'pinterest', 'reddit'
-    ])
-    
-    # If it's a bot, serve HTML with meta tags
-    if is_bot or request.query_params.get("meta") == "true":
-        base_url = os.getenv("BASE_URL", "https://www.doughmination.win").rstrip('/')
-        html_content = generate_index_html(base_url)
-        return Response(content=html_content, media_type="text/html")
-    
-    # For regular browsers, serve the React app
-    index_path = STATIC_DIR / "index.html"
-    if index_path.exists():
-        return FileResponse(index_path)
-    else:
-        # If no built frontend exists, return a simple response
-        return {"message": "Doughmination System API", "status": "running"}
 
 # ============================================================================
 # FRONTING CONTROL API ENDPOINTS

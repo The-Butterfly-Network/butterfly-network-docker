@@ -3,10 +3,6 @@ import os
 from dotenv import load_dotenv
 from cache import get_from_cache, set_in_cache
 from subsystems import enrich_members_with_tags, filter_members_by_subsystem
-import logging
-
-logging.basicConfig(level=logging.DEBUG)
-logger = logging.getLogger(__name__)
 
 load_dotenv()
 
@@ -58,32 +54,16 @@ async def get_member_by_name(members_data, name):
 async def get_members(subsystem_filter: str = None, include_untagged: bool = True):
     cache_key = f"members_{subsystem_filter}_{include_untagged}"
     if (cached := get_from_cache(cache_key)):
-        logger.info(f"Returning cached members for {cache_key}")
         return cached
     
     # First get all members from PluralKit
     base_cache_key = "members_raw"
     if not (cached_raw := get_from_cache(base_cache_key)):
-        logger.info("Fetching members from PluralKit API")
         async with httpx.AsyncClient() as client:
-            try:
-                resp = await client.get(
-                    f"{BASE_URL}/systems/@me/members",
-                    headers=HEADERS,
-                    timeout=10.0
-                )
-                logger.info(f"PluralKit API response status: {resp.status_code}")
-                resp.raise_for_status()
-                cached_raw = resp.json()
-                set_in_cache(base_cache_key, cached_raw, CACHE_TTL)
-            except httpx.RequestError as e:
-                logger.error(f"An error occurred while requesting members: {e}")
-                raise
-            except Exception as e:
-                logger.error(f"An unexpected error occurred: {e}")
-                raise
-    else:
-        logger.info("Members fetched and cached successfully")
+            resp = await client.get(f"{BASE_URL}/systems/@me/members", headers=HEADERS)
+            resp.raise_for_status()
+            cached_raw = resp.json()
+            set_in_cache(base_cache_key, cached_raw, CACHE_TTL)
     
     data = cached_raw
     
