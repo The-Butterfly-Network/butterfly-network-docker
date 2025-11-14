@@ -37,7 +37,7 @@ DEFAULT_SUBSYSTEMS = [
 # Default member tag assignments
 DEFAULT_MEMBER_TAGS = {
     "Anby": ["fictives"],
-    "astra": ["fictives", "valorant"],
+    "Astra": ["fictives", "valorant"],
     "Belle": ["fictives"],
     "Clove": ["host", "fictives", "valorant"],
     "Cypher": ["fictives", "valorant"],
