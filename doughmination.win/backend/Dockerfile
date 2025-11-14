@@ -10,7 +10,11 @@ COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Create necessary directories
-RUN mkdir -p avatars data
+RUN mkdir -p avatars data static
+
+# Copy the frontend static files into the static/ directory
+COPY ../frontend/index.html ./static/index.html
+COPY ../frontend/public/ ./static/
 
 # Initialize users.json with an empty list
 RUN echo '[]' > users.json
