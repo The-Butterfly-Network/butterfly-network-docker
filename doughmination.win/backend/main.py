@@ -13,7 +13,7 @@ from pathlib import Path
 from typing import List, Optional, Set, Dict, Any
 
 from fastapi import FastAPI, HTTPException, Request, Depends, Security, status, File, UploadFile, WebSocket, WebSocketDisconnect, Body
-from fastapi.responses import JSONResponse, FileResponse, RedirectResponse, Response
+from fastapi.responses import JSONResponse, FileResponse, RedirectResponse, Response, HTMLResponse
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from starlette.middleware.base import BaseHTTPMiddleware
