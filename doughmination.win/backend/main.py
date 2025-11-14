@@ -1062,3 +1062,64 @@ async def admin_refresh(user = Depends(get_current_user)):
         return {"success": True, "message": "Refresh broadcast sent"}
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Failed to broadcast refresh: {str(e)}")
+
+# ============================================================================
+# DYNAMIC EMBEDS ENDPOINTS
+# ============================================================================
+@app.get("/{member_name}")
+async def serve_member_page(member_name: str, request: Request):
+    """Serve member page with dynamic meta tags for crawlers"""
+    
+    # Skip non-member routes
+    skip_routes = ['api', 'admin', 'assets', 'avatars', 'favicon.ico', 
+                   'robots.txt', 'sitemap.xml', 'ws', 'fonts']
+    if any(member_name.startswith(route) for route in skip_routes):
+        raise HTTPException(status_code=404)
+    
+    try:
+        members = await get_members()
+        member = None
+        
+        for m in members:
+            if m.get("name", "").lower() == member_name.lower():
+                member = m
+                break
+        
+        if not member:
+            return FileResponse(STATIC_DIR / "index.html")
+        
+        display_name = member.get("display_name") or member.get("name")
+        description = member.get("description") or f"Member of the Doughmination System®"
+        avatar_url = member.get("avatar_url") or "https://www.yuri-lover.win/cdn/pfp/fallback_avatar.png"
+        
+        # Escape
+        display_name = display_name.replace('"', '&quot;')
+        description = description.replace('"', '&quot;')
+        
+        # Read index.html from where your frontend is built
+        # You'll need to copy the built frontend to the backend container
+        index_path = STATIC_DIR / "index.html"
+        with open(index_path, "r", encoding="utf-8") as f:
+            html_content = f.read()
+        
+        meta_tags = f"""<title>{display_name} - Doughmination System®</title>
+    <meta property="og:title" content="{display_name} - Doughmination System®" />
+    <meta property="og:description" content="{description}" />
+    <meta property="og:image" content="{avatar_url}" />
+    <meta property="og:type" content="profile" />
+    <meta property="og:url" content="https://www.doughmination.win/{member_name}" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="{display_name}" />
+    <meta name="twitter:description" content="{description}" />
+    <meta name="twitter:image" content="{avatar_url}" />"""
+        
+        html_content = html_content.replace(
+            '<title>Doughmination System®</title>',
+            meta_tags
+        )
+        
+        return HTMLResponse(content=html_content)
+        
+    except Exception as e:
+        print(f"Error: {e}")
+        return FileResponse(STATIC_DIR / "index.html")
