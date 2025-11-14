@@ -10,7 +10,7 @@ COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Create necessary directories
-RUN mkdir -p avatars data static
+RUN mkdir -p avatars data
 
 # Copy the frontend static files into the static/ directory
 COPY ../frontend/index.html ./static/index.html
