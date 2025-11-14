@@ -17,13 +17,13 @@ export default defineConfig(({ mode }) => {
       proxy: {
         // Proxy API requests to backend during development
         '/api': {
-          target: 'http://backend:8000',
+          target: 'http://127.0.0.1:8000',
           changeOrigin: true,
           secure: false,
         },
         // Proxy avatar requests 
         '/avatars': {
-          target: 'http://backend:8000',
+          target: 'http://127.0.0.1:8000',
           changeOrigin: true,
           secure: false,
         }
