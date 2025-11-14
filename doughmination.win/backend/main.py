@@ -1084,7 +1084,7 @@ async def serve_member_page(member_name: str, request: Request):
         c = color.lstrip("#")
         if len(c) == 6 and all(ch in "0123456789abcdefABCDEF" for ch in c):
             return f"#{c.upper()}"
-        return defaul
+        return default
     
     try:
         members = await get_members()

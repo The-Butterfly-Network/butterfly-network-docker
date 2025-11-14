@@ -553,6 +553,52 @@
     color: hsl(var(--accent-foreground));
     border-color: hsl(var(--ring));
   }
+
+  .member-grid-item.fronting-glow {
+    position: relative;
+    animation: fronting-pulse 2s ease-in-out infinite;
+  }
+
+  .member-grid-item.fronting-glow a {
+    background: linear-gradient(135deg, hsl(var(--primary) / 0.15) 0%, hsl(var(--primary) / 0.05) 100%);
+    border: 2px solid hsl(var(--primary) / 0.5);
+    box-shadow: 
+      0 0 20px hsl(var(--primary) / 0.3),
+      0 0 40px hsl(var(--primary) / 0.2),
+      inset 0 0 20px hsl(var(--primary) / 0.1);
+  }
+
+  .member-grid-item.fronting-glow a:hover {
+    border-color: hsl(var(--primary) / 0.8);
+    box-shadow: 
+      0 0 30px hsl(var(--primary) / 0.5),
+      0 0 60px hsl(var(--primary) / 0.3),
+      inset 0 0 30px hsl(var(--primary) / 0.15);
+  }
+
+  .member-grid-item.fronting-glow img {
+    border-color: hsl(var(--primary)) !important;
+    box-shadow: 0 0 15px hsl(var(--primary) / 0.4);
+  }
+
+  /* Add a subtle "FRONTING" badge */
+  .member-grid-item.fronting-glow a::before {
+    content: "FRONTING";
+    position: absolute;
+    top: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: hsl(var(--primary));
+    color: hsl(var(--primary-foreground));
+    font-size: 0.65rem;
+    padding: 0.15rem 0.5rem;
+    border-radius: 0.25rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    font-family: 'Comic Code', sans-serif;
+    box-shadow: 0 2px 8px hsl(var(--primary) / 0.4);
+    z-index: 10;
+  }
 }
 
 /* ============================================================================
@@ -636,6 +682,28 @@
 @keyframes pulse {
   0%, 100% { box-shadow: 0 0 0 0 rgba(220, 38, 38, 0.7); }
   70% { box-shadow: 0 0 0 10px rgba(220, 38, 38, 0); }
+}
+
+@keyframes fronting-pulse {
+  0%, 100% { 
+    transform: scale(1);
+  }
+  50% { 
+    transform: scale(1.02);
+  }
+}
+
+@keyframes fronting-glow {
+  0%, 100% {
+    box-shadow: 
+      0 0 20px hsl(var(--primary) / 0.3),
+      0 0 40px hsl(var(--primary) / 0.2);
+  }
+  50% {
+    box-shadow: 
+      0 0 30px hsl(var(--primary) / 0.5),
+      0 0 60px hsl(var(--primary) / 0.3);
+  }
 }
 
 /* ============================================================================

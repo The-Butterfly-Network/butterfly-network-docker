@@ -37,6 +37,11 @@ interface MentalState {
   updated_at: string;
 }
 
+interface UserData {
+  username: string;
+  display_name?: string;
+}
+
 export default function Index() {
   const [theme] = useTheme();
   const navigate = useNavigate();
@@ -48,6 +53,7 @@ export default function Index() {
   const [loading, setLoading] = useState(true);
   const [loggedIn, setLoggedIn] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
+  const [currentUser, setCurrentUser] = useState<UserData | null>(null);
   const [menuOpen, setMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [currentSubSystemFilter, setCurrentSubSystemFilter] = useState<string | null>(null);
@@ -83,6 +89,7 @@ export default function Index() {
     if (!token) {
       setLoggedIn(false);
       setIsAdmin(false);
+      setCurrentUser(null);
       return;
     }
 
@@ -90,6 +97,7 @@ export default function Index() {
     if (token.startsWith('mock-')) {
       setLoggedIn(true);
       setIsAdmin(token === 'mock-admin');
+      setCurrentUser({ username: 'mock-user', display_name: 'Mock User' });
       return;
     }
 
@@ -104,14 +112,31 @@ export default function Index() {
         const data = await response.json();
         setLoggedIn(true);
         setIsAdmin(!!data.isAdmin);
+        
+        // Fetch user info
+        const userResponse = await fetch("/api/user_info", {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
+        
+        if (userResponse.ok) {
+          const userData = await userResponse.json();
+          setCurrentUser({
+            username: userData.username,
+            display_name: userData.display_name
+          });
+        }
       } else {
         setLoggedIn(false);
         setIsAdmin(false);
+        setCurrentUser(null);
       }
     } catch (error) {
       console.error('Initialization error:', error);
       setLoggedIn(false);
       setIsAdmin(false);
+      setCurrentUser(null);
     }
   };
 
@@ -170,6 +195,7 @@ export default function Index() {
     localStorage.removeItem('token');
     setLoggedIn(false);
     setIsAdmin(false);
+    setCurrentUser(null);
     navigate('/');
   };
 
@@ -215,6 +241,24 @@ export default function Index() {
 
     setFilteredMembers(filtered);
   }, [members, searchQuery, currentSubSystemFilter]);
+
+  // Check if a member is currently fronting
+  const isMemberFronting = useCallback((memberId: number, memberName: string): boolean => {
+    if (!fronting?.members || fronting.members.length === 0) {
+      return false;
+    }
+
+    // Check direct fronting
+    if (fronting.members.some(m => m.id === memberId || m.name === memberName)) {
+      return true;
+    }
+
+    // Check if member is part of a cofront
+    return fronting.members.some(m => 
+      m.is_cofront && 
+      m.component_members?.some(cm => cm.id === memberId || cm.name === memberName)
+    );
+  }, [fronting]);
 
   // Mental state helper functions
   const getMentalStateLabel = (level: string) => {
@@ -291,6 +335,11 @@ export default function Index() {
           
           {/* Desktop Navigation */}
           <div className="desktop-nav hidden md:flex items-center gap-3">
+            {loggedIn && currentUser && (
+              <div className="text-sm font-comic text-muted-foreground mr-2">
+                Logged in as: <span className="text-foreground font-semibold">{currentUser.display_name || currentUser.username}</span>
+              </div>
+            )}
             <ThemeToggle />
             <Button variant="outline" size="sm" asChild>
               <a
@@ -354,6 +403,11 @@ export default function Index() {
               onClick={(e) => e.stopPropagation()}
             >
               <ul className="flex flex-col p-4 gap-3">
+                {loggedIn && currentUser && (
+                  <li className="px-4 py-2 text-sm font-comic text-muted-foreground border-b border-border">
+                    Logged in as: <span className="text-foreground font-semibold block mt-1">{currentUser.display_name || currentUser.username}</span>
+                  </li>
+                )}
                 <li>
                   <a
                     href="https://www.butterfly-network.win"
@@ -425,6 +479,15 @@ export default function Index() {
           <div className="flex-1">
             <div className="content-wrapper flex flex-col gap-2 sm:gap-4">
               <div className="mt-2">
+                {/* Welcome message for logged in users */}
+                {loggedIn && currentUser && (
+                  <div className="mb-6 p-4 bg-accent/20 border border-accent rounded-lg text-center">
+                    <h2 className="text-2xl font-comic text-primary">
+                      Welcome back, {currentUser.display_name || currentUser.username}! 👋
+                    </h2>
+                  </div>
+                )}
+
                 <h1 className="text-4xl font-bold mb-8 text-center font-comic text-primary">
                   System Members
                 </h1> 
@@ -454,11 +517,10 @@ export default function Index() {
                   </div>
                 )}
                 
-                {/* Currently Fronting Section - Updated for multiple members with cofront expansion */}
+                {/* Currently Fronting Section */}
                 {fronting && fronting.members && fronting.members.length > 0 && (
                   <div className="mb-6 p-4 border-b border-border">
                     {(() => {
-                      // Expand cofronts into individual members for display
                       const expandedMembers = expandFrontingMembers(fronting.members);
                       
                       return (
@@ -490,7 +552,6 @@ export default function Index() {
                                     {member.display_name || member.name || "Unknown"}
                                   </Link>
                                   
-                                  {/* Display member tags */}
                                   {member.tags && member.tags.length > 0 && (
                                     <div className="flex flex-wrap gap-1 mt-1 justify-center">
                                       {member.tags.map((tag, tagIndex) => (
@@ -504,14 +565,12 @@ export default function Index() {
                                     </div>
                                   )}
                                   
-                                  {/* Add Cofront label if this member is from a cofront */}
                                   {member._isFromCofront && (
                                     <span className="inline-block mt-1 text-xs px-2 py-0.5 rounded-full bg-blue-500 text-white font-comic">
                                       {member._cofrontDisplayName}
                                     </span>
                                   )}
                                   
-                                  {/* Add Special label for system/sleeping */}
                                   {member.is_special && (
                                     <span className="inline-block mt-1 text-xs px-2 py-0.5 rounded-full bg-yellow-500 text-white font-comic">
                                       {member.original_name === "system" ? "Unsure" : "Sleeping"}
@@ -522,7 +581,6 @@ export default function Index() {
                             ))}
                           </div>
                           
-                          {/* Show original cofront info if there are any cofronts */}
                           {fronting.members.some(m => m.is_cofront) && (
                             <div className="mt-3 text-sm text-muted-foreground text-center font-comic">
                               {fronting.members
@@ -539,7 +597,6 @@ export default function Index() {
                 
                 {/* Search and Filter */}
                 <div className="mb-6 space-y-4">
-                  {/* Tag Filter Buttons */}
                   <div className="flex flex-wrap gap-2 justify-center">
                     <button
                       onClick={() => handleSubSystemFilterChange(null)}
@@ -564,7 +621,6 @@ export default function Index() {
                     </button>
                   </div>
                   
-                  {/* Search Bar */}
                   <div className="search-container">
                     <div className="relative">
                       <svg className="search-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -596,47 +652,50 @@ export default function Index() {
                   <div className="member-grid">
                     {filteredMembers
                       .filter(member => !member.is_private && !member.is_cofront && !member.is_special)
-                      .map((member) => (
-                        <div key={member.id} className="member-grid-item">
-                          <Link to={`/${member.name}`}>
-                            <div className="text-center">
-                              <img 
-                                src={member.avatar_url || 'https://www.yuri-lover.win/cdn/pfp/fallback_avatar.png'} 
-                                alt={member.display_name || member.name}
-                                className="w-16 h-16 mx-auto rounded-full object-cover mb-2 border-2 border-border"
-                                onError={(e) => {
-                                  (e.target as HTMLImageElement).src = 'https://www.yuri-lover.win/cdn/pfp/fallback_avatar.png';
-                                }}
-                              />
-                              <h3 className="font-comic font-semibold text-sm text-card-foreground">
-                                {member.display_name || member.name}
-                              </h3>
-                              {member.pronouns && (
-                                <p className="text-xs text-muted-foreground mt-1 font-comic">
-                                  {member.pronouns}
-                                </p>
-                              )}
-                              {member.tags && member.tags.length > 0 && (
-                                <div className="flex flex-wrap gap-1 mt-2 justify-center">
-                                  {member.tags.slice(0, 2).map((tag, index) => (
-                                    <span
-                                      key={index}
-                                      className="text-xs px-2 py-1 rounded-full font-comic bg-secondary text-secondary-foreground"
-                                    >
-                                      {tag}
-                                    </span>
-                                  ))}
-                                  {member.tags.length > 2 && (
-                                    <span className="text-xs text-muted-foreground font-comic">
-                                      +{member.tags.length - 2}
-                                    </span>
-                                  )}
-                                </div>
-                              )}
-                            </div>
-                          </Link>
-                        </div>
-                      ))}
+                      .map((member) => {
+                        const isFronting = isMemberFronting(member.id, member.name);
+                        return (
+                          <div key={member.id} className={`member-grid-item ${isFronting ? 'fronting-glow' : ''}`}>
+                            <Link to={`/${member.name}`}>
+                              <div className="text-center">
+                                <img 
+                                  src={member.avatar_url || 'https://www.yuri-lover.win/cdn/pfp/fallback_avatar.png'} 
+                                  alt={member.display_name || member.name}
+                                  className="w-16 h-16 mx-auto rounded-full object-cover mb-2 border-2 border-border"
+                                  onError={(e) => {
+                                    (e.target as HTMLImageElement).src = 'https://www.yuri-lover.win/cdn/pfp/fallback_avatar.png';
+                                  }}
+                                />
+                                <h3 className="font-comic font-semibold text-sm text-card-foreground">
+                                  {member.display_name || member.name}
+                                </h3>
+                                {member.pronouns && (
+                                  <p className="text-xs text-muted-foreground mt-1 font-comic">
+                                    {member.pronouns}
+                                  </p>
+                                )}
+                                {member.tags && member.tags.length > 0 && (
+                                  <div className="flex flex-wrap gap-1 mt-2 justify-center">
+                                    {member.tags.slice(0, 2).map((tag, index) => (
+                                      <span
+                                        key={index}
+                                        className="text-xs px-2 py-1 rounded-full font-comic bg-secondary text-secondary-foreground"
+                                      >
+                                        {tag}
+                                      </span>
+                                    ))}
+                                    {member.tags.length > 2 && (
+                                      <span className="text-xs text-muted-foreground font-comic">
+                                        +{member.tags.length - 2}
+                                      </span>
+                                    )}
+                                  </div>
+                                )}
+                              </div>
+                            </Link>
+                          </div>
+                        );
+                      })}
                   </div>
                 ) : (
                   <div className="text-center py-8">
