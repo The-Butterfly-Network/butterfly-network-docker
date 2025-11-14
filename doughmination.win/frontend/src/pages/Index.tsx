@@ -726,7 +726,7 @@ export default function Index() {
       {/* Footer */}
       <footer className="github-footer">
         <a
-          href="https://github.com/The-Butterfly-Network/butterfly-network-docker"
+          href="https://github.com/The-Butterfly-Network/docker"
           target="_blank"
           rel="noopener noreferrer"
           className="github-button"
