@@ -45,7 +45,6 @@ const AdvertBanner = ({
             // Push the ad
             (window.adsbygoogle = window.adsbygoogle || []).push({});
             initialized.current = true;
-            console.log(`AdSense ad initialized for slot: ${adSlot}`);
           } else {
             console.log(`Ad container has zero width, not initializing ad slot ${adSlot}`);
           }

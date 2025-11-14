@@ -137,8 +137,6 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
 
       // Read the response as text first to handle any parsing errors
       const responseText = await res.text();
-      console.log('Login response status:', res.status);
-      console.log('Login response text:', responseText);
 
       let data;
       try {
@@ -176,7 +174,6 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
             // Redirect after 2 seconds
             setTimeout(() => {
               const redirectTo = from === "/admin/login" ? "/admin/dashboard" : from;
-              console.log('Redirecting to:', redirectTo);
               navigate(redirectTo, { replace: true });
             }, 2000);
           } else {

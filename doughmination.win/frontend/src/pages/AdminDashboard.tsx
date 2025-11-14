@@ -97,7 +97,6 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ fronting, onFrontingCha
       });
       
       setMembers(sortedMembers);
-      console.log('Loaded members:', sortedMembers.length);
     } catch (err) {
       console.error("Error fetching members:", err);
       setMessage({ type: "error", content: "Error loading members" });
@@ -151,11 +150,8 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ fronting, onFrontingCha
         body: JSON.stringify(requestBody),
       });
       
-      console.log('Response status:', response.status);
-      
       // Read response text first
       const responseText = await response.text();
-      console.log('Raw response:', responseText);
       
       if (!response.ok) {
         throw new Error(`HTTP ${response.status}: ${responseText}`);
@@ -165,7 +161,6 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ fronting, onFrontingCha
       let data;
       try {
         data = JSON.parse(responseText);
-        console.log('Parsed response:', data);
       } catch (e) {
         console.error('Failed to parse JSON:', e);
         throw new Error(`Invalid JSON response: ${responseText}`);
@@ -191,7 +186,6 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ fronting, onFrontingCha
       setMessage({ type: "error", content: errorMessage });
     } finally {
       setLoading(false);
-      console.log('=== SWITCH DEBUG END ===');
     }
   };
 
@@ -414,9 +408,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ fronting, onFrontingCha
               id="member-select"
               value={newFront}
               onChange={(e) => {
-                console.log('Member selected:', e.target.value);
                 const selectedMember = members.find(m => m.id === e.target.value);
-                console.log('Member details:', selectedMember);
                 setNewFront(e.target.value);
               }}
               className="w-full p-2 border rounded-md dark:bg-gray-700 dark:border-gray-600"

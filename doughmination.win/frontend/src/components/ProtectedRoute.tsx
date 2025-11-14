@@ -49,7 +49,6 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children, adminRequired
         
         setIsAuthenticated(true);
       } catch (error) {
-        console.error('Auth check error:', error);
         setIsAuthenticated(false);
         setIsAdmin(false);
       } finally {
