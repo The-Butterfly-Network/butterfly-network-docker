@@ -479,15 +479,6 @@ export default function Index() {
           <div className="flex-1">
             <div className="content-wrapper flex flex-col gap-2 sm:gap-4">
               <div className="mt-2">
-                {/* Welcome message for logged in users */}
-                {loggedIn && currentUser && (
-                  <div className="mb-6 p-4 bg-accent/20 border border-accent rounded-lg text-center">
-                    <h2 className="text-2xl font-comic text-primary">
-                      Welcome back, {currentUser.display_name || currentUser.username}! 👋
-                    </h2>
-                  </div>
-                )}
-
                 <h1 className="text-4xl font-bold mb-8 text-center font-comic text-primary">
                   System Members
                 </h1> 

@@ -1,4 +1,4 @@
-// Login.tsx with Cloudflare Turnstile
+// Login.tsx with Cloudflare Turnstile and Welcome Message
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 
@@ -31,6 +31,9 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
   const [loading, setLoading] = useState(false);
   const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
   const [turnstileLoaded, setTurnstileLoaded] = useState(false);
+  const [showWelcome, setShowWelcome] = useState(false);
+  const [welcomeUsername, setWelcomeUsername] = useState("");
+  const [welcomeDisplayName, setWelcomeDisplayName] = useState("");
   
   const navigate = useNavigate();
   const location = useLocation();
@@ -149,18 +152,50 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
         // Store the token
         localStorage.setItem("token", data.access_token);
         
-        // Call onLogin callback if provided
-        if (onLogin) {
-          onLogin();
+        // Fetch user info for welcome message
+        try {
+          const userResponse = await fetch("/api/user_info", {
+            headers: {
+              Authorization: `Bearer ${data.access_token}`
+            }
+          });
+          
+          if (userResponse.ok) {
+            const userData = await userResponse.json();
+            setWelcomeUsername(userData.username);
+            setWelcomeDisplayName(userData.display_name || userData.username);
+            
+            // Show welcome message
+            setShowWelcome(true);
+            
+            // Call onLogin callback if provided
+            if (onLogin) {
+              onLogin();
+            }
+            
+            // Redirect after 2 seconds
+            setTimeout(() => {
+              const redirectTo = from === "/admin/login" ? "/admin/dashboard" : from;
+              console.log('Redirecting to:', redirectTo);
+              navigate(redirectTo, { replace: true });
+            }, 2000);
+          } else {
+            // If we can't get user info, just redirect immediately
+            if (onLogin) {
+              onLogin();
+            }
+            const redirectTo = from === "/admin/login" ? "/admin/dashboard" : from;
+            navigate(redirectTo, { replace: true });
+          }
+        } catch (userError) {
+          console.error('Error fetching user info:', userError);
+          // Still redirect on error
+          if (onLogin) {
+            onLogin();
+          }
+          const redirectTo = from === "/admin/login" ? "/admin/dashboard" : from;
+          navigate(redirectTo, { replace: true });
         }
-        
-        // Small delay to ensure token is stored before navigation
-        await new Promise(resolve => setTimeout(resolve, 100));
-        
-        // Navigate to the intended page or dashboard
-        const redirectTo = from === "/admin/login" ? "/admin/dashboard" : from;
-        console.log('Redirecting to:', redirectTo);
-        navigate(redirectTo, { replace: true });
       } else {
         // Handle login failure
         const errorMessage = data.detail || data.message || "Login failed. Please check your credentials.";
@@ -196,9 +231,32 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
     }
   };
 
+  // Show welcome screen after successful login
+  if (showWelcome) {
+    return (
+      <div className="max-w-md mx-auto mt-10 p-6 border rounded-lg shadow-lg dark:bg-gray-800 dark:border-gray-700">
+        <div className="text-center space-y-6">
+          <div className="text-6xl animate-bounce">👋</div>
+          <h2 className="text-3xl font-bold font-comic text-primary">
+            Welcome back!
+          </h2>
+          <p className="text-xl font-comic">
+            {welcomeDisplayName}
+          </p>
+          <div className="flex justify-center">
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+          </div>
+          <p className="text-sm text-muted-foreground font-comic">
+            Redirecting you now...
+          </p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="max-w-md mx-auto mt-10 p-6 border rounded-lg shadow-lg dark:bg-gray-800 dark:border-gray-700">
-      <h2 className="text-2xl font-bold mb-6 text-center">Admin Login</h2>
+      <h2 className="text-2xl font-bold mb-6 text-center font-comic">Admin Login</h2>
       
       {error && (
         <div className="bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-100 p-3 rounded-md mb-4">
@@ -208,14 +266,14 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
       
       <form onSubmit={handleSubmit} className="flex flex-col space-y-4">
         <div>
-          <label htmlFor="username" className="block mb-1 text-sm font-medium">
+          <label htmlFor="username" className="block mb-1 text-sm font-medium font-comic">
             Username
           </label>
           <input
             id="username"
             type="text"
             placeholder="Enter your username"
-            className="w-full border p-2 rounded dark:bg-gray-700 dark:border-gray-600"
+            className="w-full border p-2 rounded dark:bg-gray-700 dark:border-gray-600 font-comic"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
             disabled={loading}
@@ -224,14 +282,14 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
         </div>
         
         <div>
-          <label htmlFor="password" className="block mb-1 text-sm font-medium">
+          <label htmlFor="password" className="block mb-1 text-sm font-medium font-comic">
             Password
           </label>
           <input
             id="password"
             type="password"
             placeholder="Enter your password"
-            className="w-full border p-2 rounded dark:bg-gray-700 dark:border-gray-600"
+            className="w-full border p-2 rounded dark:bg-gray-700 dark:border-gray-600 font-comic"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             disabled={loading}
@@ -241,7 +299,7 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
 
         {/* Turnstile Widget */}
         <div className="flex flex-col space-y-2">
-          <label className="block text-sm font-medium">
+          <label className="block text-sm font-medium font-comic">
             Security Verification
           </label>
           <div 
@@ -249,7 +307,7 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
             className="flex justify-center"
           />
           {!turnstileLoaded && (
-            <div className="text-sm text-gray-500 dark:text-gray-400 text-center">
+            <div className="text-sm text-gray-500 dark:text-gray-400 text-center font-comic">
               Loading security verification...
             </div>
           )}
@@ -257,7 +315,7 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
         
         <button 
           type="submit" 
-          className="bg-blue-600 text-white p-2 rounded disabled:bg-blue-300 transition-colors hover:bg-blue-700"
+          className="bg-blue-600 text-white p-2 rounded disabled:bg-blue-300 transition-colors hover:bg-blue-700 font-comic"
           disabled={loading || !turnstileToken}
         >
           {loading ? "Logging in..." : "Log In"}
@@ -265,7 +323,7 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
       </form>
       
       {loading && (
-        <div className="mt-4 text-center text-sm text-gray-500">
+        <div className="mt-4 text-center text-sm text-gray-500 font-comic">
           Please wait while we log you in...
         </div>
       )}
