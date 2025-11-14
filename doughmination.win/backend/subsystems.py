@@ -67,7 +67,9 @@ DEFAULT_MEMBER_TAGS = {
     "Zoey": ["huntrix", "fictives"],
     "Mira": ["huntrix", "fictives"],
     "Bobby": ["huntrix", "fictives"],
-    "Miku": ["fictives"],
+    "HMiku": ["fictives"],
+    "cmiku": ["fictives"],
+    "SMiku": ["fictives"],
     "Hope": ["fortnite", "fictives"],
     "Catrin": ["fortnite", "fictives"],
 }
