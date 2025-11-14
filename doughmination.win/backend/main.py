@@ -1120,12 +1120,14 @@ async def serve_member_page(member_name: str, request: Request):
         <meta property="og:title" content="{display_name} - {pronouns}" />
         <meta property="og:description" content="{description}" />
         <meta property="og:image" content="{avatar_url}" />
+        <meta property="og:image:width" content="400" />
+        <meta property="og:image:height" content="400" />
         <meta property="og:type" content="profile" />
         <meta property="og:url" content="https://www.doughmination.win/{member_name}" />
         <meta name="theme-color" content="{color}" />
 
         <!-- Twitter Meta Tags -->
-        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:card" content="summary" />
         <meta name="twitter:title" content="{display_name} - {pronouns}" />
         <meta name="twitter:description" content="{description}" />
         <meta name="twitter:image" content="{avatar_url}" />
