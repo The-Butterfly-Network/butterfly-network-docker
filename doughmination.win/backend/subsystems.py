@@ -72,6 +72,7 @@ DEFAULT_MEMBER_TAGS = {
     "SMiku": ["fictives"],
     "Hope": ["fortnite", "fictives"],
     "Catrin": ["fortnite", "fictives"],
+    "D.Va": ["fictives"],
 }
 
 def get_subsystems() -> List[SubSystem]:
