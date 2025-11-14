@@ -1087,12 +1087,16 @@ async def serve_member_page(member_name: str, request: Request):
         
         if not member:
             return FileResponse(STATIC_DIR / "index.html")
-        
+
+        color = member.get("color") or "#FF69B4"
+        pronouns = member.get("pronouns") or f"they/them"
         display_name = member.get("display_name") or member.get("name")
         description = member.get("description") or f"Member of the Doughmination System®"
         avatar_url = member.get("avatar_url") or "https://www.yuri-lover.win/cdn/pfp/fallback_avatar.png"
         
         # Escape
+        color = color.replace('"', '&quot;')
+        pronouns = pronouns.replace('"', '&quot;')
         display_name = display_name.replace('"', '&quot;')
         description = description.replace('"', '&quot;')
         
@@ -1102,16 +1106,24 @@ async def serve_member_page(member_name: str, request: Request):
         with open(index_path, "r", encoding="utf-8") as f:
             html_content = f.read()
         
-        meta_tags = f"""<title>{display_name} - Doughmination System®</title>
-    <meta property="og:title" content="{display_name} - Doughmination System®" />
-    <meta property="og:description" content="{description}" />
-    <meta property="og:image" content="{avatar_url}" />
-    <meta property="og:type" content="profile" />
-    <meta property="og:url" content="https://www.doughmination.win/{member_name}" />
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="{display_name}" />
-    <meta name="twitter:description" content="{description}" />
-    <meta name="twitter:image" content="{avatar_url}" />"""
+        meta_tags = f"""
+        <title>{display_name} - {pronouns}</title>
+
+        <!-- Primary Meta Tags -->
+        <meta property="og:site_name" content="Doughmination System®" />
+        <meta property="og:title" content="{display_name} - {pronouns}" />
+        <meta property="og:description" content="{description}" />
+        <meta property="og:image" content="{avatar_url}" />
+        <meta property="og:type" content="profile" />
+        <meta property="og:url" content="https://www.doughmination.win/{member_name}" />
+        <meta name="theme-color" content="{color}" />
+
+        <!-- Twitter Meta Tags -->
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="{display_name} - {pronouns}" />
+        <meta name="twitter:description" content="{description}" />
+        <meta name="twitter:image" content="{avatar_url}" />
+        """
         
         html_content = html_content.replace(
             '<title>Doughmination System®</title>',
