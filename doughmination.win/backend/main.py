@@ -165,18 +165,6 @@ async def sitemap_xml():
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
-  <url>
-    <loc>https://www.doughmination.win/privacy</loc>
-    <lastmod>2025-06-13</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://www.doughmination.win/cookies</loc>
-    <lastmod>2025-06-13</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
 </urlset>"""
     return Response(content=sitemap_content, media_type="application/xml")
 
@@ -1119,6 +1107,13 @@ async def serve_member_page(member_name: str, request: Request):
         
         meta_tags = f"""
         <title>{display_name} - {pronouns}</title>
+
+        <!-- iOS Safari Meta Tags -->
+        <meta name="apple-mobile-web-app-title" content="{display_name}" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <link rel="apple-touch-icon" href="{avatar_url}" />
+
 
         <!-- Primary Meta Tags -->
         <meta property="og:site_name" content="Doughmination System®" />

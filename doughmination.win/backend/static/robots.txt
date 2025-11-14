@@ -1,14 +1,13 @@
-User-agent: Googlebot
-Allow: /
-
-User-agent: Bingbot
-Allow: /
-
-User-agent: Twitterbot
-Allow: /
-
-User-agent: facebookexternalhit
-Allow: /
-
 User-agent: *
 Allow: /
+
+# Block common exploit attempts
+Disallow: /vendor/
+Disallow: /.env
+Disallow: /HNAP1/
+Disallow: /onvif/
+Disallow: /PSIA/
+Disallow: /index.php
+Disallow: /eval-stdin.php
+
+Sitemap: https://www.doughmination.win/sitemap.xml
