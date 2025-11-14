@@ -1,5 +1,6 @@
-// AdminDashboard.tsx - Enhanced with mental state management
+// AdminDashboard.tsx - Enhanced with mental state management and back button
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 
 interface Member {
   id: string;
@@ -68,7 +69,6 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ fronting, onFrontingCha
   useEffect(() => {
     if (fronting?.members && fronting.members.length > 0 && members.length > 0) {
       const currentFronter = fronting.members[0];
-      // Only set if newFront is empty or we want to update it
       if (!newFront || newFront !== currentFronter.id) {
         setNewFront(currentFronter.id);
       }
@@ -136,8 +136,6 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ fronting, onFrontingCha
     setMessage(null);
     setLoading(true);
     
-    const selectedMember = members.find(m => m.id === newFront);
-    
     const requestBody = { member_id: newFront };
     
     try {
@@ -150,14 +148,12 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ fronting, onFrontingCha
         body: JSON.stringify(requestBody),
       });
       
-      // Read response text first
       const responseText = await response.text();
       
       if (!response.ok) {
         throw new Error(`HTTP ${response.status}: ${responseText}`);
       }
       
-      // Try to parse as JSON
       let data;
       try {
         data = JSON.parse(responseText);
@@ -166,11 +162,9 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ fronting, onFrontingCha
         throw new Error(`Invalid JSON response: ${responseText}`);
       }
       
-      // Check for success
       if (data.success || data.status === 'success') {
         setMessage({ type: "success", content: "Fronting member switched successfully." });
         
-        // Refresh fronting data
         if (onFrontingChanged) {
           onFrontingChanged(newFront);
         }
@@ -224,7 +218,6 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ fronting, onFrontingCha
           const errorData = await response.json();
           errorMessage = errorData.detail || errorData.message || errorMessage;
         } catch (e) {
-          // If response isn't JSON, use status text
           errorMessage = response.statusText || errorMessage;
         }
         throw new Error(errorMessage);
@@ -235,7 +228,6 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ fronting, onFrontingCha
       setMessage({ type: "success", content: "Mental state updated successfully." });
     } catch (error: any) {
       console.error("Mental state update error:", error);
-      // Properly extract error message
       const errorMessage = error?.message || error?.toString() || "An unknown error occurred";
       setMessage({ type: "error", content: errorMessage });
     } finally {
@@ -251,7 +243,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ fronting, onFrontingCha
     return member.display_name || member.name;
   };
 
-  // Filter members for dropdown (exclude private ones for now)
+  // Filter members for dropdown
   const availableMembers = members.filter(member => 
     member.privacy?.visibility !== 'private' || member.is_special
   );
@@ -265,12 +257,24 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ fronting, onFrontingCha
   };
 
   if (loading && members.length === 0) {
-    return <div className="text-center p-8">Loading admin dashboard...</div>;
+    return <div className="text-center p-8 font-comic">Loading admin dashboard...</div>;
   }
 
   return (
     <div className="max-w-4xl mx-auto mt-8 p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md">
-      <h1 className="text-2xl font-bold mb-6 text-center">Admin Dashboard</h1>
+      {/* Header with Back Button */}
+      <div className="flex items-center justify-between mb-6">
+        <h1 className="text-2xl font-bold font-comic">Admin Dashboard</h1>
+        <Link 
+          to="/"
+          className="inline-flex items-center gap-2 px-4 py-2 rounded-md bg-secondary text-secondary-foreground hover:bg-accent hover:text-accent-foreground transition-colors font-comic"
+        >
+          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+          </svg>
+          Back to Home
+        </Link>
+      </div>
       
       {/* Display feedback messages */}
       {message && (
@@ -285,7 +289,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ fronting, onFrontingCha
 
       {/* Mental State Management Section */}
       <div className="mb-8 p-4 border rounded-lg dark:border-gray-700">
-        <h2 className="text-xl font-semibold mb-4">Mental State Management</h2>
+        <h2 className="text-xl font-semibold mb-4 font-comic">Mental State Management</h2>
         
         {/* Current Mental State Display */}
         {mentalState && (
@@ -295,18 +299,18 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ fronting, onFrontingCha
                 {mentalStateOptions.find(opt => opt.value === mentalState.level)?.icon || '❓'}
               </span>
               <div>
-                <span className="font-semibold">Current Status: </span>
-                <span className="font-bold">
+                <span className="font-semibold font-comic">Current Status: </span>
+                <span className="font-bold font-comic">
                   {mentalStateOptions.find(opt => opt.value === mentalState.level)?.label || mentalState.level}
                 </span>
               </div>
             </div>
             {mentalState.notes && (
-              <p className="text-sm text-gray-600 dark:text-gray-400 mb-2">
+              <p className="text-sm text-gray-600 dark:text-gray-400 mb-2 font-comic">
                 Notes: {mentalState.notes}
               </p>
             )}
-            <p className="text-xs text-gray-500 dark:text-gray-400">
+            <p className="text-xs text-gray-500 dark:text-gray-400 font-comic">
               Last updated: {new Date(mentalState.updated_at).toLocaleString()}
             </p>
           </div>
@@ -315,14 +319,14 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ fronting, onFrontingCha
         {/* Mental State Update Form */}
         <div className="space-y-4">
           <div>
-            <label htmlFor="mental-state-select" className="block text-sm font-medium mb-2">
+            <label htmlFor="mental-state-select" className="block text-sm font-medium mb-2 font-comic">
               Update Mental State:
             </label>
             <select
               id="mental-state-select"
               value={selectedMentalState}
               onChange={(e) => setSelectedMentalState(e.target.value)}
-              className="w-full p-2 border rounded-md dark:bg-gray-700 dark:border-gray-600"
+              className="w-full p-2 border rounded-md dark:bg-gray-700 dark:border-gray-600 font-comic"
             >
               <option value="">-- Select mental state --</option>
               {mentalStateOptions.map((option) => (
@@ -334,7 +338,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ fronting, onFrontingCha
           </div>
 
           <div>
-            <label htmlFor="mental-state-notes" className="block text-sm font-medium mb-2">
+            <label htmlFor="mental-state-notes" className="block text-sm font-medium mb-2 font-comic">
               Notes (optional):
             </label>
             <textarea
@@ -343,14 +347,14 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ fronting, onFrontingCha
               onChange={(e) => setMentalStateNotes(e.target.value)}
               placeholder="Add any additional notes about the current mental state..."
               rows={3}
-              className="w-full p-2 border rounded-md dark:bg-gray-700 dark:border-gray-600"
+              className="w-full p-2 border rounded-md dark:bg-gray-700 dark:border-gray-600 font-comic"
             />
           </div>
 
           <button
             onClick={handleUpdateMentalState}
             disabled={mentalStateLoading || !selectedMentalState}
-            className="w-full py-2 px-4 bg-purple-600 disabled:bg-purple-300 text-white rounded-md transition-colors hover:bg-purple-700"
+            className="w-full py-2 px-4 bg-purple-600 disabled:bg-purple-300 text-white rounded-md transition-colors hover:bg-purple-700 font-comic"
           >
             {mentalStateLoading ? "Updating..." : "Update Mental State"}
           </button>
@@ -360,7 +364,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ fronting, onFrontingCha
       {/* Current Fronting Display */}
       {fronting && fronting.members && fronting.members.length > 0 && (
         <div className="mb-6 p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
-          <h2 className="text-lg font-semibold mb-3 text-center">
+          <h2 className="text-lg font-semibold mb-3 text-center font-comic">
             Currently Fronting{fronting.members.length > 1 ? ` (${fronting.members.length})` : ""}:
           </h2>
           
@@ -377,11 +381,11 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ fronting, onFrontingCha
                     }}
                   />
                 </div>
-                <span className="text-center font-semibold">
+                <span className="text-center font-semibold font-comic">
                   {member.display_name || member.name}
                 </span>
                 {member.pronouns && (
-                  <span className="text-xs text-gray-500 dark:text-gray-400">
+                  <span className="text-xs text-gray-500 dark:text-gray-400 font-comic">
                     {member.pronouns}
                   </span>
                 )}
@@ -389,7 +393,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ fronting, onFrontingCha
             ))}
           </div>
           
-          <div className="mt-3 text-xs text-gray-500 dark:text-gray-400 text-center">
+          <div className="mt-3 text-xs text-gray-500 dark:text-gray-400 text-center font-comic">
             Last switch: {new Date(fronting.timestamp).toLocaleString()}
           </div>
         </div>
@@ -397,21 +401,18 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ fronting, onFrontingCha
 
       {/* Switch Fronting Member Section */}
       <div className="mb-6">
-        <h2 className="text-xl font-semibold mb-3">Switch Fronting Member</h2>
+        <h2 className="text-xl font-semibold mb-3 font-comic">Switch Fronting Member</h2>
         <div className="space-y-4">
           <div className="flex flex-col space-y-3">
-            <label htmlFor="member-select" className="block text-sm font-medium">
+            <label htmlFor="member-select" className="block text-sm font-medium font-comic">
               Select new fronting member:
             </label>
             
             <select 
               id="member-select"
               value={newFront}
-              onChange={(e) => {
-                const selectedMember = members.find(m => m.id === e.target.value);
-                setNewFront(e.target.value);
-              }}
-              className="w-full p-2 border rounded-md dark:bg-gray-700 dark:border-gray-600"
+              onChange={(e) => setNewFront(e.target.value)}
+              className="w-full p-2 border rounded-md dark:bg-gray-700 dark:border-gray-600 font-comic"
             >
               <option value="">-- Select a member --</option>
               {availableMembers.map((member) => (
@@ -422,7 +423,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ fronting, onFrontingCha
             </select>
             
             {/* Debug info */}
-            <div className="text-xs text-gray-500 p-2 bg-gray-100 dark:bg-gray-800 rounded">
+            <div className="text-xs text-gray-500 p-2 bg-gray-100 dark:bg-gray-800 rounded font-comic">
               <div>Selected: {newFront || 'None'}</div>
               <div>Available members: {availableMembers.length}</div>
               <div>
@@ -437,7 +438,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ fronting, onFrontingCha
             <button 
               onClick={handleSwitchFront}
               disabled={loading || !newFront || availableMembers.length === 0 || isCurrentFronter()}
-              className="w-full py-2 px-4 bg-blue-600 disabled:bg-blue-300 text-white rounded-md transition-colors"
+              className="w-full py-2 px-4 bg-blue-600 disabled:bg-blue-300 text-white rounded-md transition-colors font-comic"
             >
               {loading ? "Switching..." : isCurrentFronter() ? "Already Fronting" : "Switch Front"}
             </button>
