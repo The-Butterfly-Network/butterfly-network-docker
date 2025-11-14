@@ -1075,14 +1075,16 @@ async def serve_member_page(member_name: str, request: Request):
                    'robots.txt', 'sitemap.xml', 'ws', 'fonts']
     if any(member_name.startswith(route) for route in skip_routes):
         raise HTTPException(status_code=404)
-
-def normalize_hex(color: str | None, default="#FF69B4"):
-        if not color:
+    
+    # Hex normalization helper (compatible with Python < 3.10)
+    def normalize_hex(color: Optional[str], default: str = "#FF69B4") -> str:
+        # Require a string input
+        if not isinstance(color, str) or not color:
             return default
         c = color.lstrip("#")
         if len(c) == 6 and all(ch in "0123456789abcdefABCDEF" for ch in c):
             return f"#{c.upper()}"
-        return default
+        return defaul
     
     try:
         members = await get_members()
@@ -1096,7 +1098,7 @@ def normalize_hex(color: str | None, default="#FF69B4"):
         if not member:
             return FileResponse(STATIC_DIR / "index.html")
 
-        raw_color = member.get("color") or "#FF69B4"
+        raw_color = member.get("color") or "#FF69B4" # Default to hot pink
         color = normalize_hex(raw_color)
         pronouns = member.get("pronouns") or f"they/them"
         display_name = member.get("display_name") or member.get("name")
