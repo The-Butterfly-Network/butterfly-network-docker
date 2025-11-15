@@ -23,6 +23,7 @@ export default function UserEdit() {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [avatarFile, setAvatarFile] = useState<File | null>(null);
   const [avatarPreview, setAvatarPreview] = useState<string | null>(null);
+  const [imageError, setImageError] = useState(false);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState<{type: 'success' | 'error', content: string} | null>(null);
@@ -33,6 +34,21 @@ export default function UserEdit() {
     fetchUserData();
   }, []);
 
+  const fixAvatarUrl = (url: string | undefined): string | undefined => {
+    if (!url) return undefined;
+    
+    // If it's a relative URL, return as-is
+    if (url.startsWith('/')) return url;
+    
+    // Fix URLs without www
+    if (url.includes('doughmination.win') && !url.includes('www.doughmination.win')) {
+      return url.replace('https://doughmination.win', 'https://www.doughmination.win')
+                .replace('http://doughmination.win', 'https://www.doughmination.win');
+    }
+    
+    return url;
+  };
+
   const fetchUserData = async () => {
     try {
       const token = localStorage.getItem('token');
@@ -42,6 +58,7 @@ export default function UserEdit() {
         return;
       }
 
+      console.log('Fetching user data...');
       const response = await fetch('/api/user_info', {
         headers: {
           Authorization: `Bearer ${token}`
@@ -50,9 +67,17 @@ export default function UserEdit() {
 
       if (response.ok) {
         const data = await response.json();
+        console.log('User data received:', data);
+        console.log('Original Avatar URL:', data.avatar_url);
+        
+        // Fix the avatar URL if needed
+        data.avatar_url = fixAvatarUrl(data.avatar_url);
+        console.log('Fixed Avatar URL:', data.avatar_url);
+        
         setUserData(data);
         setDisplayName(data.display_name || '');
         setAvatarPreview(data.avatar_url || null);
+        setImageError(false);
       } else {
         setMessage({ type: 'error', content: 'Failed to fetch user data' });
       }
@@ -79,11 +104,14 @@ export default function UserEdit() {
         return;
       }
 
+      console.log('Avatar file selected:', file.name, file.type, file.size);
       setAvatarFile(file);
+      setImageError(false);
       
       // Create preview
       const reader = new FileReader();
       reader.onloadend = () => {
+        console.log('Preview created');
         setAvatarPreview(reader.result as string);
       };
       reader.readAsDataURL(file);
@@ -91,11 +119,24 @@ export default function UserEdit() {
   };
 
   const handleRemoveAvatar = () => {
+    console.log('Removing avatar selection');
     setAvatarFile(null);
     setAvatarPreview(userData?.avatar_url || null);
+    setImageError(false);
     if (fileInputRef.current) {
       fileInputRef.current.value = '';
     }
+  };
+
+  const handleImageError = (e: React.SyntheticEvent<HTMLImageElement>) => {
+    console.error('Failed to load avatar preview:', avatarPreview);
+    setImageError(true);
+    (e.target as HTMLImageElement).src = 'https://www.yuri-lover.win/cdn/pfp/fallback_avatar.png';
+  };
+
+  const handleImageLoad = () => {
+    console.log('Avatar preview loaded successfully:', avatarPreview);
+    setImageError(false);
   };
 
   const handleProfileUpdate = async (e: React.FormEvent) => {
@@ -113,6 +154,8 @@ export default function UserEdit() {
     setMessage(null);
 
     try {
+      console.log('Updating profile...');
+      
       // Update display name
       const updateResponse = await fetch(`/api/users/${userData.id}`, {
         method: 'PUT',
@@ -129,8 +172,11 @@ export default function UserEdit() {
         throw new Error('Failed to update profile');
       }
 
+      console.log('Display name updated successfully');
+
       // Upload avatar if changed
       if (avatarFile) {
+        console.log('Uploading avatar...');
         const formData = new FormData();
         formData.append('avatar', avatarFile);
 
@@ -143,8 +189,11 @@ export default function UserEdit() {
         });
 
         if (!avatarResponse.ok) {
-          throw new Error('Failed to upload avatar');
+          const errorData = await avatarResponse.json();
+          throw new Error(errorData.detail || 'Failed to upload avatar');
         }
+
+        console.log('Avatar uploaded successfully');
       }
 
       setMessage({ type: 'success', content: 'Profile updated successfully' });
@@ -204,6 +253,7 @@ export default function UserEdit() {
     setMessage(null);
 
     try {
+      console.log('Changing password...');
       const response = await fetch(`/api/users/${userData.id}`, {
         method: 'PUT',
         headers: {
@@ -221,6 +271,7 @@ export default function UserEdit() {
         throw new Error(errorData.detail || 'Failed to change password');
       }
 
+      console.log('Password changed successfully');
       setMessage({ type: 'success', content: 'Password changed successfully' });
       
       // Clear password fields
@@ -303,38 +354,53 @@ export default function UserEdit() {
                 <Label className="font-comic">Avatar</Label>
                 <div className="flex items-center gap-4">
                   <div className="relative">
-                    {avatarPreview ? (
+                    {avatarPreview && !imageError ? (
                       <img 
                         src={avatarPreview}
                         alt="Avatar preview"
                         className="w-20 h-20 rounded-full object-cover border-2 border-border"
+                        onError={handleImageError}
+                        onLoad={handleImageLoad}
+                        crossOrigin="anonymous"
                       />
                     ) : (
                       <div className="w-20 h-20 rounded-full bg-muted flex items-center justify-center border-2 border-border">
                         <span className="text-2xl">👤</span>
                       </div>
                     )}
-                  </div>
-                  <div className="flex gap-2">
-                    <Button
-                      type="button"
-                      variant="outline"
-                      size="sm"
-                      onClick={() => fileInputRef.current?.click()}
-                      className="font-comic"
-                    >
-                      Choose Image
-                    </Button>
                     {avatarFile && (
+                      <div className="absolute -bottom-1 -right-1 bg-primary text-primary-foreground rounded-full w-6 h-6 flex items-center justify-center text-xs">
+                        ✓
+                      </div>
+                    )}
+                  </div>
+                  <div className="flex-1 space-y-2">
+                    <div className="flex gap-2">
                       <Button
                         type="button"
                         variant="outline"
                         size="sm"
-                        onClick={handleRemoveAvatar}
+                        onClick={() => fileInputRef.current?.click()}
                         className="font-comic"
                       >
-                        Remove
+                        Choose Image
                       </Button>
+                      {avatarFile && (
+                        <Button
+                          type="button"
+                          variant="outline"
+                          size="sm"
+                          onClick={handleRemoveAvatar}
+                          className="font-comic"
+                        >
+                          Remove
+                        </Button>
+                      )}
+                    </div>
+                    {avatarFile && (
+                      <p className="text-xs text-muted-foreground font-comic">
+                        New file selected: {avatarFile.name}
+                      </p>
                     )}
                   </div>
                   <input
