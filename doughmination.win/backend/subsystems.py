@@ -2,9 +2,15 @@ import json
 import os
 from typing import List, Dict, Optional, Set
 from models import SubSystem, MemberTag
+from pathlib import Path
 
-SUBSYSTEMS_FILE = "subsystems.json"
-MEMBER_TAGS_FILE = "member_tags.json"
+# Define data directory
+DATA_DIR = Path("dough-data")
+SUBSYSTEMS_FILE = DATA_DIR / "subsystems.json"
+MEMBER_TAGS_FILE = DATA_DIR / "member_tags.json"
+
+# Ensure data directory exists
+DATA_DIR.mkdir(exist_ok=True)
 
 # Default sub-systems configuration
 DEFAULT_SUBSYSTEMS = [

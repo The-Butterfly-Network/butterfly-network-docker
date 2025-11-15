@@ -101,7 +101,7 @@ app.add_middleware(FileSizeLimitMiddleware)
 app.include_router(auth_router)
 
 # Create upload directory for avatars if it doesn't exist
-UPLOAD_DIR = Path("avatars")
+UPLOAD_DIR = Path("dough-data")
 UPLOAD_DIR.mkdir(exist_ok=True)
 
 # Define paths for static file serving
@@ -119,6 +119,10 @@ async def get_optional_user(token: str = Security(oauth2_scheme, scopes=[])):
 # ============================================================================
 # STATIC FILE SERVING SETUP
 # ============================================================================
+
+DATA_DIR = Path("dough-data")
+DATA_DIR.mkdir(exist_ok=True)
+MENTAL_STATE_FILE = DATA_DIR / "mental_state.json"
 
 # Check if we have a built frontend to serve
 if FRONTEND_BUILD_DIR.exists() and (FRONTEND_BUILD_DIR / "index.html").exists():
@@ -326,8 +330,8 @@ async def get_mental_state():
     """Get current mental state from database"""
     try:
         # Check if mental_state.json exists
-        if os.path.exists("mental_state.json"):
-            with open("mental_state.json", "r") as f:
+        if os.path.exists(MENTAL_STATE_FILE):
+            with open(MENTAL_STATE_FILE, "r") as f:
                 state_data = json.load(f)
                 # Convert the string back to datetime
                 state_data["updated_at"] = datetime.fromisoformat(state_data["updated_at"])
@@ -357,7 +361,7 @@ async def update_mental_state(state: MentalState, user = Depends(get_current_use
         state_data = state.dict()
         state_data["updated_at"] = state_data["updated_at"].isoformat()
         
-        with open("mental_state.json", "w") as f:
+        with open(MENTAL_STATE_FILE, "w") as f:
             json.dump(state_data, f, indent=2)
         
         # Broadcast the mental state update
@@ -379,8 +383,8 @@ async def system_info():
         
         # Get mental state
         mental_state_data = None
-        if os.path.exists("mental_state.json"):
-            with open("mental_state.json", "r") as f:
+        if os.path.exists(MENTAL_STATE_FILE):
+            with open(MENTAL_STATE_FILE, "r") as f:
                 state_data = json.load(f)
                 # Convert the string back to datetime for the response
                 state_data["updated_at"] = datetime.fromisoformat(state_data["updated_at"])

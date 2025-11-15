@@ -4,9 +4,15 @@ import uuid
 from typing import List, Optional
 from passlib.hash import bcrypt
 from models import User, UserCreate, UserResponse, UserUpdate
+from pathlib import Path
 import time
 
-USERS_FILE = "users.json"
+# Define data directory
+DATA_DIR = Path("dough-data")
+USERS_FILE = DATA_DIR / "users.json"
+
+# Ensure data directory exists
+DATA_DIR.mkdir(exist_ok=True)
 
 def get_users() -> List[User]:
     if not os.path.exists(USERS_FILE):
