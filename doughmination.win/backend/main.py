@@ -931,6 +931,11 @@ async def upload_user_avatar(
         )
     
     try:
+        # Ensure DATA_DIR exists
+        DATA_DIR.mkdir(exist_ok=True)
+        print(f"DATA_DIR: {DATA_DIR}")
+        print(f"DATA_DIR exists: {DATA_DIR.exists()}")
+        
         # Read the file content
         contents = await avatar.read()
         file_size = len(contents)
@@ -946,15 +951,19 @@ async def upload_user_avatar(
         unique_filename = f"{user_id}_{uuid.uuid4()}{file_ext}"
         file_path = DATA_DIR / unique_filename
         
+        print(f"Saving avatar to: {file_path}")
+        
         # If there's an existing avatar, try to remove it
         users = get_users()
         for i, u in enumerate(users):
             if u.id == user_id and hasattr(u, 'avatar_url') and u.avatar_url:
-                old_filename = u.avatar_url.split("/")[-1]
-                old_path = DATA_DIR / old_filename
+                # Extract filename from URL
                 try:
+                    old_filename = u.avatar_url.split("/")[-1]
+                    old_path = DATA_DIR / old_filename
                     if os.path.exists(old_path):
                         os.remove(old_path)
+                        print(f"Removed old avatar: {old_path}")
                 except Exception as e:
                     print(f"Error removing old avatar: {e}")
         
@@ -962,14 +971,19 @@ async def upload_user_avatar(
         async with aiofiles.open(file_path, 'wb') as out_file:
             await out_file.write(contents)
         
+        print(f"Avatar saved successfully")
+        print(f"File exists after save: {os.path.exists(file_path)}")
+        
         # Get the base URL from environment variables
         base_url = os.getenv("BASE_URL", "").rstrip('/')
         if not base_url:
             # Fallback to a default URL
-            base_url = "https://doughmination.win"
+            base_url = "https://www.doughmination.win"
         
         # Construct full avatar URL
         avatar_url = f"{base_url}/avatars/{unique_filename}"
+        
+        print(f"Avatar URL: {avatar_url}")
         
         # Update user with avatar URL
         user_update = UserUpdate(avatar_url=avatar_url)
@@ -983,31 +997,54 @@ async def upload_user_avatar(
         raise http_exc
     except Exception as e:
         print(f"Error saving avatar: {e}")
+        import traceback
+        traceback.print_exc()
         raise HTTPException(status_code=500, detail=f"Error uploading avatar: {str(e)}")
 
 @app.get("/avatars/{filename}")
 async def get_avatar(filename: str):
     """Serve avatar images with proper content type handling"""
-    file_path = DATA_DIR / filename
+    # Sanitize filename to prevent directory traversal
+    safe_filename = os.path.basename(filename)
+    file_path = DATA_DIR / safe_filename
+    
+    print(f"Avatar request for: {safe_filename}")
+    print(f"Looking in: {file_path}")
+    print(f"File exists: {os.path.exists(file_path)}")
     
     if os.path.exists(file_path) and os.path.isfile(file_path):
         # Set the appropriate media type based on file extension
         media_type = None
-        if filename.lower().endswith(('.jpg', '.jpeg')):
+        if safe_filename.lower().endswith(('.jpg', '.jpeg')):
             media_type = "image/jpeg"
-        elif filename.lower().endswith('.png'):
+        elif safe_filename.lower().endswith('.png'):
             media_type = "image/png"
-        elif filename.lower().endswith('.gif'):
+        elif safe_filename.lower().endswith('.gif'):
             media_type = "image/gif"
+        else:
+            # Default to octet-stream for unknown types
+            media_type = "application/octet-stream"
+        
+        print(f"Serving file with media_type: {media_type}")
         
         return FileResponse(
             path=file_path,
             media_type=media_type,
-            filename=None
+            headers={
+                "Cache-Control": "public, max-age=3600",
+                "Access-Control-Allow-Origin": "*"
+            }
         )
     
-    # If not found locally, redirect to default avatar
-    return RedirectResponse(url=DEFAULT_AVATAR)
+    # File not found - log details and return 404
+    print(f"Avatar not found: {safe_filename}")
+    print(f"DATA_DIR contents: {list(DATA_DIR.iterdir()) if DATA_DIR.exists() else 'DATA_DIR does not exist'}")
+    
+    # Instead of redirecting to default, return a proper 404
+    raise HTTPException(
+        status_code=404, 
+        detail=f"Avatar not found: {safe_filename}"
+    )
 
 # ============================================================================
 # METRICS API ENDPOINTS

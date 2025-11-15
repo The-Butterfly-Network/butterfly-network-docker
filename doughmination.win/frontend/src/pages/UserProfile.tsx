@@ -17,6 +17,7 @@ export default function UserProfile() {
   const [userData, setUserData] = useState<UserData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [imageError, setImageError] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -32,6 +33,7 @@ export default function UserProfile() {
         return;
       }
 
+      console.log('Fetching user data...');
       const response = await fetch('/api/user_info', {
         headers: {
           Authorization: `Bearer ${token}`
@@ -40,8 +42,13 @@ export default function UserProfile() {
 
       if (response.ok) {
         const data = await response.json();
+        console.log('User data received:', data);
+        console.log('Avatar URL:', data.avatar_url);
         setUserData(data);
+        setImageError(false);
       } else {
+        const errorText = await response.text();
+        console.error('Failed to fetch user data:', response.status, errorText);
         setError('Failed to fetch user data');
       }
     } catch (err) {
@@ -50,6 +57,18 @@ export default function UserProfile() {
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleImageError = (e: React.SyntheticEvent<HTMLImageElement>) => {
+    console.error('Failed to load avatar:', userData?.avatar_url);
+    console.error('Image error event:', e);
+    setImageError(true);
+    (e.target as HTMLImageElement).src = 'https://www.yuri-lover.win/cdn/pfp/fallback_avatar.png';
+  };
+
+  const handleImageLoad = () => {
+    console.log('Avatar loaded successfully:', userData?.avatar_url);
+    setImageError(false);
   };
 
   if (loading) {
@@ -99,34 +118,51 @@ export default function UserProfile() {
           </CardHeader>
           <CardContent className="space-y-6">
             <div className="text-center">
-              {userData.avatar_url ? (
-                <img 
-                  src={userData.avatar_url} 
-                  alt="User Avatar"
-                  className="w-24 h-24 rounded-full mx-auto mb-4"
-                  onError={(e) => {
-                    (e.target as HTMLImageElement).src = 'https://www.yuri-lover.win/cdn/pfp/fallback_avatar.png';
-                  }}
-                />
+              {/* Avatar Display */}
+              {userData.avatar_url && !imageError ? (
+                <div className="relative inline-block mb-4">
+                  <img 
+                    src={userData.avatar_url} 
+                    alt="User Avatar"
+                    className="w-24 h-24 rounded-full mx-auto object-cover border-2 border-border"
+                    onError={handleImageError}
+                    onLoad={handleImageLoad}
+                    crossOrigin="anonymous"
+                  />
+                  {/* Debug info - remove in production */}
+                  <div className="absolute -bottom-6 left-1/2 transform -translate-x-1/2 text-xs text-muted-foreground whitespace-nowrap">
+                    {imageError && '(Using fallback)'}
+                  </div>
+                </div>
               ) : (
-                <div className="w-24 h-24 rounded-full bg-gray-300 mx-auto mb-4 flex items-center justify-center">
-                  <span className="text-gray-600 text-2xl">👤</span>
+                <div className="w-24 h-24 rounded-full bg-muted mx-auto mb-4 flex items-center justify-center border-2 border-border">
+                  <span className="text-4xl">👤</span>
                 </div>
               )}
               
-              <h2 className="text-xl font-comic mb-2">
+              {/* Display Name and Username */}
+              <h2 className="text-xl font-comic mb-2 mt-8">
                 {userData.display_name || userData.username}
                 {userData.is_admin && (
-                  <Badge variant="secondary" className="ml-2">Admin</Badge>
+                  <Badge variant="secondary" className="ml-2 font-comic">Admin</Badge>
                 )}
               </h2>
               
-              <p className="text-sm text-muted-foreground">
+              <p className="text-sm text-muted-foreground font-comic">
                 @{userData.username}
               </p>
+
+              {/* Debug Info Card - Remove in production */}
+              <div className="mt-4 p-3 bg-muted rounded-lg text-left text-xs">
+                <p className="font-comic font-semibold mb-2">Debug Info:</p>
+                <p className="font-comic">User ID: {userData.id}</p>
+                <p className="font-comic break-all">Avatar URL: {userData.avatar_url || 'Not set'}</p>
+                <p className="font-comic">Image Error: {imageError ? 'Yes' : 'No'}</p>
+              </div>
             </div>
 
-            <div className="flex gap-3 justify-center">
+            {/* Action Buttons */}
+            <div className="flex gap-3 justify-center pt-4">
               <Button asChild>
                 <Link to="/admin/user/edit" className="font-comic">
                   Edit Profile
@@ -138,6 +174,22 @@ export default function UserProfile() {
                 </Link>
               </Button>
             </div>
+
+            {/* Test Avatar URL Button - Remove in production */}
+            {userData.avatar_url && (
+              <div className="text-center pt-2">
+                <Button 
+                  variant="ghost" 
+                  size="sm"
+                  onClick={() => {
+                    window.open(userData.avatar_url, '_blank');
+                  }}
+                  className="font-comic text-xs"
+                >
+                  Test Avatar URL in New Tab
+                </Button>
+              </div>
+            )}
           </CardContent>
         </Card>
       </div>
