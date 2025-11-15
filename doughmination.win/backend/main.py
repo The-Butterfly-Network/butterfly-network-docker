@@ -1003,7 +1003,7 @@ async def get_avatar(filename: str):
         return FileResponse(
             path=file_path,
             media_type=media_type,
-            filename=filename
+            filename=None
         )
     
     # If not found locally, redirect to default avatar
