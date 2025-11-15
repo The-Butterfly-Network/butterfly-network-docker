@@ -23,7 +23,7 @@ export default defineConfig(({ mode }) => {
         },
         // Proxy avatar requests 
         '/avatars': {
-          target: 'http://backend:8000',
+          target: 'http://backend:8000/avatars',
           changeOrigin: true,
           secure: false,
         }
