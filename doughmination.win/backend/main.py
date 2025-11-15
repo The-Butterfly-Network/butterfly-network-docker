@@ -100,10 +100,6 @@ app.add_middleware(FileSizeLimitMiddleware)
 # Include login route
 app.include_router(auth_router)
 
-# Create upload directory for avatars if it doesn't exist
-UPLOAD_DIR = Path("dough-data")
-UPLOAD_DIR.mkdir(exist_ok=True)
-
 # Define paths for static file serving
 FRONTEND_BUILD_DIR = Path("static")  # Files are copied here by Docker
 STATIC_DIR = Path("static")
@@ -948,14 +944,14 @@ async def upload_user_avatar(
         
         # Generate unique filename
         unique_filename = f"{user_id}_{uuid.uuid4()}{file_ext}"
-        file_path = UPLOAD_DIR / unique_filename
+        file_path = DATA_DIR / unique_filename
         
         # If there's an existing avatar, try to remove it
         users = get_users()
         for i, u in enumerate(users):
             if u.id == user_id and hasattr(u, 'avatar_url') and u.avatar_url:
                 old_filename = u.avatar_url.split("/")[-1]
-                old_path = UPLOAD_DIR / old_filename
+                old_path = DATA_DIR / old_filename
                 try:
                     if os.path.exists(old_path):
                         os.remove(old_path)
@@ -970,7 +966,7 @@ async def upload_user_avatar(
         base_url = os.getenv("BASE_URL", "").rstrip('/')
         if not base_url:
             # Fallback to a default URL
-            base_url = "https://friends.clovetwilight3.co.uk"
+            base_url = "https://doughmination.win"
         
         # Construct full avatar URL
         avatar_url = f"{base_url}/avatars/{unique_filename}"
@@ -992,7 +988,7 @@ async def upload_user_avatar(
 @app.get("/avatars/{filename}")
 async def get_avatar(filename: str):
     """Serve avatar images with proper content type handling"""
-    file_path = UPLOAD_DIR / filename
+    file_path = DATA_DIR / filename
     
     if os.path.exists(file_path) and os.path.isfile(file_path):
         # Set the appropriate media type based on file extension
