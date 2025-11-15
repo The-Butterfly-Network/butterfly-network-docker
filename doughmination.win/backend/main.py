@@ -7,6 +7,7 @@ import aiofiles
 import uuid
 import json
 import asyncio
+import re
 import weakref
 from datetime import datetime, timezone
 from pathlib import Path
@@ -1099,6 +1100,10 @@ async def admin_refresh(user = Depends(get_current_user)):
 @app.get("/{member_name}")
 async def serve_member_page(member_name: str, request: Request):
     """Serve member page with dynamic meta tags for crawlers"""
+
+    # Handle root path
+    if not member_name or member_name == "":
+        return FileResponse(STATIC_DIR / "index.html")
     
     # Skip non-member routes
     skip_routes = ['api', 'admin', 'assets', 'avatars', 'favicon.ico', 
@@ -1147,38 +1152,45 @@ async def serve_member_page(member_name: str, request: Request):
         with open(index_path, "r", encoding="utf-8") as f:
             html_content = f.read()
         
-        meta_tags = f"""
-        <title>{display_name} - {pronouns}</title>
+        meta_head = f"""
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
 
-        <!-- iOS Safari Meta Tags -->
-        <meta name="apple-mobile-web-app-title" content="{display_name}" />
-        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-        <meta name="apple-mobile-web-app-capable" content="yes" />
-        <link rel="apple-touch-icon" href="{avatar_url}" />
+    <title>{display_name} - {pronouns}</title>
 
+    <!-- iOS Safari Meta Tags -->
+    <meta name="apple-mobile-web-app-title" content="{display_name}" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <link rel="apple-touch-icon" href="{avatar_url}" />
 
-        <!-- Primary Meta Tags -->
-        <meta property="og:site_name" content="Doughmination System®" />
-        <meta property="og:title" content="{display_name} - {pronouns}" />
-        <meta property="og:description" content="{description}" />
-        <meta property="og:image" content="{avatar_url}" />
-        <meta property="og:image:width" content="400" />
-        <meta property="og:image:height" content="400" />
-        <meta property="og:type" content="profile" />
-        <meta property="og:url" content="https://www.doughmination.win/{member_name}" />
-        <meta name="theme-color" content="{color}" />
+    <!-- Primary Meta Tags -->
+    <meta property="og:site_name" content="Doughmination System®" />
+    <meta property="og:title" content="{display_name} - {pronouns}" />
+    <meta property="og:description" content="{description}" />
+    <meta property="og:image" content="{avatar_url}" />
+    <meta property="og:image:width" content="400" />
+    <meta property="og:image:height" content="400" />
+    <meta property="og:type" content="profile" />
+    <meta property="og:url" content="https://www.doughmination.win/{member_name}" />
+    <meta name="theme-color" content="{color}" />
 
-        <!-- Twitter Meta Tags -->
-        <meta name="twitter:card" content="summary" />
-        <meta name="twitter:title" content="{display_name} - {pronouns}" />
-        <meta name="twitter:description" content="{description}" />
-        <meta name="twitter:image" content="{avatar_url}" />
-        """
+    <!-- Twitter Meta Tags -->
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="{display_name} - {pronouns}" />
+    <meta name="twitter:description" content="{description}" />
+    <meta name="twitter:image" content="{avatar_url}" />
+</head>
+"""
+
         
-        html_content = html_content.replace(
-            '<title>Doughmination System®</title>',
-            meta_tags
-        )
+        html_content = re.sub(
+    r"<head>.*?</head>",
+    meta_head,
+    html_content,
+    flags=re.DOTALL
+)
         
         return HTMLResponse(content=html_content)
         
