@@ -24,6 +24,21 @@ export default function UserProfile() {
     fetchUserData();
   }, []);
 
+  const fixAvatarUrl = (url: string | undefined): string | undefined => {
+    if (!url) return undefined;
+    
+    // If it's a relative URL, return as-is
+    if (url.startsWith('/')) return url;
+    
+    // Fix URLs without www
+    if (url.includes('doughmination.win') && !url.includes('www.doughmination.win')) {
+      return url.replace('https://doughmination.win', 'https://www.doughmination.win')
+                .replace('http://doughmination.win', 'https://www.doughmination.win');
+    }
+    
+    return url;
+  };
+
   const fetchUserData = async () => {
     try {
       const token = localStorage.getItem('token');
@@ -43,7 +58,12 @@ export default function UserProfile() {
       if (response.ok) {
         const data = await response.json();
         console.log('User data received:', data);
-        console.log('Avatar URL:', data.avatar_url);
+        console.log('Original Avatar URL:', data.avatar_url);
+        
+        // Fix the avatar URL if needed
+        data.avatar_url = fixAvatarUrl(data.avatar_url);
+        console.log('Fixed Avatar URL:', data.avatar_url);
+        
         setUserData(data);
         setImageError(false);
       } else {

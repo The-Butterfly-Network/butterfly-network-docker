@@ -980,6 +980,11 @@ async def upload_user_avatar(
             # Fallback to a default URL
             base_url = "https://www.doughmination.win"
         
+        # Ensure the URL has www if it's the doughmination.win domain
+        if "doughmination.win" in base_url and not base_url.startswith("https://www."):
+            base_url = base_url.replace("https://doughmination.win", "https://www.doughmination.win")
+            base_url = base_url.replace("http://doughmination.win", "https://www.doughmination.win")
+        
         # Construct full avatar URL
         avatar_url = f"{base_url}/avatars/{unique_filename}"
         
