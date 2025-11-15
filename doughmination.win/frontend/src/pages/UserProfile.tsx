@@ -149,10 +149,6 @@ export default function UserProfile() {
                     onLoad={handleImageLoad}
                     crossOrigin="anonymous"
                   />
-                  {/* Debug info - remove in production */}
-                  <div className="absolute -bottom-6 left-1/2 transform -translate-x-1/2 text-xs text-muted-foreground whitespace-nowrap">
-                    {imageError && '(Using fallback)'}
-                  </div>
                 </div>
               ) : (
                 <div className="w-24 h-24 rounded-full bg-muted mx-auto mb-4 flex items-center justify-center border-2 border-border">
@@ -171,14 +167,6 @@ export default function UserProfile() {
               <p className="text-sm text-muted-foreground font-comic">
                 @{userData.username}
               </p>
-
-              {/* Debug Info Card - Remove in production */}
-              <div className="mt-4 p-3 bg-muted rounded-lg text-left text-xs">
-                <p className="font-comic font-semibold mb-2">Debug Info:</p>
-                <p className="font-comic">User ID: {userData.id}</p>
-                <p className="font-comic break-all">Avatar URL: {userData.avatar_url || 'Not set'}</p>
-                <p className="font-comic">Image Error: {imageError ? 'Yes' : 'No'}</p>
-              </div>
             </div>
 
             {/* Action Buttons */}
@@ -194,22 +182,6 @@ export default function UserProfile() {
                 </Link>
               </Button>
             </div>
-
-            {/* Test Avatar URL Button - Remove in production */}
-            {userData.avatar_url && (
-              <div className="text-center pt-2">
-                <Button 
-                  variant="ghost" 
-                  size="sm"
-                  onClick={() => {
-                    window.open(userData.avatar_url, '_blank');
-                  }}
-                  className="font-comic text-xs"
-                >
-                  Test Avatar URL in New Tab
-                </Button>
-              </div>
-            )}
           </CardContent>
         </Card>
       </div>
